@@ -6,7 +6,8 @@
   "scripts": {
     "start": "webpack --config webpack/prod.js ",
     "build": "webpack --config webpack/prod.js ",
-    "start-dev": "webpack-dev-server --config webpack/base.js --open"
+    "start-dev": "NODE_ENV='development' webpack-dev-server --config webpack/base.js --open",
+    "start-dev-windows": "set NODE_ENV=development webpack-dev-server --config webpack/base.js --open"
   },
   "repository": {
     "type": "git",
