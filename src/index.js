@@ -25,7 +25,7 @@ class MyGame extends Phaser.Scene {
 
 const config = {
   type: Phaser.AUTO,
-  parent: 'phaser-example',
+  parent: 'regextris',
   width: 800,
   height: 600,
   scene: MyGame,
