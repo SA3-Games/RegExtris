@@ -1,0 +1,27 @@
+language: node_js
+node_js:
+  - 12 # uses version 12
+services:
+  - postgresql # starts up postgres
+addons:
+  postgresql: '10' # recent postgres version on Travis
+dist: xenial # uses xenial environment
+notifications:
+  email:
+    on_success: change # default: change (only when going from broken to fixed)
+    on_failure: always # default: always (which is annoying, as it should be)
+install:
+  - npm ci # faster, goes only from package-lock
+# before_script:
+#   - psql -c 'create database "regextris-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
+script:
+  - npm test # test the code
+  - npm run build-client # make the bundle
+before_deploy:
+  - rm -rf node_modules # omit from the tarball, since we skip cleanup
+deploy:
+  skip_cleanup: true # prevents travis from deleting the build
+  provider: heroku
+  app: regextris # see README
+  api_key:
+    secure: u95PSd6jVy9yIas1AJ24/zSzUh7WrVPYQo/zV547l8EixQ4yrPr9Wtaju2jT+7f4qfxvyrcP9mcfG3wHLtk7fZghc7A/jmWeXPrrITC1T0cnhKhLX+430YN08trrTv4sY0Glya1yM47d5VnfUPAOHirNBKHL2eLAjQeppioaKDu5IT6TXQWhx+sksiyiKtyBTZoY2Wx9T+pHG22XDIlBUytP7pHz0GV3HS1Vh329EX0+PSfsiskZoSiFIF/bar5YxU1819l5nl1JQi9F+D7425MnHVSd5Vk/spPDIN4qklc4CS0vlwAQDL1OUqaXjhG3GglXq6OzsNBEiPwoZ91ThanhTbqMCO67DhZvAxg4kNT8W4CEpqbc/2qZTCUhdKpLsohfCKjr9JTC9xTwMBKm5QDFHcu7GqgMzUhw5r3wWD70HHmwS+lGga6GdYsHATnjLCptkv9nuT0ebYtEaKH6CC1KmYZA12H6QljV1Xrglq2TFr4ziiQYjVoP620dJp4snUY/AiKoAm+J0GyzQPVs0OhyuSnA9+uDNUJ6e/bSMB38kxO7JT2syCgnIyl7dwhRmMrSjOzZd2rZ5AZ0eNEFaeSnq2lCMROap6XjHLXXFjHmahOuGvEKRNO7f7N7srmgafgjBaBc5lFcYj1bmev95ciHav7MXagDgm4vBHk6beQ=
