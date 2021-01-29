@@ -5,9 +5,9 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node server",
-    "build": "webpack --config webpack/prod.js ",
-    "start-dev": "NODE_ENV='development' webpack-dev-server --config webpack/base.js --open",
-    "start-dev-windows": "set NODE_ENV=development webpack-dev-server --config webpack/base.js --open"
+    "build-watch": "webpack -w",
+    "start-dev": "NODE_ENV='development' webpack-dev-server",
+    "start-dev-windows": "set NODE_ENV=development && webpack-dev-server"
   },
   "repository": {
     "type": "git",
