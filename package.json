@@ -16,8 +16,6 @@
     "start": "node server",
     "start-dev": "NODE_ENV='development' npm run build-client-watch & NODE_ENV='development' npm run start-server",
     "start-server": "nodemon server -e html,js,scss --ignore public --ignore client",
-    "test": "NODE_ENV='test' mocha \"./server/**/*.spec.js\" --require @babel/polyfill --require @babel/register",
-    "test-windows": "set NODE_ENV=test&& mocha \"./server/**/*.spec.js\" --require @babel/polyfill --require @babel/register"
   },
   "dependencies": {
     "axios": "^0.21.0",
