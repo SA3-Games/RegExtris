@@ -4,7 +4,7 @@
   "description": "A Tetris inspired game to practice ReGex",
   "main": "src/index.js",
   "scripts": {
-    "start": "webpack",
+    "start": "node server",
     "build": "webpack --config webpack/prod.js ",
     "start-dev": "NODE_ENV='development' webpack-dev-server --config webpack/base.js --open",
     "start-dev-windows": "set NODE_ENV=development webpack-dev-server --config webpack/base.js --open"
@@ -35,6 +35,7 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
+    "express": "^4.17.1",
     "phaser": "^3.50.0"
   }
 }
