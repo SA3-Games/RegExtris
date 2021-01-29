@@ -58,6 +58,7 @@
     "@babel/register": "^7.12.1",
     "axios-mock-adapter": "^1.19.0",
     "babel-loader": "^8.2.1",
+    "mocha": "^8.2.1",
     "nodemon": "^2.0.6",
     "raw-loader": "^0.5.1",
     "redux-devtools-extension": "^2.13.8",
