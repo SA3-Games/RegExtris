@@ -1,13 +1,12 @@
 import Phaser from 'phaser';
-import logoImg from './assets/logo.png';
 
 class MyGame extends Phaser.Scene {
   constructor() {
-    super();
+    super(config);
   }
 
   preload() {
-    this.load.image('logo', logoImg);
+    this.load.image('logo', 'assets/backgrounds/logo.png');
   }
 
   create() {
@@ -26,7 +25,7 @@ class MyGame extends Phaser.Scene {
 
 const config = {
   type: Phaser.AUTO,
-  parent: 'phaser-example',
+  parent: 'regextris',
   width: 800,
   height: 600,
   scene: MyGame,
