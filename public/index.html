@@ -1,10 +1,98 @@
 <!DOCTYPE html>
-<html>
+<!-- <html>
   <head>
     <meta charset="utf-8" />
   </head>
   <body>
     <div id="regextris"></div>
-    <script src="bundle.js" charset="utf-8"></script>
+    <script src="/bundle.js" charset="utf-8"></script>
+  </body>
+</html> -->
+<html>
+  <head>
+    <style>
+      body {
+        overflow: hidden;
+        font-family: monospace;
+        font-size: 150%;
+        background-color: orange;
+      }
+      #game {
+        position: absolute;
+        right: 5%;
+        top: 5%;
+      }
+      #guiContainer {
+        position: absolute;
+        left: 5%;
+        top: 5%;
+        width: 45%;
+        height: 90%;
+        text-align: center;
+      }
+      #title {
+        text-align: center;
+      }
+      .btn {
+        width=200px;
+        display: block;
+        width: 50%;
+        margin-left: 25%;
+        font-size: 125%;
+        background-color: orangered;
+        border: black;
+        padding: 5px;
+        cursor: pointer;
+        outline-color: black;
+        border-radius: 10px;
+      }
+      #display {
+        position: absolute;
+        width: 25%;
+        left: 32.5%;
+        font-size: 150%;
+        color: black;
+        background-color: orangered;
+        width: 35%;
+        height: 20%;
+        border-radius: 5%;
+      }
+      .nextPiece {
+        width: 90%;
+      }
+      #statistics {
+        position: absolute;
+        top: 55%;
+        left: 10%;
+        width: 80%;
+        text-align: center;
+        font-size: 200%;
+        padding-top: 10px;
+      }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser-ce/2.13.3/phaser.min.js"></script>
+  </head>
+
+  <body>
+    <div id="guiContainer">
+      <div id="title">
+        <h1>Tetris</h1>
+      </div>
+      <button class="btn" id="newGame">New Game</button><br /><button
+        class="btn"
+        id="pause"
+      >
+        Pause</button
+      ><br />
+      <div id="display"></div>
+      <div id="statistics">
+        <div id="statScore" class="stat">Score: 0</div>
+        <div id="statLines" class="stat">Lines: 0</div>
+        <div id="statLevel" class="stat">Level: 0</div>
+      </div>
+    </div>
+    <div id="game"></div>
+    <script src="bundle.js"></script>
   </body>
 </html>
