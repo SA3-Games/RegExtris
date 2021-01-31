@@ -101,7 +101,6 @@ export default class Piece extends Phaser.GameObjects.Group {
       this.add(sprite);
       this.scene.pieces.add(this);
     });
-    this.x = 5 * this.scene.board.gridSize; //shift to the middle
     this.yOffset = 0;
     this.xOffset = 0;
     this.fallDelay = 1000 / 4; //must be set initially
