@@ -20,7 +20,7 @@ export default class MainScene extends Phaser.Scene {
     this.score = 0;
     this.lines = 0;
     this.level = 0;
-    this.gameMap = Array(20).fill(Array(10).fill(0));
+    //this.gameMap = Array(20).fill(Array(10).fill(0));
     this.board = new Board(this, this.gameMap);
     const piece = new Piece(this, Phaser.Math.RND.integerInRange(0, 6));
     this.board.pieces.push(piece);

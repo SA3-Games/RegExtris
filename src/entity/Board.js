@@ -8,7 +8,7 @@ export default class Board {
     this.gridSize = config.width / 10;
     this.pieces = [];
     this.scene = scene;
-    this.gameMap = gameMap;
+    //this.gameMap = gameMap;
   }
   checkLines() {
     //returns index of the first full row; none? returns -1
