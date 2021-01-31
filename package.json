@@ -1,5 +1,5 @@
 {
-  "name": "RegExtris",
+  "name": "regextris",
   "version": "1.1.2",
   "description": "A Tetris inspired game to practice ReGex",
   "main": "src/index.js",
