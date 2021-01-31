@@ -10,15 +10,17 @@ const pieceTypes = {
       [2, -1],
     ],
     color: 0x33ccff,
+    possibleNext: [1, 2, 3, 4, 5, 6],
   },
   1: {
     grid: [
-      [-1, 0],
+      [-1, -2],
       [-1, -1],
       [0, -1],
       [1, -1],
     ],
     color: 0x3333cc,
+    possibleNext: [0, 2, 3, 4, 5, 6],
   },
   2: {
     grid: [
@@ -28,6 +30,7 @@ const pieceTypes = {
       [-1, 0],
     ],
     color: 0xff9900,
+    possibleNext: [0, 1, 3, 4, 5, 6],
   },
   3: {
     grid: [
@@ -37,6 +40,7 @@ const pieceTypes = {
       [1, 0],
     ],
     color: 0xffff00,
+    possibleNext: [0, 1, 2, 4, 5, 6],
   },
   4: {
     grid: [
@@ -46,6 +50,7 @@ const pieceTypes = {
       [-1, 0],
     ],
     color: 0x66ff33,
+    possibleNext: [0, 1, 2, 3, 5, 6],
   },
   5: {
     grid: [
@@ -55,6 +60,7 @@ const pieceTypes = {
       [-1, -1],
     ],
     color: 0x9900ff,
+    possibleNext: [0, 1, 2, 3, 4, 6],
   },
 
   6: {
@@ -65,6 +71,7 @@ const pieceTypes = {
       [1, 0],
     ],
     color: 0xcc0000,
+    possibleNext: [0, 1, 2, 3, 4, 5],
   },
 };
 
@@ -74,11 +81,12 @@ export default class Piece extends Phaser.GameObjects.Group {
 
     this.scene = scene;
     this.scene.add.existing(this);
-    this.scene.nextPiece = Phaser.Math.RND.integerInRange(0, 6);
+    const { grid, color, possibleNext } = pieceTypes[type];
+    this.scene.nextPiece = Phaser.Math.RND.pick(possibleNext);
+    this.grid = grid;
+    this.color = color;
     this.id = this.scene.pieceCount;
     this.scene.pieceCount++;
-    this.grid = pieceTypes[type].grid;
-    this.color = pieceTypes[type].color;
     this.grid.forEach((loc) => {
       const sprite = new Block(this.scene, 0, 0);
       sprite.setDisplaySize(45, 45);

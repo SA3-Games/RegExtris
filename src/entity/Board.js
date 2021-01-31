@@ -8,10 +8,10 @@ export default class Board {
     this.gridSize = config.width / 10;
     this.pieces = [];
     this.scene = scene;
-    //this.gameMap = gameMap;
   }
   checkLines() {
-    //returns index of the first full row; none? returns -1
+    //returns object of all full rows
+    //stored as key/value pairs (rowIndex: [characters for all blocks in row])
     let rows = this.rows;
     let cols = this.cols;
     let gameMap = [];
@@ -30,7 +30,7 @@ export default class Board {
         try {
           gameMap[y][x] = square.character;
         } catch (err) {
-          //the piece has hit bottom above
+          //the piece has landed above the board
           this.scene.scene.pause();
           this.scene.over = true;
           console.log('GAME OVER!');
@@ -52,7 +52,6 @@ export default class Board {
       piece.getChildren().forEach(function (square) {
         if (square.loc === null) return;
         if (square.loc[1] === parseInt(index)) {
-          console.log(square.loc);
           square.loc = null;
           square.setActive(false);
           square.setVisible(false);
