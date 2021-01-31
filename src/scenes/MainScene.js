@@ -2,6 +2,7 @@ import 'phaser';
 //import BaseScene from './BaseScene';
 import Board from '../entity/Board';
 import Piece from '../entity/Piece';
+import Block from '../entity/Block';
 
 export default class MainScene extends Phaser.Scene {
   constructor() {
@@ -20,12 +21,17 @@ export default class MainScene extends Phaser.Scene {
     this.score = 0;
     this.lines = 0;
     this.level = 0;
+    this.pieces = this.physics.add.group({ classType: Piece });
+    this.blocks = this.physics.add.group({ classType: Block });
     this.board = new Board(this);
-    const piece = new Piece(this, Phaser.Math.RND.integerInRange(0, 6));
-    this.board.pieces.push(piece);
+    const piece = new Piece(
+      this,
+      Phaser.Math.RND.pick(['I', 'J', 'L', 'O', 'S', 'T', 'Z'])
+    );
+    this.pieces.add(piece);
   }
   update() {
-    this.piece = this.board.pieces[this.board.pieces.length - 1];
+    this.piece = this.pieces.getLast(true);
     this.piece.update();
   }
 }

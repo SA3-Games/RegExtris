@@ -2,7 +2,7 @@ import 'phaser';
 import Block from './Block';
 
 const pieceTypes = {
-  0: {
+  I: {
     grid: [
       [-2, -1],
       [-1, -1],
@@ -10,9 +10,9 @@ const pieceTypes = {
       [1, -1],
     ],
     color: 0x33ccff,
-    possibleNext: [1, 2, 3, 4, 5, 6],
+    possibleNext: ['J', 'L', 'O', 'S', 'T', 'Z'],
   },
-  1: {
+  J: {
     grid: [
       [1, 0],
       [-1, -1],
@@ -20,9 +20,9 @@ const pieceTypes = {
       [1, -1],
     ],
     color: 0x3333cc,
-    possibleNext: [0, 2, 3, 4, 5, 6],
+    possibleNext: ['I', 'L', 'O', 'S', 'T', 'Z'],
   },
-  2: {
+  L: {
     grid: [
       [-1, -1],
       [0, -1],
@@ -30,9 +30,9 @@ const pieceTypes = {
       [-1, 0],
     ],
     color: 0xff9900,
-    possibleNext: [0, 1, 3, 4, 5, 6],
+    possibleNext: ['J', 'I', 'O', 'S', 'T', 'Z'],
   },
-  3: {
+  O: {
     grid: [
       [0, -1],
       [1, -1],
@@ -40,9 +40,9 @@ const pieceTypes = {
       [1, 0],
     ],
     color: 0xffff00,
-    possibleNext: [0, 1, 2, 4, 5, 6],
+    possibleNext: ['J', 'L', 'I', 'S', 'T', 'Z'],
   },
-  4: {
+  S: {
     grid: [
       [0, -1],
       [1, -1],
@@ -50,9 +50,9 @@ const pieceTypes = {
       [-1, 0],
     ],
     color: 0x66ff33,
-    possibleNext: [0, 1, 2, 3, 5, 6],
+    possibleNext: ['J', 'L', 'O', 'I', 'T', 'Z'],
   },
-  5: {
+  T: {
     grid: [
       [0, -1],
       [0, 0],
@@ -60,10 +60,10 @@ const pieceTypes = {
       [-1, -1],
     ],
     color: 0x9900ff,
-    possibleNext: [0, 1, 2, 3, 4, 6],
+    possibleNext: ['J', 'L', 'O', 'S', 'I', 'Z'],
   },
 
-  6: {
+  Z: {
     grid: [
       [0, -1],
       [-1, -1],
@@ -71,7 +71,7 @@ const pieceTypes = {
       [1, 0],
     ],
     color: 0xcc0000,
-    possibleNext: [0, 1, 2, 3, 4, 5],
+    possibleNext: ['J', 'L', 'O', 'S', 'T', 'I'],
   },
 };
 
@@ -93,6 +93,8 @@ export default class Piece extends Phaser.GameObjects.Group {
       sprite.setTint(this.color);
       sprite.loc = loc;
       this.add(sprite);
+      this.scene.blocks.add(sprite);
+      this.scene.pieces.add(this);
     });
     this.x = 5 * this.scene.board.gridSize; //shift to the middle
     this.yOffset = 0;
@@ -167,7 +169,7 @@ export default class Piece extends Phaser.GameObjects.Group {
       }
 
       if (this.scene.over) return;
-      this.scene.board.pieces.push(new Piece(this.scene, this.scene.nextPiece));
+      this.scene.pieces.add(new Piece(this.scene, this.scene.nextPiece));
       return;
     }
     this.scene.time.addEvent({
@@ -262,7 +264,7 @@ export default class Piece extends Phaser.GameObjects.Group {
     //dir => -1:left 1:right 0:down
     let offStack = true;
     let piece = this;
-    this.scene.board.pieces.forEach(function (otherPiece) {
+    this.scene.pieces.getChildren().forEach(function (otherPiece) {
       if (piece.id === otherPiece.id) return;
       piece.getChildren().forEach(function (square) {
         otherPiece.getChildren().forEach(function (otherSquare) {
