@@ -2,13 +2,13 @@ import 'phaser';
 import config from '../config/config';
 
 export default class Board {
-  constructor(game, scene) {
+  constructor(scene, gameMap) {
     this.cols = 10;
     this.rows = 20;
-    this.gridSize = config.width / this.cols;
-    console.log(this.gridSize);
+    this.gridSize = config.width / 10;
     this.pieces = [];
     this.scene = scene;
+    this.gameMap = gameMap;
   }
   checkLines() {
     //returns index of the first full row; none? returns -1
@@ -23,36 +23,40 @@ export default class Board {
       }
     }
     this.pieces.forEach((piece) => {
-      piece.each((square) => {
+      piece.getChildren().forEach((square) => {
         if (square.loc === null) return;
         let x = square.loc[0] + 5;
-        let y = square.loc[1] - 1;
+        let y = square.loc[1];
         try {
-          gameMap[y][x] = 1;
-        } catch (error) {
+          gameMap[y][x] = square.character;
+        } catch (err) {
           //the piece has hit bottom above
+          this.scene.scene.pause();
           this.scene.over = true;
-          this.scene.displayDiv.innerHTML = '<br>GAME OVER!';
+          console.log('GAME OVER!');
         }
       });
     });
-    let fullRow = '';
-    for (var i = 0; i < cols; i++) fullRow += '1';
-    let fullRowIndex = -1;
+    const fullRows = {};
     gameMap.forEach(function (row, index) {
-      if (row.join('') === fullRow) fullRowIndex = index;
+      if (!row.includes(0)) {
+        fullRows[index] = row;
+      }
     });
-    return fullRowIndex;
+    console.dir(fullRows);
+    return fullRows;
   }
   removeLine(index) {
     //takes out the line, shifts the higher squares down.
     this.pieces.forEach(function (piece) {
-      piece.each(function (square) {
+      piece.getChildren().forEach(function (square) {
         if (square.loc === null) return;
-        if (square.loc[1] - 1 === index) {
+        if (square.loc[1] === parseInt(index)) {
+          console.log(square.loc);
           square.loc = null;
-          square.visible = false;
-        } else if (square.loc[1] - 1 < index) {
+          square.setActive(false);
+          square.setVisible(false);
+        } else if (square.loc[1] < index) {
           square.loc[1]++;
         }
       });

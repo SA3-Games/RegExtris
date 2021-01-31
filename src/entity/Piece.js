@@ -1,91 +1,92 @@
 import 'phaser';
+import Block from './Block';
 
-export default class Piece extends Phaser.GameObjects.Container {
+const pieceTypes = {
+  0: {
+    grid: [
+      [-1, -1],
+      [0, -1],
+      [1, -1],
+      [2, -1],
+    ],
+    color: 0x33ccff,
+  },
+  1: {
+    grid: [
+      [-1, 0],
+      [-1, -1],
+      [0, -1],
+      [1, -1],
+    ],
+    color: 0x3333cc,
+  },
+  2: {
+    grid: [
+      [-1, -1],
+      [0, -1],
+      [1, -1],
+      [-1, 0],
+    ],
+    color: 0xff9900,
+  },
+  3: {
+    grid: [
+      [0, -1],
+      [1, -1],
+      [0, 0],
+      [1, 0],
+    ],
+    color: 0xffff00,
+  },
+  4: {
+    grid: [
+      [0, -1],
+      [1, -1],
+      [0, 0],
+      [-1, 0],
+    ],
+    color: 0x66ff33,
+  },
+  5: {
+    grid: [
+      [0, -1],
+      [0, 0],
+      [1, -1],
+      [-1, -1],
+    ],
+    color: 0x9900ff,
+  },
+
+  6: {
+    grid: [
+      [0, -1],
+      [-1, -1],
+      [0, 0],
+      [1, 0],
+    ],
+    color: 0xcc0000,
+  },
+};
+
+export default class Piece extends Phaser.GameObjects.Group {
   constructor(scene, type) {
-    super(scene);
+    super(scene, 0, 0);
+
     this.scene = scene;
+    this.scene.add.existing(this);
     this.scene.nextPiece = Phaser.Math.RND.integerInRange(0, 6);
-    this.scene.displayDiv.innerHTML =
-      "<img src='./assets/sprites/" +
-      this.scene.nextPiece.toString() +
-      ".png' class='nextPiece'>";
     this.id = this.scene.pieceCount;
     this.scene.pieceCount++;
-    this.grid = null;
-    switch (type) {
-      case 0: //I
-        this.grid = [
-          [-1, 0],
-          [0, 0],
-          [1, 0],
-          [2, 0],
-        ];
-        this.color = 0x33ccff;
-        break;
-      case 1: //J
-        this.grid = [
-          [-1, -1],
-          [-1, 0],
-          [0, 0],
-          [1, 0],
-        ];
-        this.color = 0x3333cc;
-        break;
-      case 2: //L
-        this.grid = [
-          [-1, 0],
-          [0, 0],
-          [1, 0],
-          [-1, 1],
-        ];
-        this.color = 0xff9900;
-        break;
-      case 3: //O
-        this.grid = [
-          [0, 0],
-          [1, 0],
-          [0, 1],
-          [1, 1],
-        ];
-        this.color = 0xffff00;
-        break;
-      case 4: //S
-        this.grid = [
-          [0, 0],
-          [1, 0],
-          [0, 1],
-          [-1, 1],
-        ];
-        this.color = 0x66ff33;
-        break;
-      case 5: //T
-        this.grid = [
-          [0, 0],
-          [0, 1],
-          [1, 0],
-          [-1, 0],
-        ];
-        this.color = 0x9900ff;
-        break;
-      case 6: //Z
-        this.grid = [
-          [0, 0],
-          [-1, 0],
-          [0, 1],
-          [1, 1],
-        ];
-        this.color = 0xcc0000;
-        break;
-    }
+    this.grid = pieceTypes[type].grid;
+    this.color = pieceTypes[type].color;
     this.grid.forEach((loc) => {
-      const sprite = new Phaser.GameObjects.Sprite(this.scene, 0, 0, 'square');
-      sprite.setSize(this.scene.board.gridSize * 0.9);
+      const sprite = new Block(this.scene, 0, 0);
+      sprite.setDisplaySize(45, 45);
       sprite.setTint(this.color);
       sprite.loc = loc;
       this.add(sprite);
     });
     this.x = 5 * this.scene.board.gridSize; //shift to the middle
-    console.log(this.x);
     this.yOffset = 0;
     this.xOffset = 0;
     this.fallDelay = 1000 / 4; //must be set initially
@@ -96,19 +97,19 @@ export default class Piece extends Phaser.GameObjects.Container {
     });
   }
   move() {
-    this.each((square) => {
+    this.getChildren().forEach((square) => {
       if (square.loc === null) return;
-      square.x = square.loc[0] * this.scene.board.gridSize;
-      square.y = square.loc[1] * this.scene.board.gridSize;
+      square.x = square.loc[0] * this.scene.board.gridSize + 275;
+      square.y = square.loc[1] * this.scene.board.gridSize + 25;
     });
   }
   applyPendingMove() {
-    this.each(function (square) {
-      square.loc = square.pending.slice();
+    this.getChildren().forEach(function (square) {
+      square.loc = [...square.pending];
     });
   }
   removePendingMove() {
-    this.each(function (square) {
+    this.getChildren().forEach(function (square) {
       square.pending = null;
     });
   }
@@ -128,8 +129,8 @@ export default class Piece extends Phaser.GameObjects.Container {
     }
   }
   shift() {
-    this.each(function (square) {
-      square.pending = square.loc.slice();
+    this.getChildren().forEach(function (square) {
+      square.pending = [...square.loc];
       square.pending[1]++;
     });
 
@@ -138,24 +139,18 @@ export default class Piece extends Phaser.GameObjects.Container {
       this.applyPendingMove();
     } else {
       this.removePendingMove();
-      this.update = function () {};
-      let fullLine = this.scene.board.checkLines();
+      const fullLines = this.scene.board.checkLines();
       let count = 0;
       let scores = [40, 60, 200, 900]; //points for each consecutive line
-      while (fullLine > -1 && count < 4) {
+      Object.keys(fullLines).forEach((key) => {
         this.scene.score += scores[count] * (this.scene.level + 1);
         this.scene.lines++;
         if (this.scene.lines % 10 === 0) {
           this.scene.level++;
-          this.scene.levelDiv.innerText =
-            'Level: ' + this.scene.level.toString();
         }
-        this.scene.scoreDiv.innerText = 'Score: ' + this.scene.score.toString();
-        this.scene.linesDiv.innerText = 'Lines: ' + this.scene.lines.toString();
         count++;
-        this.scene.board.removeLine(fullLine);
-        fullLine = this.scene.board.checkLines();
-      }
+        this.scene.board.removeLine(key);
+      });
 
       if (this.scene.over) return;
       this.scene.board.pieces.push(new Piece(this.scene, this.scene.nextPiece));
@@ -169,14 +164,12 @@ export default class Piece extends Phaser.GameObjects.Container {
   }
   rotate() {
     if (this.rotateTimeout) return;
-
-    let piece = this;
-    piece.each(function (square) {
+    this.getChildren().forEach((square) => {
       square.pending = rotate(
         square.loc[0],
         square.loc[1],
-        piece.xOffset,
-        piece.yOffset,
+        this.xOffset,
+        this.yOffset,
         Math.PI / 2
       );
     });
@@ -188,13 +181,13 @@ export default class Piece extends Phaser.GameObjects.Container {
     ) {
       this.rotateTimeout = true;
       this.applyPendingMove();
-      this.scene.time.events.add(
-        1000 / 6,
-        function () {
-          piece.rotateTimeout = false;
+      this.scene.time.addEvent({
+        delay: 1000 / 6,
+        callback: function () {
+          this.rotateTimeout = false;
         },
-        this
-      );
+        callbackScope: this,
+      });
     } else this.removePendingMove();
 
     function rotate(oldX, oldY, centerX, centerY, angle) {
@@ -211,8 +204,8 @@ export default class Piece extends Phaser.GameObjects.Container {
   }
   strafe(dir) {
     if (this.strafeTimeout) return;
-    this.each(function (square) {
-      square.pending = square.loc.slice();
+    this.getChildren().forEach(function (square) {
+      square.pending = [...square.loc];
       square.pending[0] += dir;
     });
 
@@ -221,18 +214,18 @@ export default class Piece extends Phaser.GameObjects.Container {
       this.xOffset += dir;
       this.applyPendingMove();
       let piece = this;
-      this.scene.time.events.add(
-        1000 / 8,
-        function () {
+      this.scene.time.addEvent({
+        delay: 1000 / 8,
+        callback: function () {
           piece.strafeTimeout = false;
         },
-        this
-      );
+        callbackScope: this,
+      });
     } else this.removePendingMove();
   }
   checkGround() {
     let offGround = true;
-    this.each((square) => {
+    this.getChildren().forEach((square) => {
       //USE PENDING?
       if (square.pending[1] === this.scene.board.rows) offGround = false;
     });
@@ -242,8 +235,7 @@ export default class Piece extends Phaser.GameObjects.Container {
     //side => -1: left 1:right
     //offset allows us to check ahead (1) or check current (0)
     let offWall = true;
-    let piece = this;
-    this.eachach(function (square) {
+    this.getChildren().forEach(function (square) {
       if (side === -1) {
         if (square.pending[0] === -6) offWall = false;
       } else {
@@ -258,8 +250,8 @@ export default class Piece extends Phaser.GameObjects.Container {
     let piece = this;
     this.scene.board.pieces.forEach(function (otherPiece) {
       if (piece.id === otherPiece.id) return;
-      piece.each(function (square) {
-        otherPiece.each(function (otherSquare) {
+      piece.getChildren().forEach(function (square) {
+        otherPiece.getChildren().forEach(function (otherSquare) {
           if (square.loc === null || otherSquare.loc === null) return;
           let checks =
             square.pending[0] === otherSquare.loc[0] &&
