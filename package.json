@@ -36,6 +36,8 @@
   },
   "dependencies": {
     "express": "^4.17.1",
-    "phaser": "^3.50.0"
+    "pg": "^8.5.1",
+    "phaser": "^3.50.0",
+    "sequelize": "^6.5.0"
   }
 }
