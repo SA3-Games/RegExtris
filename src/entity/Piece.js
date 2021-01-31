@@ -4,17 +4,17 @@ import Block from './Block';
 const pieceTypes = {
   0: {
     grid: [
+      [-2, -1],
       [-1, -1],
       [0, -1],
       [1, -1],
-      [2, -1],
     ],
     color: 0x33ccff,
     possibleNext: [1, 2, 3, 4, 5, 6],
   },
   1: {
     grid: [
-      [-1, -2],
+      [1, 0],
       [-1, -1],
       [0, -1],
       [1, -1],
@@ -147,18 +147,24 @@ export default class Piece extends Phaser.GameObjects.Group {
       this.applyPendingMove();
     } else {
       this.removePendingMove();
-      const fullLines = this.scene.board.checkLines();
+      const fullRows = this.scene.board.checkLines();
       let count = 0;
       let scores = [40, 60, 200, 900]; //points for each consecutive line
-      Object.keys(fullLines).forEach((key) => {
-        this.scene.score += scores[count] * (this.scene.level + 1);
-        this.scene.lines++;
-        if (this.scene.lines % 10 === 0) {
-          this.scene.level++;
+      const numFullRows = Object.keys(fullRows).length;
+      if (numFullRows) {
+        if (numFullRows === 4) {
+          console.log('TETRIS');
         }
-        count++;
-        this.scene.board.removeLine(key);
-      });
+        Object.keys(fullRows).forEach((key) => {
+          this.scene.score += scores[count] * (this.scene.level + 1);
+          this.scene.lines++;
+          if (this.scene.lines % 10 === 0) {
+            this.scene.level++;
+          }
+          count++;
+          this.scene.board.removeLine(key);
+        });
+      }
 
       if (this.scene.over) return;
       this.scene.board.pieces.push(new Piece(this.scene, this.scene.nextPiece));
