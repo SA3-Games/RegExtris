@@ -1,0 +1,66 @@
+import 'phaser';
+import config from '../config/config';
+
+export default class Board {
+  constructor(scene, gameMap) {
+    this.cols = 10;
+    this.rows = 20;
+    this.gridSize = config.width / 10;
+    this.pieces = [];
+    this.scene = scene;
+    //this.gameMap = gameMap;
+  }
+  checkLines() {
+    //returns index of the first full row; none? returns -1
+    let rows = this.rows;
+    let cols = this.cols;
+    let gameMap = [];
+    //empty array of 0's
+    for (var y = 0; y < rows; y++) {
+      gameMap[y] = [];
+      for (var x = 0; x < cols; x++) {
+        gameMap[y][x] = 0;
+      }
+    }
+    this.pieces.forEach((piece) => {
+      piece.getChildren().forEach((square) => {
+        if (square.loc === null) return;
+        let x = square.loc[0] + 5;
+        let y = square.loc[1];
+        try {
+          gameMap[y][x] = square.character;
+        } catch (err) {
+          //the piece has hit bottom above
+          this.scene.scene.pause();
+          this.scene.over = true;
+          console.log('GAME OVER!');
+        }
+      });
+    });
+    const fullRows = {};
+    gameMap.forEach(function (row, index) {
+      if (!row.includes(0)) {
+        fullRows[index] = row;
+      }
+    });
+    console.dir(fullRows);
+    return fullRows;
+  }
+  removeLine(index) {
+    //takes out the line, shifts the higher squares down.
+    this.pieces.forEach(function (piece) {
+      piece.getChildren().forEach(function (square) {
+        if (square.loc === null) return;
+        if (square.loc[1] === parseInt(index)) {
+          console.log(square.loc);
+          square.loc = null;
+          square.setActive(false);
+          square.setVisible(false);
+        } else if (square.loc[1] < index) {
+          square.loc[1]++;
+        }
+      });
+      piece.move();
+    });
+  }
+}
