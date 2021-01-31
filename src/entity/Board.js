@@ -21,8 +21,6 @@ export default class Board {
         gameMap[y][x] = 0;
       }
     }
-    // this.scene.pieces.getChildren().forEach((piece) => {
-    //   piece.getChildren().forEach((square) => {
     this.scene.blocks.getChildren().forEach((square) => {
       if (square.loc === null) return;
       let x = square.loc[0] + 5;
@@ -48,18 +46,16 @@ export default class Board {
   }
   removeLine(index) {
     //takes out the line, shifts the higher squares down.
-    this.scene.pieces.getChildren().forEach(function (piece) {
-      piece.getChildren().forEach(function (square) {
-        if (square.loc === null) return;
-        if (square.loc[1] === parseInt(index)) {
-          square.loc = null;
-          square.setActive(false);
-          square.setVisible(false);
-        } else if (square.loc[1] < index) {
-          square.loc[1]++;
-        }
-      });
-      piece.move();
+    this.scene.blocks.getChildren().forEach((square) => {
+      if (square.loc === null) return;
+      if (square.loc[1] === parseInt(index)) {
+        square.loc = null;
+        square.setActive(false);
+        square.setVisible(false);
+      } else if (square.loc[1] < index) {
+        square.loc[1]++;
+        square.y = square.loc[1] * this.scene.board.gridSize + 25;
+      }
     });
   }
 }
