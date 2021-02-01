@@ -1,4 +1,4 @@
-# OuijaWares
+# RegExtris
 
 A Tetris homage that tests the player's RegEx skills! 
 Use the arrow keys to play. Built with Phaser 3. 
