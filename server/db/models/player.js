@@ -5,7 +5,7 @@ const crypto = require("crypto");
 const Player = db.define(
   "player",
   {
-    email: {
+    nickName: {
       type: Sequelize.STRING,
       unique: true,
       allowNull: false,
