@@ -2,10 +2,10 @@ import 'phaser';
 import config from '../config/config';
 
 export default class Board {
-  constructor(scene, gameMap) {
+  constructor(scene) {
     this.cols = 10;
     this.rows = 20;
-    this.gridSize = config.width / 10;
+    this.gridSize = (config.height * 0.75) / 20;
     this.scene = scene;
   }
   checkLines() {
@@ -53,7 +53,10 @@ export default class Board {
         square.setVisible(false);
       } else if (square.loc[1] < index) {
         square.loc[1]++;
-        square.y = square.loc[1] * this.scene.board.gridSize + 25;
+        square.y =
+          square.loc[1] * this.scene.board.gridSize +
+          this.scene.board.gridSize / 2 +
+          this.scene.gameBoardLoc[1];
       }
     });
   }

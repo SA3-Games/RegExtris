@@ -95,8 +95,9 @@ export default class Piece extends Phaser.GameObjects.Group {
       const sprite = deadSprite
         ? deadSprite.reset()
         : new Block(this.scene, 0, 0);
-      sprite.setDisplaySize(45, 45);
+      sprite.setDisplaySize(25, 25);
       sprite.setTint(this.color);
+      //sprite.setOrigin(0.5);
       sprite.loc = loc;
       this.add(sprite);
       this.scene.pieces.add(this);
@@ -113,8 +114,14 @@ export default class Piece extends Phaser.GameObjects.Group {
   move() {
     this.getChildren().forEach((square) => {
       if (square.loc === null) return;
-      square.x = square.loc[0] * this.scene.board.gridSize + 275;
-      square.y = square.loc[1] * this.scene.board.gridSize + 25;
+      square.x =
+        square.loc[0] * this.scene.board.gridSize +
+        this.scene.board.gridSize * 5.5 +
+        this.scene.gameBoardLoc[0];
+      square.y =
+        square.loc[1] * this.scene.board.gridSize +
+        this.scene.board.gridSize / 2 +
+        this.scene.gameBoardLoc[1];
     });
   }
   applyPendingMove() {
