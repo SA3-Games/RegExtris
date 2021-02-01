@@ -9,7 +9,6 @@ export default class LoginScene extends Phaser.Scene {
     this.load.html("loginForm", "assets/loginform.html");
   }
   create() {
-    this.add.text(50, 100, "login");
     const element = this.add.dom(400, 600).createFromCache("loginForm");
     element.setPerspective(800);
     element.addListener("click");
