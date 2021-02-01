@@ -2,7 +2,7 @@ import "phaser";
 import config from "./config/config";
 
 import MainScene from "./scenes/MainScene";
-import LoginScene from "./scenes/LoginScene2";
+import LoginScene from "./scenes/EmailScene";
 //import Menu from './scenes/Menu';
 
 class Game extends Phaser.Game {
