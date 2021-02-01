@@ -41,7 +41,6 @@ export default class Board {
         fullRows[index] = row;
       }
     });
-    console.dir(fullRows);
     return fullRows;
   }
   removeLine(index) {
