@@ -1,15 +1,15 @@
-import 'phaser';
+import "phaser";
 //import BaseScene from './BaseScene';
-import Board from '../entity/Board';
-import Piece from '../entity/Piece';
+import Board from "../entity/Board";
+import Piece from "../entity/Piece";
 
 export default class MainScene extends Phaser.Scene {
   constructor() {
-    super('MainScene');
+    super("MainScene");
   }
 
   preload() {
-    this.load.image('block', 'assets/sprites/square.png');
+    this.load.image("block", "assets/sprites/square.png");
   }
 
   create() {

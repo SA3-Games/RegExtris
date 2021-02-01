@@ -1,0 +1,36 @@
+import "phaser";
+import BaseScene from "./BaseScene";
+import axios from "axios";
+
+export default class LoginScene extends Phaser.Scene {
+  constructor() {
+    super("LoginScene");
+  }
+  preload() {
+    this.load.html("loginForm", "assets/text/loginform.html");
+  }
+  create() {
+    const element = this.add.dom(400, 600).createFromCache("loginForm");
+    // element.setPerspective(800);
+    element.addListener("click");
+    element.on("click", (evt) => {
+      if (evt.target.name === "loginButton") {
+        const inputUserName = this.getChildByName("username");
+        const inputPassword = this.getChildByName("password");
+        if (inputUserName.value.length && inputPassword.value.length) {
+          try {
+            const player = axios.post("/auth/login", {
+              email: inputUserName,
+              password: inputPassword,
+            });
+            console.log("player login info", player);
+          } catch (error) {
+            const errorMessage = this.getChildByID("error");
+            errorMessage.innerText = error.message;
+            console.log("login error", error);
+          }
+        }
+      }
+    });
+  }
+}
