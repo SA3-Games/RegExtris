@@ -1,5 +1,4 @@
 import "phaser";
-import BaseScene from "./BaseScene";
 import axios from "axios";
 
 export default class LoginScene extends Phaser.Scene {
@@ -7,11 +6,12 @@ export default class LoginScene extends Phaser.Scene {
     super("LoginScene");
   }
   preload() {
-    this.load.html("loginForm", "assets/text/loginform.html");
+    this.load.html("loginForm", "assets/loginform.html");
   }
   create() {
+    this.add.text(50, 100, "login");
     const element = this.add.dom(400, 600).createFromCache("loginForm");
-    // element.setPerspective(800);
+    element.setPerspective(800);
     element.addListener("click");
     element.on("click", (evt) => {
       if (evt.target.name === "loginButton") {
@@ -31,6 +31,13 @@ export default class LoginScene extends Phaser.Scene {
           }
         }
       }
+    });
+
+    this.tweens.add({
+      targets: element,
+      y: 300,
+      duration: 3000,
+      ease: "Power3",
     });
   }
 }
