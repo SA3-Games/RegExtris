@@ -1,5 +1,6 @@
 import 'phaser';
 import Block from './Block';
+import Board from './Board';
 
 const pieceTypes = {
   I: {
@@ -158,38 +159,47 @@ export default class Piece extends Phaser.GameObjects.Group {
     if (this.checkGround() && this.checkStack(0)) {
       this.yOffset++;
       this.applyPendingMove();
+      this.scene.time.addEvent({
+        delay: this.fallDelay,
+        callback: this.shift,
+        callbackScope: this,
+      });
     } else {
       this.removePendingMove();
       this.scene.blocks.addMultiple(this.getChildren());
       const fullRows = this.scene.board.checkLines();
-      let count = 0;
       let scores = [40, 60, 200, 900]; //points for each consecutive line
+      //this.tetris = false, this.regex = true, addEvent(2000ms)
       const numFullRows = Object.keys(fullRows).length;
       if (numFullRows) {
-        if (numFullRows === 4) {
-          console.log('TETRIS');
-        }
-        Object.keys(fullRows).forEach((key) => {
-          this.scene.score += scores[count] * (this.scene.level + 1);
-          this.scene.lines++;
-          if (this.scene.lines % 10 === 0) {
-            this.scene.level++;
-          }
-          count++;
-          this.scene.board.removeLine(key);
+        this.scene.time.addEvent({
+          delay: 2000,
+          callback: function () {
+            if (numFullRows === 4) {
+              console.log('TETRIS');
+            }
+            for (let i = 0; i < numFullRows; i++) {
+              const rowIndex = Object.keys(fullRows)[i];
+              this.board.removeLine(rowIndex);
+            }
+            this.score += scores[numFullRows] * (this.level + 1);
+            this.lines + numFullRows;
+            if (this.lines % 10 === 0) {
+              this.level++;
+            }
+            this.pieces.getLast(true).destroy();
+            this.pieces.add(new Piece(this, this.nextPiece));
+            return;
+          },
+          callbackScope: this.scene,
         });
+      } else {
+        if (this.scene.over) return;
+        this.scene.pieces.add(new Piece(this.scene, this.scene.nextPiece));
+        this.destroy();
+        return;
       }
-
-      if (this.scene.over) return;
-      this.scene.pieces.add(new Piece(this.scene, this.scene.nextPiece));
-      this.destroy();
-      return;
     }
-    this.scene.time.addEvent({
-      delay: this.fallDelay,
-      callback: this.shift,
-      callbackScope: this,
-    });
   }
   rotate() {
     if (this.rotateTimeout) return;
