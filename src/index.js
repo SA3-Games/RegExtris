@@ -2,7 +2,8 @@ import "phaser";
 import config from "./config/config";
 
 import MainScene from "./scenes/MainScene";
-import LoginScene from "./scenes/EmailScene";
+import AliasScene from "./scenes/AliasScene";
+import PasswordScene from "./scenes/PasswordScene";
 //import Menu from './scenes/Menu';
 
 class Game extends Phaser.Game {
@@ -10,8 +11,9 @@ class Game extends Phaser.Game {
     super(config);
     //this.scene.add('Menu', Menu);
     this.scene.add("MainScene", MainScene);
-    this.scene.add("LoginScene", LoginScene);
-    this.scene.start("LoginScene");
+    this.scene.add("AliasScene", AliasScene);
+    this.scene.add("PasswordScene", PasswordScene);
+    this.scene.start("AliasScene");
   }
 }
 
