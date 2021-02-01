@@ -2,25 +2,27 @@ import 'phaser';
 import Block from './Block';
 
 const pieceTypes = {
-  0: {
+  I: {
     grid: [
+      [-2, -1],
       [-1, -1],
       [0, -1],
       [1, -1],
-      [2, -1],
     ],
     color: 0x33ccff,
+    possibleNext: ['J', 'L', 'O', 'S', 'T', 'Z'],
   },
-  1: {
+  J: {
     grid: [
-      [-1, 0],
+      [1, 0],
       [-1, -1],
       [0, -1],
       [1, -1],
     ],
     color: 0x3333cc,
+    possibleNext: ['I', 'L', 'O', 'S', 'T', 'Z'],
   },
-  2: {
+  L: {
     grid: [
       [-1, -1],
       [0, -1],
@@ -28,8 +30,9 @@ const pieceTypes = {
       [-1, 0],
     ],
     color: 0xff9900,
+    possibleNext: ['J', 'I', 'O', 'S', 'T', 'Z'],
   },
-  3: {
+  O: {
     grid: [
       [0, -1],
       [1, -1],
@@ -37,8 +40,9 @@ const pieceTypes = {
       [1, 0],
     ],
     color: 0xffff00,
+    possibleNext: ['J', 'L', 'I', 'S', 'T', 'Z'],
   },
-  4: {
+  S: {
     grid: [
       [0, -1],
       [1, -1],
@@ -46,8 +50,9 @@ const pieceTypes = {
       [-1, 0],
     ],
     color: 0x66ff33,
+    possibleNext: ['J', 'L', 'O', 'I', 'T', 'Z'],
   },
-  5: {
+  T: {
     grid: [
       [0, -1],
       [0, 0],
@@ -55,9 +60,10 @@ const pieceTypes = {
       [-1, -1],
     ],
     color: 0x9900ff,
+    possibleNext: ['J', 'L', 'O', 'S', 'I', 'Z'],
   },
 
-  6: {
+  Z: {
     grid: [
       [0, -1],
       [-1, -1],
@@ -65,6 +71,7 @@ const pieceTypes = {
       [1, 0],
     ],
     color: 0xcc0000,
+    possibleNext: ['J', 'L', 'O', 'S', 'T', 'I'],
   },
 };
 
@@ -74,19 +81,26 @@ export default class Piece extends Phaser.GameObjects.Group {
 
     this.scene = scene;
     this.scene.add.existing(this);
-    this.scene.nextPiece = Phaser.Math.RND.integerInRange(0, 6);
+    const { grid, color, possibleNext } = pieceTypes[type];
+    this.scene.nextPiece = Phaser.Math.RND.pick(possibleNext);
+    this.grid = grid;
+    this.color = color;
     this.id = this.scene.pieceCount;
     this.scene.pieceCount++;
-    this.grid = pieceTypes[type].grid;
-    this.color = pieceTypes[type].color;
     this.grid.forEach((loc) => {
-      const sprite = new Block(this.scene, 0, 0);
+      const deadSprite = this.scene.blocks.getFirstDead();
+      if (deadSprite) {
+        this.scene.blocks.remove(deadSprite);
+      }
+      const sprite = deadSprite
+        ? deadSprite.reset()
+        : new Block(this.scene, 0, 0);
       sprite.setDisplaySize(45, 45);
       sprite.setTint(this.color);
       sprite.loc = loc;
       this.add(sprite);
+      this.scene.pieces.add(this);
     });
-    this.x = 5 * this.scene.board.gridSize; //shift to the middle
     this.yOffset = 0;
     this.xOffset = 0;
     this.fallDelay = 1000 / 4; //must be set initially
@@ -129,7 +143,7 @@ export default class Piece extends Phaser.GameObjects.Group {
     }
   }
   shift() {
-    this.getChildren().forEach(function (square) {
+    this.getChildren().forEach((square) => {
       square.pending = [...square.loc];
       square.pending[1]++;
     });
@@ -139,21 +153,29 @@ export default class Piece extends Phaser.GameObjects.Group {
       this.applyPendingMove();
     } else {
       this.removePendingMove();
-      const fullLines = this.scene.board.checkLines();
+      this.scene.blocks.addMultiple(this.getChildren());
+      const fullRows = this.scene.board.checkLines();
       let count = 0;
       let scores = [40, 60, 200, 900]; //points for each consecutive line
-      Object.keys(fullLines).forEach((key) => {
-        this.scene.score += scores[count] * (this.scene.level + 1);
-        this.scene.lines++;
-        if (this.scene.lines % 10 === 0) {
-          this.scene.level++;
+      const numFullRows = Object.keys(fullRows).length;
+      if (numFullRows) {
+        if (numFullRows === 4) {
+          console.log('TETRIS');
         }
-        count++;
-        this.scene.board.removeLine(key);
-      });
+        Object.keys(fullRows).forEach((key) => {
+          this.scene.score += scores[count] * (this.scene.level + 1);
+          this.scene.lines++;
+          if (this.scene.lines % 10 === 0) {
+            this.scene.level++;
+          }
+          count++;
+          this.scene.board.removeLine(key);
+        });
+      }
 
       if (this.scene.over) return;
-      this.scene.board.pieces.push(new Piece(this.scene, this.scene.nextPiece));
+      this.scene.pieces.add(new Piece(this.scene, this.scene.nextPiece));
+      this.destroy();
       return;
     }
     this.scene.time.addEvent({
@@ -247,29 +269,25 @@ export default class Piece extends Phaser.GameObjects.Group {
   checkStack(dir) {
     //dir => -1:left 1:right 0:down
     let offStack = true;
-    let piece = this;
-    this.scene.board.pieces.forEach(function (otherPiece) {
-      if (piece.id === otherPiece.id) return;
-      piece.getChildren().forEach(function (square) {
-        otherPiece.getChildren().forEach(function (otherSquare) {
-          if (square.loc === null || otherSquare.loc === null) return;
-          let checks =
+    this.getChildren().forEach((square) => {
+      this.scene.blocks.getChildren().forEach((otherSquare) => {
+        if (square.loc === null || otherSquare.loc === null) return;
+        let checks =
+          square.pending[0] === otherSquare.loc[0] &&
+          square.pending[1] === otherSquare.loc[1];
+        if (dir === 1) {
+          checks =
             square.pending[0] === otherSquare.loc[0] &&
             square.pending[1] === otherSquare.loc[1];
-          if (dir === 1) {
-            checks =
-              square.pending[0] === otherSquare.loc[0] &&
-              square.pending[1] === otherSquare.loc[1];
-          }
-          if (dir === -1) {
-            checks =
-              square.pending[0] === otherSquare.loc[0] &&
-              square.pending[1] === otherSquare.loc[1];
-          }
-          if (checks) {
-            offStack = false;
-          }
-        });
+        }
+        if (dir === -1) {
+          checks =
+            square.pending[0] === otherSquare.loc[0] &&
+            square.pending[1] === otherSquare.loc[1];
+        }
+        if (checks) {
+          offStack = false;
+        }
       });
     });
     return offStack;

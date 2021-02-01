@@ -19,4 +19,23 @@ export default class Block extends Phaser.Physics.Arcade.Sprite {
       ' ',
     ]);
   }
+
+  reset(color) {
+    this.character = Phaser.Math.RND.pick([
+      'a',
+      'b',
+      'A',
+      'B',
+      '3',
+      '7',
+      '#',
+      '$',
+      ' ',
+    ]);
+    this.setTexture('block');
+    this.setActive(true);
+    this.setVisible(true);
+    this.setPosition(0, 0);
+    return this;
+  }
 }

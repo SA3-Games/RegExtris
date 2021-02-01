@@ -6,12 +6,11 @@ export default class Board {
     this.cols = 10;
     this.rows = 20;
     this.gridSize = config.width / 10;
-    this.pieces = [];
     this.scene = scene;
-    //this.gameMap = gameMap;
   }
   checkLines() {
-    //returns index of the first full row; none? returns -1
+    //returns object of all full rows
+    //stored as key/value pairs (rowIndex: [characters for all blocks in row])
     let rows = this.rows;
     let cols = this.cols;
     let gameMap = [];
@@ -22,45 +21,40 @@ export default class Board {
         gameMap[y][x] = 0;
       }
     }
-    this.pieces.forEach((piece) => {
-      piece.getChildren().forEach((square) => {
-        if (square.loc === null) return;
-        let x = square.loc[0] + 5;
-        let y = square.loc[1];
-        try {
-          gameMap[y][x] = square.character;
-        } catch (err) {
-          //the piece has hit bottom above
-          this.scene.scene.pause();
-          this.scene.over = true;
-          console.log('GAME OVER!');
-        }
-      });
+    this.scene.blocks.getChildren().forEach((square) => {
+      if (square.loc === null) return;
+      let x = square.loc[0] + 5;
+      let y = square.loc[1];
+      try {
+        gameMap[y][x] = square.character;
+      } catch (err) {
+        //the piece has landed above the board
+        this.scene.scene.pause();
+        this.scene.over = true;
+        console.log('GAME OVER!');
+      }
     });
+    // });
     const fullRows = {};
     gameMap.forEach(function (row, index) {
       if (!row.includes(0)) {
         fullRows[index] = row;
       }
     });
-    console.dir(fullRows);
     return fullRows;
   }
   removeLine(index) {
     //takes out the line, shifts the higher squares down.
-    this.pieces.forEach(function (piece) {
-      piece.getChildren().forEach(function (square) {
-        if (square.loc === null) return;
-        if (square.loc[1] === parseInt(index)) {
-          console.log(square.loc);
-          square.loc = null;
-          square.setActive(false);
-          square.setVisible(false);
-        } else if (square.loc[1] < index) {
-          square.loc[1]++;
-        }
-      });
-      piece.move();
+    this.scene.blocks.getChildren().forEach((square) => {
+      if (square.loc === null) return;
+      if (square.loc[1] === parseInt(index)) {
+        square.loc = null;
+        square.setActive(false);
+        square.setVisible(false);
+      } else if (square.loc[1] < index) {
+        square.loc[1]++;
+        square.y = square.loc[1] * this.scene.board.gridSize + 25;
+      }
     });
   }
 }
