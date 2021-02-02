@@ -32,9 +32,8 @@ export default class Board {
       } catch (err) {
         //if an error happens, the row does not exist in the matrix
         //the piece has landed above the board
-        this.scene.over = true;
-        this.scene.scene.pause();
-        console.log('GAME OVER!');
+        this.scene.gameOver = true;
+        this.scene.scene.start('GameOverScene', { score: this.scene.score });
       }
     });
 

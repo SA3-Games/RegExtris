@@ -1,4 +1,4 @@
-import "phaser";
+import 'phaser';
 //import BaseScene from './BaseScene';
 
 import Board from '../entity/Board';
@@ -8,7 +8,7 @@ import config from '../config/config';
 
 export default class MainScene extends Phaser.Scene {
   constructor() {
-    super("MainScene");
+    super('MainScene');
   }
 
   preload() {
@@ -18,7 +18,7 @@ export default class MainScene extends Phaser.Scene {
   create() {
     this.pieceCount = 0;
     this.cursors = this.input.keyboard.createCursorKeys();
-    this.over = false;
+    this.gameOver = false;
     this.score = 0;
     this.destroyedRows = 0;
     this.level = 0;
@@ -35,10 +35,10 @@ export default class MainScene extends Phaser.Scene {
     this.scoreBoard = this.add
       .rectangle(100, 370, 250, 300, 0x000000)
       .setOrigin(0);
+    this.scoreDisplay = this.add.text(150, 400, this.score);
     this.nextPieceBoard = this.add
       .rectangle(100, 100, 250, 250, 0x000000)
       .setOrigin(0);
-
     this.gameBoardHeader = this.add
       .rectangle(
         this.gameBoardLoc[0],
@@ -65,5 +65,6 @@ export default class MainScene extends Phaser.Scene {
     //only update most recently created piece
     this.piece = this.pieces.getLast(true);
     this.piece.update();
+    this.scoreDisplay.setText(this.score);
   }
 }
