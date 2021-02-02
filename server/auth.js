@@ -6,7 +6,7 @@ router.post("/login", async (req, res, next) => {
   try {
     const player = await Player.findOne({
       where: {
-        email: req.body.email,
+        alias: req.body.alias,
       },
     });
     if (!player) {
@@ -23,12 +23,12 @@ router.post("/login", async (req, res, next) => {
 
 router.post("/signup", async (req, res, next) => {
   try {
-    const { email, password } = req.body;
-    const player = await Player.create({ email, password });
+    const { alias, password } = req.body;
+    const player = await Player.create({ alias, password });
     req.login(player, (err) => (err ? next(err) : res.json(player)));
   } catch (err) {
-    if (err.name === "SequelizeUniqueConstraintError") {
-      res.status(401).send("Player already exists");
+    if (err.alias === "SequelizeUniqueConstraintError") {
+      res.status(401).send("This alias already exists");
     } else {
       next(err);
     }
