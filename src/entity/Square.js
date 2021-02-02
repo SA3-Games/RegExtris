@@ -7,6 +7,7 @@ export default class Square extends Phaser.Physics.Arcade.Sprite {
     this.scene = scene;
     this.scene.physics.world.enable(this);
     this.scene.add.existing(this);
+    //attach random character for RegEx mechanics
     this.character = Phaser.Math.RND.pick([
       'a',
       'b',
@@ -20,6 +21,7 @@ export default class Square extends Phaser.Physics.Arcade.Sprite {
     ]);
   }
 
+  //reset sprite for reuse
   reset(color) {
     this.character = Phaser.Math.RND.pick([
       'a',
@@ -32,7 +34,7 @@ export default class Square extends Phaser.Physics.Arcade.Sprite {
       '$',
       ' ',
     ]);
-    this.setTexture('square');
+    this.setTexture('square'); //**will eventually have multiple textures to pick from**
     this.setActive(true);
     this.setVisible(true);
     this.setPosition(0, 0);
