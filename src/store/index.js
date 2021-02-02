@@ -7,7 +7,7 @@ import error from "./errorStore";
 
 const reducer = combineReducers({
   scores,
-  user: singlePlayer,
+  player: singlePlayer,
   error,
 });
 

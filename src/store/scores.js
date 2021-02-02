@@ -1,17 +1,17 @@
 import axios from "axios";
-import { modifyError } from "./error";
+import { modifyError } from "./errorStore";
 
 // action type
-GET_ALL_SCORES = "GET_ALL_SCORES";
+const GET_ALL_SCORES = "GET_ALL_SCORES";
 
 // action creator
-getAllScores = (scores) => ({
+const getAllScores = (scores) => ({
   type: GET_ALL_SCORES,
   scores,
 });
 
 // thunk
-fetchAllScores = () => {
+export const fetchAllScores = () => {
   return async (dispatch) => {
     try {
       const { data } = await axios.get("/api/scores");

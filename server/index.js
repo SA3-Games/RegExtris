@@ -1,13 +1,27 @@
 const path = require("path");
 const express = require("express");
 const session = require("express-session");
+const compression = require("compression");
 const morgan = require("morgan");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
+const passport = require("passport");
 const { db } = require("./db");
 const sessionStore = new SequelizeStore({ db });
 const PORT = process.env.PORT || 8080;
 
 const app = express();
+
+// passport registration
+passport.serializeUser((user, done) => done(null, user.id));
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await db.models.player.findByPk(id);
+    done(null, player);
+  } catch (err) {
+    done(err);
+  }
+});
 
 // logging middleware
 app.use(morgan("dev"));
@@ -25,6 +39,9 @@ app.use(
     saveUninitializated: false,
   })
 );
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(express.static(path.join(__dirname, "..", "public")));
 
