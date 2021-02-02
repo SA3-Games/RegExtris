@@ -1,5 +1,6 @@
-import 'phaser';
+import "phaser";
 //import BaseScene from './BaseScene';
+
 import Board from '../entity/Board';
 import Piece from '../entity/Piece';
 import Square from '../entity/Square';
@@ -7,7 +8,7 @@ import config from '../config/config';
 
 export default class MainScene extends Phaser.Scene {
   constructor() {
-    super('MainScene');
+    super("MainScene");
   }
 
   preload() {
@@ -37,6 +38,7 @@ export default class MainScene extends Phaser.Scene {
     this.nextPieceBoard = this.add
       .rectangle(100, 100, 250, 250, 0x000000)
       .setOrigin(0);
+
     this.gameBoardHeader = this.add
       .rectangle(
         this.gameBoardLoc[0],
