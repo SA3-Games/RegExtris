@@ -10,7 +10,7 @@ export default class Board {
   }
   checkLines() {
     //returns object of all full rows
-    //stored as key/value pairs (rowIndex: [characters for all blocks in row])
+    //stored as key/value pairs (rowIndex: [characters for all squares in row])
     let rows = this.rows;
     let cols = this.cols;
     let gameMap = [];
@@ -21,7 +21,7 @@ export default class Board {
         gameMap[y][x] = 0;
       }
     }
-    this.scene.blocks.getChildren().forEach((square) => {
+    this.scene.squares.getChildren().forEach((square) => {
       if (square.loc === null) return;
       let x = square.loc[0] + 5;
       let y = square.loc[1];
@@ -41,12 +41,11 @@ export default class Board {
         fullRows[index] = row;
       }
     });
-    console.log(fullRows);
     return fullRows;
   }
   removeLine(index) {
     //takes out the line, shifts the higher squares down.
-    this.scene.blocks.getChildren().forEach((square) => {
+    this.scene.squares.getChildren().forEach((square) => {
       if (square.loc === null) return;
       if (square.loc[1] === parseInt(index)) {
         square.loc = null;

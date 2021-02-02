@@ -2,7 +2,7 @@ import 'phaser';
 //import BaseScene from './BaseScene';
 import Board from '../entity/Board';
 import Piece from '../entity/Piece';
-import Block from '../entity/Block';
+import Square from '../entity/Square';
 import config from '../config/config';
 
 export default class MainScene extends Phaser.Scene {
@@ -11,7 +11,7 @@ export default class MainScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('block', 'assets/sprites/square.png');
+    this.load.image('square', 'assets/sprites/square.png');
   }
 
   create() {
@@ -23,7 +23,7 @@ export default class MainScene extends Phaser.Scene {
     this.lines = 0;
     this.level = 0;
     this.pieces = this.physics.add.group({ classType: Piece });
-    this.blocks = this.physics.add.group({ classType: Block });
+    this.squares = this.physics.add.group({ classType: Square });
     this.gameBoardLoc = [450, 70];
     this.gameBoard = this.add
       .rectangle(this.gameBoardLoc[0], this.gameBoardLoc[1], 300, 600, 0x3f4542)
@@ -39,7 +39,7 @@ export default class MainScene extends Phaser.Scene {
       .setOrigin(0);
     this.board = new Board(this, 300, 0, [
       ...this.pieces.getChildren(),
-      ...this.blocks.getChildren(),
+      ...this.squares.getChildren(),
       this.rect,
     ]);
     const piece = new Piece(

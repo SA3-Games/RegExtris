@@ -1,8 +1,8 @@
 import 'phaser';
 
-export default class Block extends Phaser.Physics.Arcade.Sprite {
+export default class Square extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
-    super(scene, x, y, 'block');
+    super(scene, x, y, 'square');
 
     this.scene = scene;
     this.scene.physics.world.enable(this);
@@ -32,7 +32,7 @@ export default class Block extends Phaser.Physics.Arcade.Sprite {
       '$',
       ' ',
     ]);
-    this.setTexture('block');
+    this.setTexture('square');
     this.setActive(true);
     this.setVisible(true);
     this.setPosition(0, 0);

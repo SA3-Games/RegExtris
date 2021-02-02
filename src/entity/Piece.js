@@ -1,6 +1,5 @@
 import 'phaser';
-import Block from './Block';
-import Board from './Board';
+import Square from './Square';
 
 const pieceTypes = {
   I: {
@@ -89,18 +88,17 @@ export default class Piece extends Phaser.GameObjects.Group {
     this.id = this.scene.pieceCount;
     this.scene.pieceCount++;
     this.grid.forEach((loc) => {
-      const deadSprite = this.scene.blocks.getFirstDead();
-      if (deadSprite) {
-        this.scene.blocks.remove(deadSprite);
+      const deadSquare = this.scene.squares.getFirstDead();
+      if (deadSquare) {
+        this.scene.squares.remove(deadSquare);
       }
-      const sprite = deadSprite
-        ? deadSprite.reset()
-        : new Block(this.scene, 0, 0);
-      sprite.setDisplaySize(25, 25);
-      sprite.setTint(this.color);
-      //sprite.setOrigin(0.5);
-      sprite.loc = loc;
-      this.add(sprite);
+      const square = deadSquare
+        ? deadSquare.reset()
+        : new Square(this.scene, 0, 0);
+      square.setDisplaySize(25, 25);
+      square.setTint(this.color);
+      square.loc = loc;
+      this.add(square);
       this.scene.pieces.add(this);
     });
     this.yOffset = 0;
@@ -108,49 +106,24 @@ export default class Piece extends Phaser.GameObjects.Group {
     this.fallDelay = 1000 / 4; //must be set initially
     this.scene.time.addEvent({
       delay: this.fallDelay,
-      callback: this.shift,
+      callback: this.fallDown,
       callbackScope: this,
     });
   }
-  move() {
-    this.getChildren().forEach((square) => {
-      if (square.loc === null) return;
-      square.x =
-        square.loc[0] * this.scene.board.gridSize +
-        this.scene.board.gridSize * 5.5 +
-        this.scene.gameBoardLoc[0];
-      square.y =
-        square.loc[1] * this.scene.board.gridSize +
-        this.scene.board.gridSize / 2 +
-        this.scene.gameBoardLoc[1];
-    });
-  }
+
   applyPendingMove() {
     this.getChildren().forEach(function (square) {
       square.loc = [...square.pending];
     });
   }
+
   removePendingMove() {
     this.getChildren().forEach(function (square) {
       square.pending = null;
     });
   }
 
-  keyCheck() {
-    //333MS - this.scene.level * 10; Max level = 33;
-    this.fallDelay = 1000 / 3 - this.scene.level * 10;
-    if (this.scene.cursors.up.isDown) {
-      this.rotate();
-    } else if (this.scene.cursors.down.isDown) {
-      this.fallDelay = 1000 / 20;
-    }
-    if (this.scene.cursors.left.isDown) {
-      this.strafe(-1);
-    } else if (this.scene.cursors.right.isDown) {
-      this.strafe(1);
-    }
-  }
-  shift() {
+  fallDown() {
     this.getChildren().forEach((square) => {
       square.pending = [...square.loc];
       square.pending[1]++;
@@ -161,12 +134,12 @@ export default class Piece extends Phaser.GameObjects.Group {
       this.applyPendingMove();
       this.scene.time.addEvent({
         delay: this.fallDelay,
-        callback: this.shift,
+        callback: this.fallDown,
         callbackScope: this,
       });
     } else {
       this.removePendingMove();
-      this.scene.blocks.addMultiple(this.getChildren());
+      this.scene.squares.addMultiple(this.getChildren());
       const fullRows = this.scene.board.checkLines();
       let scores = [40, 60, 200, 900]; //points for each consecutive line
       //this.tetris = false, this.regex = true, addEvent(2000ms)
@@ -201,10 +174,11 @@ export default class Piece extends Phaser.GameObjects.Group {
       }
     }
   }
+
   rotate() {
     if (this.rotateTimeout) return;
     this.getChildren().forEach((square) => {
-      square.pending = rotate(
+      square.pending = getRotationCoords(
         square.loc[0],
         square.loc[1],
         this.xOffset,
@@ -229,7 +203,7 @@ export default class Piece extends Phaser.GameObjects.Group {
       });
     } else this.removePendingMove();
 
-    function rotate(oldX, oldY, centerX, centerY, angle) {
+    function getRotationCoords(oldX, oldY, centerX, centerY, angle) {
       oldX -= centerX;
       oldY -= centerY;
       let newX = oldX * Math.cos(angle) - oldY * Math.sin(angle);
@@ -241,6 +215,7 @@ export default class Piece extends Phaser.GameObjects.Group {
       return [newX, newY];
     }
   }
+
   strafe(dir) {
     if (this.strafeTimeout) return;
     this.getChildren().forEach(function (square) {
@@ -262,6 +237,7 @@ export default class Piece extends Phaser.GameObjects.Group {
       });
     } else this.removePendingMove();
   }
+
   checkGround() {
     let offGround = true;
     this.getChildren().forEach((square) => {
@@ -270,6 +246,7 @@ export default class Piece extends Phaser.GameObjects.Group {
     });
     return offGround;
   }
+
   checkWall(side) {
     //side => -1: left 1:right
     //offset allows us to check ahead (1) or check current (0)
@@ -283,11 +260,12 @@ export default class Piece extends Phaser.GameObjects.Group {
     });
     return offWall;
   }
+
   checkStack(dir) {
     //dir => -1:left 1:right 0:down
     let offStack = true;
     this.getChildren().forEach((square) => {
-      this.scene.blocks.getChildren().forEach((otherSquare) => {
+      this.scene.squares.getChildren().forEach((otherSquare) => {
         if (square.loc === null || otherSquare.loc === null) return;
         let checks =
           square.pending[0] === otherSquare.loc[0] &&
@@ -309,6 +287,36 @@ export default class Piece extends Phaser.GameObjects.Group {
     });
     return offStack;
   }
+
+  keyCheck() {
+    //333MS - this.scene.level * 10; Max level = 33;
+    this.fallDelay = 1000 / 3 - this.scene.level * 10;
+    if (this.scene.cursors.up.isDown) {
+      this.rotate();
+    } else if (this.scene.cursors.down.isDown) {
+      this.fallDelay = 1000 / 20;
+    }
+    if (this.scene.cursors.left.isDown) {
+      this.strafe(-1);
+    } else if (this.scene.cursors.right.isDown) {
+      this.strafe(1);
+    }
+  }
+
+  move() {
+    this.getChildren().forEach((square) => {
+      if (square.loc === null) return;
+      square.x =
+        square.loc[0] * this.scene.board.gridSize +
+        this.scene.board.gridSize * 5.5 +
+        this.scene.gameBoardLoc[0];
+      square.y =
+        square.loc[1] * this.scene.board.gridSize +
+        this.scene.board.gridSize / 2 +
+        this.scene.gameBoardLoc[1];
+    });
+  }
+
   update() {
     this.move();
     this.keyCheck();
