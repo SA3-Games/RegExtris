@@ -10,15 +10,16 @@ Annie Cho, and Anahit Gulian.
 
 ## Follow this link to our app!
 
-https://dashboard.heroku.com/apps/regextris
+https://regextris.herokuapp.com/
 
 ## ...or Run Locally on Your Machine!
 
 To run locally: 
 1. fork
 2. clone & `npm install`
-3. windows: `npm run build-client-watch`, then `npm run start-server`
-4. mac/linux: `npm run start-dev`   
-5. find the game at http://localhost:8080. 
+3. `createdb regextris`
+4. windows: `npm run build-client-watch`, then `npm run start-server`
+5. mac/linux: `npm run start-dev`   
+6. find the game at http://localhost:8080. 
 
 :3
