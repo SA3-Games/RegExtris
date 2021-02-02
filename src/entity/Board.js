@@ -5,7 +5,7 @@ export default class Board {
   constructor(scene) {
     this.cols = 10;
     this.rows = 20;
-    this.gridSize = (config.height * 0.75) / 20; //size of each grid space
+    this.gridSize = 30; //size of each grid space
     this.scene = scene;
   }
 

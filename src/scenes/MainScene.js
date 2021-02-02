@@ -40,13 +40,7 @@ export default class MainScene extends Phaser.Scene {
       .rectangle(100, 100, 250, 250, 0x000000)
       .setOrigin(0);
     this.gameBoardHeader = this.add
-      .rectangle(
-        this.gameBoardLoc[0],
-        this.gameBoardLoc[1] - 100,
-        300,
-        130,
-        config.backgroundColor
-      )
+      .rectangle(this.gameBoardLoc[0], 0, 300, 90, config.backgroundColor)
       .setOrigin(0)
       .setDepth(10);
 
