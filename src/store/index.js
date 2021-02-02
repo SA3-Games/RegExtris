@@ -1,10 +1,14 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunkMiddleware from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
-import userStore from "./userStore";
+import scores from "./scores";
+import singlePlayer from "./singlePlayer";
+import error from "./errorStore";
 
 const reducer = combineReducers({
-  user: userStore,
+  scores,
+  user: singlePlayer,
+  error,
 });
 
 const middleware = composeWithDevTools(applyMiddleware(thunkMiddleware));
