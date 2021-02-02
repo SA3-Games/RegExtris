@@ -1,5 +1,6 @@
-import 'phaser';
+import "phaser";
 //import BaseScene from './BaseScene';
+
 import Board from '../entity/Board';
 import Piece from '../entity/Piece';
 import Block from '../entity/Block';
@@ -7,11 +8,11 @@ import config from '../config/config';
 
 export default class MainScene extends Phaser.Scene {
   constructor() {
-    super('MainScene');
+    super("MainScene");
   }
 
   preload() {
-    this.load.image('block', 'assets/sprites/square.png');
+    this.load.image("block", "assets/sprites/square.png");
   }
 
   create() {
@@ -44,7 +45,7 @@ export default class MainScene extends Phaser.Scene {
     ]);
     const piece = new Piece(
       this,
-      Phaser.Math.RND.pick(['I', 'J', 'L', 'O', 'S', 'T', 'Z'])
+      Phaser.Math.RND.pick(["I", "J", "L", "O", "S", "T", "Z"])
     );
     this.gameBoardHeader = this.add
       .rectangle(

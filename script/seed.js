@@ -6,22 +6,22 @@ const seed = async () => {
     const [sam, mark, alex, julie] = await Promise.all([
       Player.create({
         name: "Sam",
-        email: "sam@email.com",
+        nickName: "samBam",
         password: "12345",
       }),
       Player.create({
-        email: "mark@email.com",
-        name: "mark",
+        nickName: "mark@email.com",
+        name: "markNark",
         password: "12345",
       }),
       Player.create({
-        email: "alex@email.com",
-        name: "alex",
+        nickName: "alex@email.com",
+        name: "alexShmalex",
         password: "12345",
       }),
       Player.create({
-        email: "julie@email.com",
-        name: "julie",
+        nickName: "julie@email.com",
+        name: "julieTruly",
         password: "12345",
       }),
     ]);
