@@ -45,7 +45,7 @@ export default class PasswordScene extends Phaser.Scene {
       if (Phaser.Input.Keyboard.JustUp(this.enter)) {
         this.password = this.passwordEntry.text;
         console.log("alias", this.alias, "password", this.password);
-        //this.scene.start("LoginScene", {alias: this.alias, password: this.password});
+        this.scene.start("MenuScene", {alias: this.alias});
       }
     }
   }
