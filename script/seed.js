@@ -61,7 +61,7 @@ const seed = async () => {
     await alex1.addSession(session1);
   } catch (error) {
     console.log("seed didn't work");
-    console.err(error);
+    console.log(error);
   }
 };
 
@@ -74,8 +74,8 @@ if (require.main === module) {
       db.close();
     })
     .catch((err) => {
-      console.error("Oh noes! Something went wrong!");
-      console.error(err);
+      console.log("Oh noes! Something went wrong!");
+      console.log(err);
       db.close();
     });
 }
