@@ -13,7 +13,6 @@ export default class MenuScene extends Phaser.Scene {
         this.add.text(100, 200, 
             `Hello, ${this.alias}!\n\nWelcome to RegExtris!\n\nPress enter to start your game!`
             );
-        this.cursors = this.input.keyboard.createCursorKeys(); 
     }
 
     update() {
