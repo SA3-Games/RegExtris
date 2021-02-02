@@ -1,7 +1,7 @@
 export default class PasswordScene extends Phaser.Scene {
     constructor() {
       super("PasswordScene");
-      //this.alias;
+      this.alias;
       this.password;
       this.enterText = this.enterText.bind(this);
     }
@@ -16,8 +16,6 @@ export default class PasswordScene extends Phaser.Scene {
           (event.keyCode >= 48 && event.keyCode < 90)
         ) {
           input.text += event.key;
-        } else if (event.keyCode === 13) {
-          this.password = input.text;
         }
       });
     }
@@ -35,7 +33,7 @@ export default class PasswordScene extends Phaser.Scene {
         fill: "#ffffff",
       });
   
-      this.aliasEntry = this.add.text(10, 50, "", {
+      this.passwordEntry = this.add.text(10, 50, "", {
         font: "32px Courier",
         fill: "#ffff00",
       });
@@ -45,7 +43,8 @@ export default class PasswordScene extends Phaser.Scene {
   
     update() {
       if (Phaser.Input.Keyboard.JustUp(this.enter)) {
-        console.log("inside update", this.password);
+        this.password = this.passwordEntry.text;
+        console.log("alias", this.alias, "password", this.password);
         //this.scene.start("LoginScene", {alias: this.alias, password: this.password});
       }
     }

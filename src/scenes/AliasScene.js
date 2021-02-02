@@ -1,7 +1,8 @@
 export default class AliasScene extends Phaser.Scene {
   constructor() {
     super("AliasScene");
-  }
+    this.alias;
+    }
 
   enterText(input) {
     this.input.keyboard.on("keyup", (event) => {
@@ -37,7 +38,8 @@ export default class AliasScene extends Phaser.Scene {
 
   update() {
     if (Phaser.Input.Keyboard.JustUp(this.enter)) {
-      this.scene.start("PasswordScene", {alias: this.aliasEntry.text});
+      this.alias = this.aliasEntry.text;
+      this.scene.start("PasswordScene", {alias: this.alias});
     }
   }
 }
