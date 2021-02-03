@@ -33,7 +33,7 @@ export default class AliasScene extends Phaser.Scene {
   }
 
   update() {
-    if (Phaser.Input.Keyboard.JustUp(this.enter)) {
+    if (Phaser.Input.Keyboard.JustUp(this.enter) && this.alias.length) {
       this.scene.start("PasswordScene", { alias: this.alias });
     }
   }
