@@ -14,7 +14,7 @@ export default class MainScene extends Phaser.Scene {
   preload() {
     this.load.spritesheet('square', 'assets/spritesheets/GREYtetrominos.png', {
       frameWidth: 288,
-      frameHeight: 288
+      frameHeight: 288,
     });
   }
 
@@ -26,7 +26,7 @@ export default class MainScene extends Phaser.Scene {
     this.score = 0;
     this.destroyedRows = 0;
     this.level = 0;
-    this.regexChoice = /\D/;
+    this.regexChoice = null;
     //move board to center of page
     this.gameBoardLoc = [450, 70];
 
