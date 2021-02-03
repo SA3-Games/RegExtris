@@ -6,6 +6,8 @@ import { width, height } from "../config/config";
 export default class SignUpScene extends Phaser.Scene {
   constructor() {
     super("SignUpScene");
+    this.player;
+    this.error;
   }
 
   init() {}
@@ -16,9 +18,16 @@ export default class SignUpScene extends Phaser.Scene {
   }
 
   create() {
+    this.unsubscribe = store.subscribe(() => {
+      this.player = store.getState().player;
+      this.error = store.getState().error;
+
+      console.log("not unique", this.error);
+    });
+
     this.add.image(600, 400, "background");
 
-    let text = this.add.text(width * 0.5, 20, "Please login to play", {
+    let text = this.add.text(width * 0.5, 20, "Please sign up to play", {
       color: "white",
       fontSize: "32px ",
     });
@@ -30,39 +39,34 @@ export default class SignUpScene extends Phaser.Scene {
     element.addListener("click");
 
     element.on("click", function (event) {
-      if (event.target.name === "loginButton") {
-        let inputUsername = this.getChildByName("username");
+      if (event.target.name === "signUpButton") {
+        let inputAlias = this.getChildByName("Alias");
         let inputPassword = this.getChildByName("password");
         let inputConfirmPassword = this.getChildByName("confirmPassword");
 
-        //  Have they entered anything?
-        if (inputUsername.value !== "" && inputPassword.value !== "") {
+        //  check if fields are not empty
+        if (inputAlias.value !== "" && inputPassword.value !== "") {
+          // check if password and confirm passwords match
+          if (inputPassword.value === inputConfirmPassword.value) {
+            // errorDiv.style.display = "none";
+            store.dispatch(
+              auth(inputAlias.value, inputPassword.value, "signup")
+            );
+          } else {
+            alert("password and confirm password do not match");
+          }
+
           //  Turn off the click events
           this.removeListener("click");
 
-          //  Tween the sign Up form out
-          this.scene.tweens.add({
-            targets: element.rotate3d,
-            x: 1,
-            w: 90,
-            duration: 3000,
-            ease: "Power3",
-          });
-
-          this.scene.tweens.add({
-            targets: element,
-            scaleX: 2,
-            scaleY: 2,
-            y: 700,
-            duration: 3000,
-            ease: "Power3",
-            onComplete: function () {
-              element.setVisible(false);
-            },
-          });
-
-          //  Populate the text with whatever they typed in as the username!
-          text.setText("Welcome " + inputUsername.value);
+          //  Tween the sign Up after use
+          // this.scene.tweens.add({
+          //   targets: element.rotate3d,
+          //   x: 1,
+          //   w: 90,
+          //   duration: 3000,
+          //   ease: "Power3",
+          // });
         } else {
           //  Flash the prompt
           this.scene.tweens.add({
@@ -79,7 +83,7 @@ export default class SignUpScene extends Phaser.Scene {
     this.tweens.add({
       targets: element,
       y: 300,
-      duration: 3000,
+      duration: 10,
       ease: "Power3",
     });
   }
