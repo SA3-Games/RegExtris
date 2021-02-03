@@ -4,6 +4,7 @@ module.exports = router;
 
 router.post("/login", async (req, res, next) => {
   try {
+    console.log("req.bdoy in /auth/login", req.body);
     const player = await Player.findOne({
       where: {
         alias: req.body.alias,
@@ -42,7 +43,7 @@ router.post("/logout", (req, res) => {
 });
 
 router.get("/me", (req, res) => {
-  res.json(req.player);
+  res.json(req.user);
 });
 
 module.exports = router;

@@ -8,6 +8,9 @@ import MenuScene from "./scenes/MenuScene";
 import GameOverScene from "./scenes/GameOverScene";
 //import Menu from './scenes/Menu';
 
+import store from "./store";
+import { me } from "./store/singlePlayer";
+
 class Game extends Phaser.Game {
   constructor() {
     super(config);
