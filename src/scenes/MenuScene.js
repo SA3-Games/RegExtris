@@ -14,7 +14,7 @@ export default class MenuScene extends Phaser.Scene {
     this.alias;
   }
 
-  init() {
+  init(data) {
     this.cursors = this.input.keyboard.createCursorKeys();
     this.alias = data.alias;
   }
