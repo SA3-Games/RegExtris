@@ -104,7 +104,7 @@ export default class Piece extends Phaser.GameObjects.Group {
       const square = deadSquare
         ? deadSquare.reset()
         : new Square(this.scene, 0, 0);
-      square.setDisplaySize(25, 25);
+      square.setDisplaySize(28, 28);
       square.setTint(this.color);
       square.loc = loc;
       //add square to this group
