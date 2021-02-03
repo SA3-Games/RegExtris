@@ -13,9 +13,9 @@ export default class MenuScene extends Phaser.Scene {
 
   create() {
     store.dispatch(me());
-    store.subscribe(() => {
+    this.unsubscribe = store.subscribe(() => {
       this.player = store.getState().player;
-      console.log("menu scene", this.player);
+      this.unsubscribe();
     });
     this.enter = this.input.keyboard.addKey("ENTER");
     this.add.text(
