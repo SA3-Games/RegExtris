@@ -14,17 +14,22 @@ export default class MenuScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("glass-panel", "assets/menuSprites/glassPanel.png");
-    this.load.image("cursor-hand", "assets/menuSprites/cursor_hand.png");
+    this.load.image("Neon-Box", "assets/menuSprites/neonBlueBox.png");
+    this.load.image("FAIRY", "assets/menuSprites/FAIRY.png");
+    this.load.image("background", "assets/menuSprites/menuBG1.png");
   }
 
   create() {
     const width = 1200;
     const height = 800;
+    this.enter = this.input.keyboard.addKey("ENTER");
+
+    //Setting background
+    this.add.image(600, 400, "background");
 
     // Log in button
     const logInButton = this.add
-      .image(width * 0.5, height * 0.6, "glass-panel")
+      .image(width * 0.5, height * 0.2, "Neon-Box")
       .setDisplaySize(150, 50);
 
     this.add.text(logInButton.x, logInButton.y, "Log In").setOrigin(0.5);
@@ -34,7 +39,7 @@ export default class MenuScene extends Phaser.Scene {
       .image(
         logInButton.x,
         logInButton.y + logInButton.displayHeight + 10,
-        "glass-panel"
+        "Neon-Box"
       )
       .setDisplaySize(150, 50);
 
@@ -45,9 +50,9 @@ export default class MenuScene extends Phaser.Scene {
       .image(
         signUpButton.x,
         signUpButton.y + signUpButton.displayHeight + 10,
-        "glass-panel"
+        "Neon-Box"
       )
-      .setDisplaySize(150, 50);
+      .setDisplaySize(200, 50);
 
     this.add
       .text(colorBlindButton.x, colorBlindButton.y, "Colorblind Mode")
@@ -58,17 +63,35 @@ export default class MenuScene extends Phaser.Scene {
       .image(
         colorBlindButton.x,
         colorBlindButton.y + colorBlindButton.displayHeight + 10,
-        "glass-panel"
+        "Neon-Box"
       )
       .setDisplaySize(150, 50);
 
     this.add.text(exitButton.x, exitButton.y, "Exit Game").setOrigin(0.5);
 
+    // PLAY button
+    const PLAYButton = this.add
+      .image(
+        exitButton.x,
+        exitButton.y + exitButton.displayHeight + 250,
+        "Neon-Box"
+      )
+      .setDisplaySize(300, 100);
+
+    this.add
+      .text(PLAYButton.x, PLAYButton.y, "PLAY", { fontSize: 64 })
+      .setOrigin(0.5);
+
+    //Adds the buttons to the array
     this.buttons.push(logInButton);
     this.buttons.push(signUpButton);
     this.buttons.push(colorBlindButton);
     this.buttons.push(exitButton);
-    this.buttonSelector = this.add.image(0, 0, "cursor-hand");
+    this.buttons.push(PLAYButton);
+
+    //sets the cursor
+    this.buttonSelector = this.add.image(0, 0, "FAIRY").setScale(0.2);
+
     this.selectButton(0);
 
     logInButton.on("selected", () => {
@@ -91,17 +114,29 @@ export default class MenuScene extends Phaser.Scene {
       console.log("exit");
     });
 
+    PLAYButton.on("selected", () => {
+      //this is where you'd connect the button with PLAYing the game
+      this.scene.start("MainScene");
+      console.log("PLAY");
+    });
+
     //each .on() should have a matching .off() to ensure that events are cleaned up.
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       logInButton.off("selected");
       signUpButton.off("selected");
       colorBlindButton.off("selected");
       exitButton.off("selected");
+      PLAYButton.off("selected");
     });
   }
 
   selectButton(index) {
     const currentButton = this.buttons[this.selectedButtonIndex];
+
+    //TODO: make the fairy bigger when she gets to the PLAY button
+    // if (currentButton === PLAYButton) {
+    //   this.buttonSelector.setScale(2);
+    // }
 
     // set the current selected button to a white tint
     currentButton.setTint(0xffffff);
@@ -112,7 +147,7 @@ export default class MenuScene extends Phaser.Scene {
     button.setTint(0x66ff7f);
 
     // move the hand cursor to the right edge
-    this.buttonSelector.x = button.x + button.displayWidth * 0.5;
+    this.buttonSelector.x = button.x - button.displayWidth * 0.6;
     this.buttonSelector.y = button.y + 10;
 
     // store the new selected index
@@ -143,13 +178,13 @@ export default class MenuScene extends Phaser.Scene {
   update() {
     const upJustPressed = Phaser.Input.Keyboard.JustDown(this.cursors.up);
     const downJustPressed = Phaser.Input.Keyboard.JustDown(this.cursors.down);
-    const spaceJustPressed = Phaser.Input.Keyboard.JustDown(this.cursors.space);
+    const enterJustPressed = Phaser.Input.Keyboard.JustDown(this.enter);
 
     if (upJustPressed) {
       this.selectNextButton(-1);
     } else if (downJustPressed) {
       this.selectNextButton(1);
-    } else if (spaceJustPressed) {
+    } else if (enterJustPressed) {
       this.confirmSelection();
     }
   }
