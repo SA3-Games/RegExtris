@@ -1,5 +1,7 @@
 import 'phaser';
 import config from '../config/config';
+import store from '../store';
+import { addRegexChoice } from '../store/playerRegex';
 
 export default class Board {
   constructor(scene) {
@@ -63,6 +65,7 @@ export default class Board {
         }
       }
     });
+    store.dispatch(addRegexChoice(re, total));
     return total;
   }
 

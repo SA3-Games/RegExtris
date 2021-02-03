@@ -23,7 +23,7 @@ const pieceTypes = {
       [0, -1],
       [1, -1],
     ],
-    color: 0x3333FF,
+    color: 0x3333ff,
     possibleNext: ['I', 'L', 'O', 'S', 'T', 'Z'],
   },
   L: {
@@ -33,7 +33,7 @@ const pieceTypes = {
       [1, -1],
       [-1, 0],
     ],
-    color: 0xFF6600,
+    color: 0xff6600,
     possibleNext: ['J', 'I', 'O', 'S', 'T', 'Z'],
   },
   O: {
@@ -74,7 +74,7 @@ const pieceTypes = {
       [0, 0],
       [1, 0],
     ],
-    color: 0xFF0000,
+    color: 0xff0000,
     possibleNext: ['J', 'L', 'O', 'S', 'T', 'I'],
   },
 };
@@ -229,7 +229,9 @@ export default class Piece extends Phaser.GameObjects.Group {
               const rowIndex = Object.keys(fullRows)[i];
               const regexTotal = this.board.checkRegEx(
                 rowIndex,
-                this.regexChoice
+                //////fake user choice!!!! remove when regex bank is done
+                Phaser.Math.RND.pick([/\D/, /\d/, /\s/, /^\w\d\s/])
+                /*this.regexChoice*/ //replace with this!!!!
               );
               this.regexScore += regexTotal * 10;
             }
