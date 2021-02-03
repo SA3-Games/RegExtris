@@ -1,5 +1,5 @@
 import axios from "axios";
-import { modifyError } from "./error";
+import { modifyError } from "./errorStore";
 
 /**
  * ACTION TYPES
@@ -35,10 +35,11 @@ export const me = () => async (dispatch) => {
   }
 };
 
-export const auth = (email, password, method) => async (dispatch) => {
+export const auth = (alias, password, method) => async (dispatch) => {
+  console.log("inside auth thunk: alias:", alias, "password: ", password);
   let res;
   try {
-    res = await axios.post(`/auth/${method}`, { email, password });
+    res = await axios.post(`/auth/${method}`, { alias, password });
   } catch (authErr) {
     return dispatch(getPlayer({ error: authErr }));
   }

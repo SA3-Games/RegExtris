@@ -224,7 +224,21 @@ export default class Piece extends Phaser.GameObjects.Group {
         //**plug-in RegEx gameplay HERE**
         this.scene.time.addEvent({
           delay: 2000,
-          //scope for callback is this.scene **Careful with changes**
+          callback: function () {
+            for (let i = 0; i < numFullRows; i++) {
+              const rowIndex = Object.keys(fullRows)[i];
+              const regexTotal = this.board.checkRegEx(
+                rowIndex,
+                this.regexChoice
+              );
+              this.regexScore += regexTotal * 10;
+            }
+          },
+          callbackScope: this.scene,
+        });
+        this.scene.time.addEvent({
+          delay: 2500,
+          //scope for callback is MainScene **Careful with changes**
           callback: function () {
             if (numFullRows === 4) {
               //replace with Tetris SFX in scene
@@ -237,8 +251,8 @@ export default class Piece extends Phaser.GameObjects.Group {
             }
             //increase score and game level accordingly
             this.score += scores[numFullRows] * (this.level + 1);
-            this.lines + numFullRows;
-            if (this.lines % 10 === 0) {
+            this.destroyedRows + numFullRows;
+            if (this.destroyedRows % 10 === 0) {
               this.level++;
             }
             //destroy this piece group and create the next one
@@ -250,7 +264,7 @@ export default class Piece extends Phaser.GameObjects.Group {
         });
       } else {
         //if there are no full rows and game has not ended
-        if (this.scene.over) return;
+        if (this.scene.gameOver) return;
         //create a new piece and then destroy this one **scope is this peice**
         this.scene.pieces.add(new Piece(this.scene, this.scene.nextPiece));
         this.destroy();

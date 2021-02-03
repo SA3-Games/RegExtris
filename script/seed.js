@@ -5,19 +5,19 @@ const seed = async () => {
     await db.sync({ force: true });
     const [sam, mark, alex, julie] = await Promise.all([
       Player.create({
-        alias: "samBam",
+        alias: "sam",
         password: "12345",
       }),
       Player.create({
-        alias: "markBark",
+        alias: "mark",
         password: "12345",
       }),
       Player.create({
-        alias: "alexDaleks",
+        alias: "alex",
         password: "12345",
       }),
       Player.create({
-        alias: "julieTruly",
+        alias: "julie",
         password: "12345",
       }),
     ]);

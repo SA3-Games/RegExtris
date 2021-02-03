@@ -5,7 +5,7 @@ export default class Board {
   constructor(scene) {
     this.cols = 10;
     this.rows = 20;
-    this.gridSize = (config.height * 0.75) / 20; //size of each grid space
+    this.gridSize = 30; //size of each grid space
     this.scene = scene;
   }
 
@@ -32,9 +32,8 @@ export default class Board {
       } catch (err) {
         //if an error happens, the row does not exist in the matrix
         //the piece has landed above the board
-        this.scene.over = true;
-        this.scene.scene.pause();
-        console.log('GAME OVER!');
+        this.scene.gameOver = true;
+        this.scene.scene.start('GameOverScene', { score: this.scene.score });
       }
     });
 
@@ -47,10 +46,26 @@ export default class Board {
         fullRows[index] = row;
       }
     });
+    console.log(fullRows);
     return fullRows;
   }
 
   //recieve index for full row and destroys it
+  checkRegEx(index, re) {
+    let total = 0;
+    this.scene.squares.getChildren().forEach((square) => {
+      if (square.loc === null) return;
+      if (square.loc[1] === parseInt(index)) {
+        const result = square.character.match(re);
+        if (result) {
+          square.setTint(0xffffff);
+          total += 1;
+        }
+      }
+    });
+    return total;
+  }
+
   removeRow(index) {
     //check all landed squares
     this.scene.squares.getChildren().forEach((square) => {

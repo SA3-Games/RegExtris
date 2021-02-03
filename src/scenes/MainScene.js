@@ -1,4 +1,4 @@
-import "phaser";
+import 'phaser';
 //import BaseScene from './BaseScene';
 
 import Board from '../entity/Board';
@@ -8,7 +8,7 @@ import config from '../config/config';
 
 export default class MainScene extends Phaser.Scene {
   constructor() {
-    super("MainScene");
+    super('MainScene');
   }
 
   preload() {
@@ -18,10 +18,12 @@ export default class MainScene extends Phaser.Scene {
   create() {
     this.pieceCount = 0;
     this.cursors = this.input.keyboard.createCursorKeys();
-    this.over = false;
+    this.gameOver = false;
+    this.regexScore = 0;
     this.score = 0;
     this.destroyedRows = 0;
     this.level = 0;
+    this.regexChoice = /\D/;
     //move board to center of page
     this.gameBoardLoc = [450, 70];
 
@@ -35,18 +37,16 @@ export default class MainScene extends Phaser.Scene {
     this.scoreBoard = this.add
       .rectangle(100, 370, 250, 300, 0x000000)
       .setOrigin(0);
+    this.scoreDisplay = this.add.text(
+      150,
+      400,
+      `Tetris Score: ${this.score}\n\nRegEx Score: ${this.regexScore}`
+    );
     this.nextPieceBoard = this.add
       .rectangle(100, 100, 250, 250, 0x000000)
       .setOrigin(0);
-
     this.gameBoardHeader = this.add
-      .rectangle(
-        this.gameBoardLoc[0],
-        this.gameBoardLoc[1] - 100,
-        300,
-        130,
-        config.backgroundColor
-      )
+      .rectangle(this.gameBoardLoc[0], 0, 300, 90, config.backgroundColor)
       .setOrigin(0)
       .setDepth(10);
 
@@ -65,5 +65,8 @@ export default class MainScene extends Phaser.Scene {
     //only update most recently created piece
     this.piece = this.pieces.getLast(true);
     this.piece.update();
+    this.scoreDisplay.setText(
+      `Tetris Score: ${this.score}\n\nRegEx Score: ${this.regexScore}`
+    );
   }
 }

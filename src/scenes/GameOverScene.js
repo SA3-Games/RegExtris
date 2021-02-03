@@ -1,20 +1,27 @@
 export default class GameOverScene extends Phaser.Scene {
-    constructor() {
-      super('GameOverScene');
-    }
+  constructor() {
+    super('GameOverScene');
+  }
 
-    preload() {
-    }   
-  
-    create() {
-        this.enter = this.input.keyboard.addKey("ENTER");
-        
-        this.add.text(10, 10, `GAME OVER.\n\nPress enter to go back to the menu!`);
-    }
+  init(data) {
+    this.finalScore = data.score;
+  }
 
-    update() {
-        if (Phaser.Input.Keyboard.JustUp(this.enter)) {
-            this.scene.start("MenuScene");
-          }
+  preload() {}
+
+  create() {
+    this.enter = this.input.keyboard.addKey('ENTER');
+
+    this.add.text(
+      10,
+      10,
+      `GAME OVER.\n\nFinal Score: ${this.finalScore}\n\nPress enter to go back to the menu!`
+    );
+  }
+
+  update() {
+    if (Phaser.Input.Keyboard.JustUp(this.enter)) {
+      this.scene.start('MenuScene');
     }
   }
+}
