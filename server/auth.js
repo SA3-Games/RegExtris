@@ -43,7 +43,7 @@ router.post("/logout", (req, res) => {
 });
 
 router.get("/me", (req, res) => {
-  res.json(req.player);
+  res.json(req.user);
 });
 
 module.exports = router;

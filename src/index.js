@@ -8,6 +8,9 @@ import MenuScene from "./scenes/MenuScene";
 import GameOverScene from "./scenes/GameOverScene";
 //import Menu from './scenes/Menu';
 
+import store from "./store";
+import { me } from "./store/singlePlayer";
+
 class Game extends Phaser.Game {
   constructor() {
     super(config);
@@ -18,6 +21,10 @@ class Game extends Phaser.Game {
     this.scene.add("MenuScene", MenuScene);
     this.scene.add("GameOverScene", GameOverScene);
     this.scene.start("AliasScene");
+    store.dispatch(me());
+    store.subscribe(() => {
+      this.player = store.getState().player;
+    });
   }
 }
 
