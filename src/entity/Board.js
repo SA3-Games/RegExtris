@@ -46,10 +46,26 @@ export default class Board {
         fullRows[index] = row;
       }
     });
+    console.log(fullRows);
     return fullRows;
   }
 
   //recieve index for full row and destroys it
+  checkRegEx(index, re) {
+    let total = 0;
+    this.scene.squares.getChildren().forEach((square) => {
+      if (square.loc === null) return;
+      if (square.loc[1] === parseInt(index)) {
+        const result = square.character.match(re);
+        if (result) {
+          square.setTint(0xffffff);
+          total += 1;
+        }
+      }
+    });
+    return total;
+  }
+
   removeRow(index) {
     //check all landed squares
     this.scene.squares.getChildren().forEach((square) => {
