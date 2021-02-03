@@ -23,7 +23,7 @@ const pieceTypes = {
       [0, -1],
       [1, -1],
     ],
-    color: 0x3333cc,
+    color: 0x3333FF,
     possibleNext: ['I', 'L', 'O', 'S', 'T', 'Z'],
   },
   L: {
@@ -33,7 +33,7 @@ const pieceTypes = {
       [1, -1],
       [-1, 0],
     ],
-    color: 0xff9900,
+    color: 0xFF6600,
     possibleNext: ['J', 'I', 'O', 'S', 'T', 'Z'],
   },
   O: {
@@ -74,7 +74,7 @@ const pieceTypes = {
       [0, 0],
       [1, 0],
     ],
-    color: 0xcc0000,
+    color: 0xFF0000,
     possibleNext: ['J', 'L', 'O', 'S', 'T', 'I'],
   },
 };
@@ -104,7 +104,7 @@ export default class Piece extends Phaser.GameObjects.Group {
       const square = deadSquare
         ? deadSquare.reset()
         : new Square(this.scene, 0, 0);
-      square.setDisplaySize(25, 25);
+      square.setDisplaySize(28, 28);
       square.setTint(this.color);
       square.loc = loc;
       //add square to this group

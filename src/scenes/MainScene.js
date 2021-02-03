@@ -12,7 +12,10 @@ export default class MainScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('square', 'assets/sprites/square.png');
+    this.load.spritesheet('square', 'assets/spritesheets/GREYtetrominos.png', {
+      frameWidth: 288,
+      frameHeight: 288
+    });
   }
 
   create() {
