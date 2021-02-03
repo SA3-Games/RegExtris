@@ -1,23 +1,33 @@
+import store from "../store";
+import { me } from "../store/singlePlayer";
+
 export default class MenuScene extends Phaser.Scene {
-    constructor() {
-      super('MenuScene');
-      this.alias;
-    }
+  constructor() {
+    super("MenuScene");
+    this.alias;
+  }
 
-    init(data) {
-        this.alias = data.alias;
-    }
-    
-    create() {
-        this.enter = this.input.keyboard.addKey("ENTER");
-        this.add.text(100, 200, 
-            `Hello, ${this.alias}!\n\nWelcome to RegExtris!\n\nPress enter to start your game!`
-            );
-    }
+  init(data) {
+    this.alias = data.alias;
+  }
 
-    update() {
-        if (Phaser.Input.Keyboard.JustUp(this.enter)) {
-            this.scene.start("MainScene");
-          }
+  create() {
+    store.dispatch(me());
+    store.subscribe(() => {
+      this.player = store.getState().player;
+      console.log("menu scene", this.player);
+    });
+    this.enter = this.input.keyboard.addKey("ENTER");
+    this.add.text(
+      100,
+      200,
+      `Hello, ${this.alias}!\n\nWelcome to RegExtris!\n\nPress enter to start your game!`
+    );
+  }
+
+  update() {
+    if (Phaser.Input.Keyboard.JustUp(this.enter)) {
+      this.scene.start("MainScene");
     }
   }
+}

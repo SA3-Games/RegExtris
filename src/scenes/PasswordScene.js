@@ -29,9 +29,10 @@ export default class PasswordScene extends Phaser.Scene {
 
   preload() {}
   create() {
+    this.player;
     store.subscribe(() => {
       this.player = store.getState().player;
-      console.log("in redux alias:", player.id, player.alias);
+      console.log("in redux alias:", this.player.id);
     });
     this.enter = this.input.keyboard.addKey("ENTER");
 

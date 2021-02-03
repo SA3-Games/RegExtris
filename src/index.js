@@ -21,10 +21,6 @@ class Game extends Phaser.Game {
     this.scene.add("MenuScene", MenuScene);
     this.scene.add("GameOverScene", GameOverScene);
     this.scene.start("AliasScene");
-    store.dispatch(me());
-    store.subscribe(() => {
-      this.player = store.getState().player;
-    });
   }
 }
 
