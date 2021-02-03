@@ -19,9 +19,11 @@ export default class MainScene extends Phaser.Scene {
     this.pieceCount = 0;
     this.cursors = this.input.keyboard.createCursorKeys();
     this.gameOver = false;
+    this.regexScore = 0;
     this.score = 0;
     this.destroyedRows = 0;
     this.level = 0;
+    this.regexChoice = /\D/;
     //move board to center of page
     this.gameBoardLoc = [450, 70];
 
@@ -35,7 +37,11 @@ export default class MainScene extends Phaser.Scene {
     this.scoreBoard = this.add
       .rectangle(100, 370, 250, 300, 0x000000)
       .setOrigin(0);
-    this.scoreDisplay = this.add.text(150, 400, this.score);
+    this.scoreDisplay = this.add.text(
+      150,
+      400,
+      `Tetris Score: ${this.score}\n\nRegEx Score: ${this.regexScore}`
+    );
     this.nextPieceBoard = this.add
       .rectangle(100, 100, 250, 250, 0x000000)
       .setOrigin(0);
@@ -59,6 +65,8 @@ export default class MainScene extends Phaser.Scene {
     //only update most recently created piece
     this.piece = this.pieces.getLast(true);
     this.piece.update();
-    this.scoreDisplay.setText(this.score);
+    this.scoreDisplay.setText(
+      `Tetris Score: ${this.score}\n\nRegEx Score: ${this.regexScore}`
+    );
   }
 }

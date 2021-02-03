@@ -224,6 +224,20 @@ export default class Piece extends Phaser.GameObjects.Group {
         //**plug-in RegEx gameplay HERE**
         this.scene.time.addEvent({
           delay: 2000,
+          callback: function () {
+            for (let i = 0; i < numFullRows; i++) {
+              const rowIndex = Object.keys(fullRows)[i];
+              const regexTotal = this.board.checkRegEx(
+                rowIndex,
+                this.regexChoice
+              );
+              this.regexScore += regexTotal * 10;
+            }
+          },
+          callbackScope: this.scene,
+        });
+        this.scene.time.addEvent({
+          delay: 2500,
           //scope for callback is MainScene **Careful with changes**
           callback: function () {
             if (numFullRows === 4) {
