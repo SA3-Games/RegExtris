@@ -39,6 +39,7 @@ export default function regexChoices(state = initialState, action) {
           totalCharacters: action.totalCharacters,
         };
       }
+      console.log(newState);
       return newState;
     }
     default:
