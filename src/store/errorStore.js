@@ -27,6 +27,10 @@ export const modifyError = (error, customMessage) => {
         err.message =
           "Something went wrong on our end. Please try again later.";
         break;
+      case "Request failed with status code 401":
+        err.status = "401";
+        err.message = customMessage || error.message;
+        break;
       // case '404':
       //   err.message = customMessage || error.message
       //   break

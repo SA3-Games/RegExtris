@@ -1,5 +1,5 @@
 import axios from "axios";
-import { modifyError, setError } from "./errorStore";
+import { modifyError } from "./errorStore";
 
 /**
  * ACTION TYPES
@@ -47,7 +47,8 @@ export const auth = (alias, password, method) => async (dispatch) => {
     res = await axios.post(`/auth/${method}`, { alias, password });
     dispatch(getPlayer(res.data));
   } catch (authErr) {
-    return dispatch(setError(authErr));
+    console.log("authError", authErr.message);
+    return dispatch(modifyError(authErr, "This alias already exists"));
   }
 };
 

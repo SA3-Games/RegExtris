@@ -21,69 +21,63 @@ export default class SignUpScene extends Phaser.Scene {
     this.unsubscribe = store.subscribe(() => {
       this.player = store.getState().player;
       this.error = store.getState().error;
-
-      console.log("not unique", this.error);
+      console.log(this.error);
+      this.errorDiv.innerHTML = this.error.message;
     });
 
     this.add.image(600, 400, "background");
 
-    let text = this.add.text(width * 0.5, 20, "Please sign up to play", {
-      color: "white",
-      fontSize: "32px ",
-    });
+    let element = this.add.dom(600, 350).createFromCache("signUpForm");
 
-    let element = this.add.dom(400, 600).createFromCache("signUpForm");
+    let signUpForm = document.getElementById("signup");
+    this.errorDiv = document.getElementById("error");
 
-    element.setPerspective(800);
+    signUpForm.onsubmit = (event) => {
+      event.preventDefault();
+      let inputAlias = document.getElementById("alias");
+      let inputPassword = document.getElementById("password");
+      let inputConfirmPassword = document.getElementById("confirmPassword");
 
-    element.addListener("click");
-
-    element.on("click", function (event) {
-      if (event.target.name === "signUpButton") {
-        let inputAlias = this.getChildByName("Alias");
-        let inputPassword = this.getChildByName("password");
-        let inputConfirmPassword = this.getChildByName("confirmPassword");
-
-        //  check if fields are not empty
-        if (inputAlias.value !== "" && inputPassword.value !== "") {
-          // check if password and confirm passwords match
-          if (inputPassword.value === inputConfirmPassword.value) {
-            // errorDiv.style.display = "none";
+      //  check if fields are not empty
+      if (inputAlias.value !== "" && inputPassword.value !== "") {
+        // check if password and confirm passwords match
+        if (inputPassword.value === inputConfirmPassword.value) {
+          this.errorDiv.innerHTML = "";
+          try {
             store.dispatch(
               auth(inputAlias.value, inputPassword.value, "signup")
             );
-          } else {
-            alert("password and confirm password do not match");
+          } catch (error) {
+            this.errorDiv.innerHTML = "error.message";
           }
-
-          //  Turn off the click events
-          this.removeListener("click");
-
-          //  Tween the sign Up after use
-          // this.scene.tweens.add({
-          //   targets: element.rotate3d,
-          //   x: 1,
-          //   w: 90,
-          //   duration: 3000,
-          //   ease: "Power3",
-          // });
         } else {
-          //  Flash the prompt
-          this.scene.tweens.add({
-            targets: text,
-            alpha: 0.1,
-            duration: 200,
-            ease: "Power3",
-            yoyo: true,
-          });
+          this.errorDiv.innerHTML = "password does not match";
         }
+
+        //  Tween the sign Up after use
+        // this.scene.tweens.add({
+        //   targets: element.rotate3d,
+        //   x: 1,
+        //   w: 90,
+        //   duration: 3000,
+        //   ease: "Power3",
+        // });
+        // } else {
+        //  Flash the prompt
+        // this.scene.tweens.add({
+        //   targets: text,
+        //   alpha: 0.1,
+        //   duration: 200,
+        //   ease: "Power3",
+        //   yoyo: true,
+        // });
       }
-    });
+    };
 
     this.tweens.add({
       targets: element,
       y: 300,
-      duration: 10,
+      duration: 100,
       ease: "Power3",
     });
   }
