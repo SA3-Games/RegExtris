@@ -229,9 +229,7 @@ export default class Piece extends Phaser.GameObjects.Group {
               const rowIndex = Object.keys(fullRows)[i];
               const regexTotal = this.board.checkRegEx(
                 rowIndex,
-                //////fake user choice!!!! remove when regex bank is done
-                Phaser.Math.RND.pick([/\D/, /\d/, /\s/, /^\w\d\s/])
-                /*this.regexChoice*/ //replace with this!!!!
+                this.regexChoice
               );
               this.regexScore += regexTotal * 10;
             }

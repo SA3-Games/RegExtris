@@ -34,12 +34,13 @@ export default class MainScene extends Phaser.Scene {
   create() {
     this.pieceCount = 0;
     this.cursors = this.input.keyboard.createCursorKeys();
+    this.cursors.shift = this.input.keyboard.addKey('SHIFT');
     this.gameOver = false;
     this.regexScore = 0;
     this.score = 0;
     this.destroyedRows = 0;
     this.level = 0;
-    this.regexChoice = null;
+
     //move board to center of page
     this.gameBoardLoc = [450, 70];
     this.regexBankLoc = [850, 100];
@@ -62,6 +63,9 @@ export default class MainScene extends Phaser.Scene {
         )
       );
     });
+
+    this.regexChoice = this.regexOptions.getChildren()[0].re;
+
     this.regexFairy = this.physics.add
       .sprite(this.regexBankLoc[0] + 10, this.regexBankLoc[1] + 50, 'fairy')
       .setDisplaySize(45, 45)
@@ -84,17 +88,6 @@ export default class MainScene extends Phaser.Scene {
       .setOrigin(0)
       .setDepth(10);
 
-    //overlaps
-    this.physics.add.overlap(
-      this.regexFairy,
-      this.regexOptions,
-      (fairy, option) => {
-        this.regexChoice = option.re;
-        console.log(this.regexChoice);
-      },
-      (fairy, option) => option.re !== this.regexChoice
-    );
-
     //groups for pieces
     this.pieces = this.physics.add.group({ classType: Piece });
     //group for landed squares
@@ -108,6 +101,18 @@ export default class MainScene extends Phaser.Scene {
   }
   update() {
     //only update most recently created piece
+    if (Phaser.Input.Keyboard.JustUp(this.cursors.shift)) {
+      if (this.regexFairy.y === this.regexBankLoc[1] + 400) {
+        this.regexFairy.y = this.regexBankLoc[1] + 50;
+      } else {
+        this.regexFairy.y += 50;
+      }
+      const currentRegex = this.regexOptions
+        .getChildren()
+        .filter((option) => option.y === this.regexFairy.y);
+      this.regexChoice = currentRegex[0].re;
+      console.log(this.regexChoice);
+    }
     this.piece = this.pieces.getLast(true);
     this.piece.update();
     this.scoreDisplay.setText(
