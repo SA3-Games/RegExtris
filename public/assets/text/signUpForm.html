@@ -5,10 +5,11 @@
     text-align: center;
   }
 
-  h2 {
+  .signUpTitle {
     color: white;
     font-size: 1.75rem;
     text-align: center;
+    font-family: "Courier New", Courier, monospace;
   }
   .signUp {
     background: none;
@@ -22,25 +23,36 @@
     justify-content: space-between;
     padding: 10px;
   }
+  input {
+    background: transparent;
+    border: none;
+  }
   input[type="password"],
   input[type="text"] {
     background: linear-gradient(top, #d6d7d7, #dee0e0);
-    border: 1px solid #a1a3a3;
     border-radius: 4px;
-    box-shadow: 0 1px #fff;
+    /* box-shadow: 0 1px #fff; */
     box-sizing: border-box;
-    color: #696969;
+    color: #c5c4c4;
     height: 39px;
     margin: 31px 0 0 29px;
     padding-left: 37px;
-    transition: box-shadow 0.3s;
-    width: 240px;
+    /* transition: box-shadow 0.3s; */
+    width: 300px;
     font-size: 1rem;
+    font-family: "Courier New", Courier, monospace;
   }
   input[type="password"]:focus,
   input[type="text"]:focus {
-    box-shadow: 0 0 4px 1px rgba(55, 166, 155, 0.3);
-    outline: 0;
+    /* box-shadow: 0 0 4px 1px black; */
+    outline: none;
+    caret-color: yellow;
+  }
+
+  ::placeholder {
+    color: lightgrey;
+    opacity: 1;
+    font-family: "Courier New", Courier, monospace;
   }
 
   .signUpSubmit {
@@ -94,12 +106,22 @@
     color: white;
     text-align: center;
   }
+
+  div {
+    font-family: monospace;
+  }
 </style>
 
-<h2 class="signUpTitle">Sign up to Play</h2>
+<div class="signUpTitle">Sign up to Play</div>
 <div class="signUpBox">
   <form class="signUp" id="signup">
-    <input type="text" placeholder="Enter Alias Here" id="alias" name="alias" />
+    <input
+      type="text"
+      placeholder="Enter Alias Here"
+      id="alias"
+      name="alias"
+      autofocus="autofocus"
+    />
     <input
       type="password"
       placeholder="Enter Password Here"
