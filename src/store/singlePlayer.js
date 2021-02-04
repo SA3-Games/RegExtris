@@ -56,7 +56,7 @@ export const logout = () => async (dispatch) => {
   try {
     await axios.post("/auth/logout");
     dispatch(removePlayer());
-    console.log("logout");
+    console.log("logout thunk activated");
   } catch (error) {
     dispatch(modifyError(error));
   }

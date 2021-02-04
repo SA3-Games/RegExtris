@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import store from "../store";
-import { me } from "../store/singlePlayer";
+import { me, logout } from "../store/singlePlayer";
 
 export default class MenuScene extends Phaser.Scene {
   constructor() {
@@ -33,7 +33,10 @@ export default class MenuScene extends Phaser.Scene {
     this.unsubscribe = store.subscribe(() => {
       this.player = store.getState().player;
       console.log(this.player);
-      this.unsubscribe();
+      if (Object.keys(this.player).length < 1) {
+        console.log("there should be no more player and scene should restart");
+        this.unsubscribe();
+      }
     });
 
     //Setting background
@@ -75,76 +78,13 @@ export default class MenuScene extends Phaser.Scene {
         });
       });
     } else {
-      //Learn Mode button
-      const learnModeButton = this.add
-        .image(width * 0.5, height * 0.2, "Neon-Box")
-        .setDisplaySize(150, 50);
-      this.add
-        .text(learnModeButton.x, learnModeButton.y, "Learn Mode")
-        .setOrigin(0.5);
-
-      //Multiplayer button
-      const multiButton = this.add
-        .image(
-          learnModeButton.x,
-          learnModeButton.y + learnModeButton.displayHeight + 10,
-          "Neon-Box"
-        )
-        .setDisplaySize(150, 50);
-      this.add.text(multiButton.x, multiButton.y, "MultiPlayer").setOrigin(0.5);
-
-      // Exit Game button
-      this.logOutButton = this.add
-        .image(
-          multiButton.x,
-          multiButton.y + multiButton.displayHeight + 10,
-          "Neon-Box"
-        )
-        .setDisplaySize(150, 50);
-      this.add
-        .text(this.logOutButton.x, this.logOutButton.y, "Log Out")
-        .setOrigin(0.5);
-
-      this.buttons.push(learnModeButton);
-      this.buttons.push(multiButton);
-      this.buttons.push(this.logOutButton);
-
-      learnModeButton.on("selected", () => {
-        // this.scene.start("LearnModeScene");
-        console.log("learn mode");
-      });
-
-      multiButton.on("selected", () => {
-        // this.scene.start("MultiScene");
-        console.log("multiplayer");
-      });
-
-      this.logOutButton.on("selected", () => {
-        console.log("logOut");
-      });
-
-      //each .on() should have a matching .off() to ensure that events are cleaned up.
-      this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
-        learnModeButton.off("selected");
-        multiButton.off("selected");
-        this.logOutButton.off("selected");
-      });
-    }
-
-    if (this.player) {
       // PLAY button
       const PLAYButton = this.add
-        .image(
-          this.logOutButton.x,
-          this.logOutButton.y + this.logOutButton.displayHeight + 100,
-          "Neon-Box"
-        )
+        .image(width * 0.5, height * 0.2, "Neon-Box")
         .setDisplaySize(300, 100);
       this.add
         .text(PLAYButton.x, PLAYButton.y, "PLAY", { fontSize: 64 })
         .setOrigin(0.5);
-
-      this.buttons.push(PLAYButton);
 
       PLAYButton.on("selected", () => {
         //this is where you'd connect the button with PLAYing the game
@@ -153,6 +93,48 @@ export default class MenuScene extends Phaser.Scene {
       });
       this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
         PLAYButton.off("selected");
+      });
+
+      //Learn Mode button
+      const learnModeButton = this.add
+        .image(
+          PLAYButton.x,
+          PLAYButton.y + PLAYButton.displayHeight + 10,
+          "Neon-Box"
+        )
+        .setDisplaySize(150, 50);
+      this.add
+        .text(learnModeButton.x, learnModeButton.y, "Learn Mode")
+        .setOrigin(0.5);
+
+      // Log out button
+      this.logOutButton = this.add
+        .image(
+          learnModeButton.x,
+          learnModeButton.y + learnModeButton.displayHeight + 10,
+          "Neon-Box"
+        )
+        .setDisplaySize(150, 50);
+      this.add
+        .text(this.logOutButton.x, this.logOutButton.y, "Log Out")
+        .setOrigin(0.5);
+
+      this.buttons.push(PLAYButton);
+      this.buttons.push(learnModeButton);
+      this.buttons.push(this.logOutButton);
+
+      learnModeButton.on("selected", () => {
+        console.log("learn mode");
+      });
+
+      this.logOutButton.on("selected", () => {
+        store.dispatch(logout());
+      });
+
+      //each .on() should have a matching .off() to ensure that events are cleaned up.
+      this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+        learnModeButton.off("selected");
+        this.logOutButton.off("selected");
       });
     }
 
