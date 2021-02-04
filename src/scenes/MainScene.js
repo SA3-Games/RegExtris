@@ -7,6 +7,17 @@ import Square from '../entity/Square';
 import config from '../config/config';
 import RegexOption from '../entity/RegexOption';
 
+const regexData = [
+  /[abfn]/,
+  /[ABFN]/,
+  /\d/,
+  /[^abfn]/,
+  /[^ABFN]/,
+  /\D/,
+  /\s/,
+  /[^\w\d\s]/,
+];
+
 export default class MainScene extends Phaser.Scene {
   constructor() {
     super('MainScene');
@@ -17,11 +28,7 @@ export default class MainScene extends Phaser.Scene {
       frameWidth: 288,
       frameHeight: 288,
     });
-    this.load.bitmapFont(
-      'retro-computer',
-      'assets/font/retro_computer_personal_use.bmp',
-      'assets/font/retro_computer_personal_use.ttf'
-    );
+    this.load.image('fairy', 'assets/menuSprites/FAIRY.png');
   }
 
   create() {
@@ -45,14 +52,21 @@ export default class MainScene extends Phaser.Scene {
       .rectangle(850, 100, 250, 570, 0x000000)
       .setOrigin(0);
     this.regexOptions = this.physics.add.group({ classType: RegexOption });
-    this.regexOptions.add(
-      new RegexOption(
-        this,
-        this.regexBankLoc[0] + 50,
-        this.regexBankLoc[1] + 50,
-        /\D/
-      )
-    );
+    regexData.forEach((re, idx) => {
+      this.regexOptions.add(
+        new RegexOption(
+          this,
+          this.regexBankLoc[0] + 50,
+          this.regexBankLoc[1] + 50 * (idx + 1),
+          re
+        )
+      );
+    });
+    this.regexFairy = this.physics.add
+      .sprite(this.regexBankLoc[0] + 10, this.regexBankLoc[1] + 50, 'fairy')
+      .setDisplaySize(45, 45)
+      .setOrigin(0);
+
     this.scoreBoard = this.add
       .rectangle(100, 370, 250, 300, 0x000000)
       .setOrigin(0);
@@ -61,6 +75,7 @@ export default class MainScene extends Phaser.Scene {
       400,
       `Tetris Score: ${this.score}\n\nRegEx Score: ${this.regexScore}`
     );
+
     this.nextPieceBoard = this.add
       .rectangle(100, 100, 250, 250, 0x000000)
       .setOrigin(0);
@@ -68,6 +83,17 @@ export default class MainScene extends Phaser.Scene {
       .rectangle(this.gameBoardLoc[0], 0, 300, 90, config.backgroundColor)
       .setOrigin(0)
       .setDepth(10);
+
+    //overlaps
+    this.physics.add.overlap(
+      this.regexFairy,
+      this.regexOptions,
+      (fairy, option) => {
+        this.regexChoice = option.re;
+        console.log(this.regexChoice);
+      },
+      (fairy, option) => option.re !== this.regexChoice
+    );
 
     //groups for pieces
     this.pieces = this.physics.add.group({ classType: Piece });

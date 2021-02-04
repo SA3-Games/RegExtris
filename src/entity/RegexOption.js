@@ -1,8 +1,8 @@
 import 'phaser';
 
-export default class RegexOption extends Phaser.GameObjects.BitmapText {
+export default class RegexOption extends Phaser.GameObjects.Text {
   constructor(scene, x, y, re) {
-    super(scene, x, y, 'retro-computer', `${re}`);
+    super(scene, x, y, `${re}`, { fontSize: '30px' });
 
     this.scene = scene;
     this.scene.physics.world.enable(this);
