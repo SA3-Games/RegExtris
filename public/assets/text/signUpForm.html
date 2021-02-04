@@ -1,5 +1,5 @@
 <style>
-  .signUpBox {
+  #signUpBox {
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -29,16 +29,17 @@
   }
   input[type="password"],
   input[type="text"] {
-    background: linear-gradient(top, #d6d7d7, #dee0e0);
+    background: none;
+    border: none  ;
     border-radius: 4px;
-    /* box-shadow: 0 1px #fff; */
     box-sizing: border-box;
-    color: #c5c4c4;
+    color: #fffefe;
     height: 39px;
     margin: 31px 0 0 29px;
-    padding-left: 37px;
-    /* transition: box-shadow 0.3s; */
-    width: 300px;
+    text-align: center;
+    padding: 10px;
+    transition: box-shadow 0.3s;
+    width: 240px;
     font-size: 1rem;
     font-family: "Courier New", Courier, monospace;
   }
@@ -66,6 +67,7 @@
     transition: all 0.5s;
     cursor: pointer;
     margin: 25px;
+    outline: none;
   }
 
   .signUpSubmit span {
@@ -112,16 +114,10 @@
   }
 </style>
 
-<div class="signUpTitle">Sign up to Play</div>
-<div class="signUpBox">
+<h2 class="signUpTitle">Sign up to Play</h2>
+<div id="signUpBox">
   <form class="signUp" id="signup">
-    <input
-      type="text"
-      placeholder="Enter Alias Here"
-      id="alias"
-      name="alias"
-      autofocus="autofocus"
-    />
+    <input type="text" placeholder="Enter Alias Here" id="alias" name="alias" autofocus/>
     <input
       type="password"
       placeholder="Enter Password Here"
@@ -135,7 +131,7 @@
       name="confirmPassword"
     />
     <div id="error"></div>
-    <button type="submit" class="signUpSubmit" name="signUpButton">
+    <button type="submit" class="signUpSubmit" name="signUpButton" >
       <span>Sign Up</span>
     </button>
   </form>

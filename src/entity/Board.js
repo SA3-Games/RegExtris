@@ -59,7 +59,6 @@ export default class Board {
         fullRows[index] = row;
       }
     });
-    console.log(fullRows);
     return fullRows;
   }
 
