@@ -1,6 +1,4 @@
-
 <style>
-
   .signUpBox {
     display: flex;
     flex-direction: column;
@@ -14,17 +12,18 @@
   }
   .signUp {
     background: none;
-    border:none;
+    border: none;
     border-radius: 6px;
     height: 257px;
     margin: 0;
     width: 298px;
     display: flex;
     flex-direction: column;
-    justify-content:space-between;
+    justify-content: space-between;
     padding: 10px;
   }
-  input[type="password"], input[type="text"] {
+  input[type="password"],
+  input[type="text"] {
     background: linear-gradient(top, #d6d7d7, #dee0e0);
     border: 1px solid #a1a3a3;
     border-radius: 4px;
@@ -38,74 +37,84 @@
     width: 240px;
     font-size: 1rem;
   }
-  input[type="password"]:focus, input[type="text"]:focus {
+  input[type="password"]:focus,
+  input[type="text"]:focus {
     box-shadow: 0 0 4px 1px rgba(55, 166, 155, 0.3);
     outline: 0;
   }
 
   .signUpSubmit {
-  display: inline-block;
-  background: none;
-  border: none;
-  color: #FFFFFF;
-  text-align: center;
-  font-size: 2rem;
-  padding: 5px;
-  transition: all 0.5s;
-  cursor: pointer;
-  margin: 25px;
-}
+    display: inline-block;
+    background: none;
+    border: none;
+    color: #ffffff;
+    text-align: center;
+    font-size: 2rem;
+    padding: 5px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 25px;
+  }
 
-.signUpSubmit span {
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-  transition: 0.5s;
-}
+  .signUpSubmit span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
 
-.signUpSubmit span:after {
-  content: '\00bb';
-  position: absolute;
-  opacity: 0;
-  top: 0;
-  right: -20px;
-  transition: 0.5s;
-}
+  .signUpSubmit span:after {
+    content: "\00bb";
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+  }
 
-.signUpSubmit:hover span {
-  padding-right: 25px;
-}
+  .signUpSubmit:hover span {
+    padding-right: 25px;
+  }
 
-.signUpSubmit:hover span:after {
-  opacity: 1;
-  right: 0;
-}
+  .signUpSubmit:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
 
-.signUpSubmit:focus span {
-  padding-right: 25px;
-}
+  .signUpSubmit:focus span {
+    padding-right: 25px;
+  }
 
-.signUpSubmit:focus span:after {
-  opacity: 1;
-  right: 0;
-}
+  .signUpSubmit:focus span:after {
+    opacity: 1;
+    right: 0;
+  }
 
-  </style>
-
+  #error {
+    color: white;
+    text-align: center;
+  }
+</style>
 
 <h2 class="signUpTitle">Sign up to Play</h2>
 <div class="signUpBox">
   <form class="signUp" id="signup">
-  <input type="text" placeholder="Enter Alias Here" id="alias" name="alias" />
-  <input type="password" placeholder="Enter Password Here" id="password" name="password" />
-  <input
-    type="password"
-    placeholder="Confirm your Password"
-    id="confirmPassword"
-    name="confirmPassword"
-  />
-  <div id="error"></div>
-  <button type="submit" class="signUpSubmit" name="signUpButton"><span>Sign Up</span></button>
-</form>
+    <input type="text" placeholder="Enter Alias Here" id="alias" name="alias" />
+    <input
+      type="password"
+      placeholder="Enter Password Here"
+      id="password"
+      name="password"
+    />
+    <input
+      type="password"
+      placeholder="Confirm your Password"
+      id="confirmPassword"
+      name="confirmPassword"
+    />
+    <div id="error"></div>
+    <button type="submit" class="signUpSubmit" name="signUpButton">
+      <span>Sign Up</span>
+    </button>
+  </form>
 </div>
-
