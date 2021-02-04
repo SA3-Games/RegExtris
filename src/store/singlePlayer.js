@@ -6,6 +6,7 @@ import { modifyError } from "./errorStore";
  */
 const GET_PLAYER = "GET_PLAYER";
 const REMOVE_PLAYER = "REMOVE_PLAYER";
+const CREATE_ERROR = "CREATE_ERROR";
 
 /**
  * INITIAL STATE
@@ -21,6 +22,10 @@ const getPlayer = (player) => ({
 });
 const removePlayer = () => ({
   type: REMOVE_PLAYER,
+});
+const createError = (error) => ({
+  type: CREATE_ERROR,
+  error,
 });
 
 /**
@@ -40,15 +45,10 @@ export const auth = (alias, password, method) => async (dispatch) => {
   let res;
   try {
     res = await axios.post(`/auth/${method}`, { alias, password });
-  } catch (authErr) {
-    return dispatch(getPlayer({ error: authErr }));
-  }
-
-  try {
     dispatch(getPlayer(res.data));
-    console.log("got player from store");
-  } catch (dispatchOrHistoryErr) {
-    dispatch(modifyError(dispatchOrHistoryErr));
+  } catch (authErr) {
+    console.log("authError", authErr.message);
+    return dispatch(modifyError(authErr, "This alias already exists"));
   }
 };
 
@@ -71,6 +71,8 @@ export default function (state = defaultPlayer, action) {
       return action.player;
     case REMOVE_PLAYER:
       return defaultPlayer;
+    case CREATE_ERROR:
+      return action.error;
     default:
       return state;
   }

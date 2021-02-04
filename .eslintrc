@@ -2,5 +2,8 @@
   "parserOptions": {
     "ecmaVersion": 11,
     "sourceType": "module"
+  },
+  "rules": {
+    "quotes": ["error", "single"]
   }
 }

@@ -1,22 +1,20 @@
-
 import Phaser from "phaser";
 import store from "../store";
 import { me } from "../store/singlePlayer";
-
 
 export default class MenuScene extends Phaser.Scene {
   constructor() {
     super("MenuScene");
     this.cursors;
-    this.buttons = [];
     this.selectedButtonIndex = 0;
     this.buttonSelector;
     this.alias;
+    this.logOutButton;
   }
 
   init(data) {
     this.cursors = this.input.keyboard.createCursorKeys();
-    this.alias = data.alias;
+    // this.alias = data.alias;
   }
 
   preload() {
@@ -28,127 +26,144 @@ export default class MenuScene extends Phaser.Scene {
   create() {
     const width = 1200;
     const height = 800;
+    this.buttons = [];
     this.enter = this.input.keyboard.addKey("ENTER");
-    
+
     store.dispatch(me());
     this.unsubscribe = store.subscribe(() => {
       this.player = store.getState().player;
+      console.log(this.player);
       this.unsubscribe();
     });
 
     //Setting background
     this.add.image(600, 400, "background");
 
-    // Log in button
-    const logInButton = this.add
-      .image(width * 0.5, height * 0.2, "Neon-Box")
-      .setDisplaySize(150, 50);
+    if (!this.player) {
+      // Log in button
+      const logInButton = this.add
+        .image(width * 0.5, height * 0.2, "Neon-Box")
+        .setDisplaySize(150, 50);
+      this.add.text(logInButton.x, logInButton.y, "Log In").setOrigin(0.5);
 
-    this.add.text(logInButton.x, logInButton.y, "Log In").setOrigin(0.5);
+      // Sign Up button
+      const signUpButton = this.add
+        .image(
+          logInButton.x,
+          logInButton.y + logInButton.displayHeight + 10,
+          "Neon-Box"
+        )
+        .setDisplaySize(150, 50);
+      this.add.text(signUpButton.x, signUpButton.y, "Sign Up").setOrigin(0.5);
 
-    // Sign Up button
-    const signUpButton = this.add
-      .image(
-        logInButton.x,
-        logInButton.y + logInButton.displayHeight + 10,
-        "Neon-Box"
-      )
-      .setDisplaySize(150, 50);
+      this.buttons.push(logInButton);
+      this.buttons.push(signUpButton);
 
-    this.add.text(signUpButton.x, signUpButton.y, "Sign Up").setOrigin(0.5);
+      logInButton.on("selected", () => {
+        this.scene.start("AliasScene");
+        console.log("Log In");
+      });
 
-    // Colorblind Mode button
-    const colorBlindButton = this.add
-      .image(
-        signUpButton.x,
-        signUpButton.y + signUpButton.displayHeight + 10,
-        "Neon-Box"
-      )
-      .setDisplaySize(200, 50);
+      signUpButton.on("selected", () => {
+        this.scene.start("SignUpScene");
+        console.log("Sign Up");
 
-    this.add
-      .text(colorBlindButton.x, colorBlindButton.y, "Colorblind Mode")
-      .setOrigin(0.5);
+        //each .on() should have a matching .off() to ensure that events are cleaned up.
+        this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+          logInButton.off("selected");
+          signUpButton.off("selected");
+        });
+      });
+    } else {
+      //Learn Mode button
+      const learnModeButton = this.add
+        .image(width * 0.5, height * 0.2, "Neon-Box")
+        .setDisplaySize(150, 50);
+      this.add
+        .text(learnModeButton.x, learnModeButton.y, "Learn Mode")
+        .setOrigin(0.5);
 
-    // Exit Game button
-    const exitButton = this.add
-      .image(
-        colorBlindButton.x,
-        colorBlindButton.y + colorBlindButton.displayHeight + 10,
-        "Neon-Box"
-      )
-      .setDisplaySize(150, 50);
+      //Multiplayer button
+      const multiButton = this.add
+        .image(
+          learnModeButton.x,
+          learnModeButton.y + learnModeButton.displayHeight + 10,
+          "Neon-Box"
+        )
+        .setDisplaySize(150, 50);
+      this.add.text(multiButton.x, multiButton.y, "MultiPlayer").setOrigin(0.5);
 
-    this.add.text(exitButton.x, exitButton.y, "Exit Game").setOrigin(0.5);
+      // Exit Game button
+      this.logOutButton = this.add
+        .image(
+          multiButton.x,
+          multiButton.y + multiButton.displayHeight + 10,
+          "Neon-Box"
+        )
+        .setDisplaySize(150, 50);
+      this.add
+        .text(this.logOutButton.x, this.logOutButton.y, "Log Out")
+        .setOrigin(0.5);
 
-    // PLAY button
-    const PLAYButton = this.add
-      .image(
-        exitButton.x,
-        exitButton.y + exitButton.displayHeight + 250,
-        "Neon-Box"
-      )
-      .setDisplaySize(300, 100);
+      this.buttons.push(learnModeButton);
+      this.buttons.push(multiButton);
+      this.buttons.push(this.logOutButton);
 
-    this.add
-      .text(PLAYButton.x, PLAYButton.y, "PLAY", { fontSize: 64 })
-      .setOrigin(0.5);
+      learnModeButton.on("selected", () => {
+        // this.scene.start("LearnModeScene");
+        console.log("learn mode");
+      });
 
-    //Adds the buttons to the array
-    this.buttons.push(logInButton);
-    this.buttons.push(signUpButton);
-    this.buttons.push(colorBlindButton);
-    this.buttons.push(exitButton);
-    this.buttons.push(PLAYButton);
+      multiButton.on("selected", () => {
+        // this.scene.start("MultiScene");
+        console.log("multiplayer");
+      });
+
+      this.logOutButton.on("selected", () => {
+        console.log("logOut");
+      });
+
+      //each .on() should have a matching .off() to ensure that events are cleaned up.
+      this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+        learnModeButton.off("selected");
+        multiButton.off("selected");
+        this.logOutButton.off("selected");
+      });
+    }
+
+    if (this.player) {
+      // PLAY button
+      const PLAYButton = this.add
+        .image(
+          this.logOutButton.x,
+          this.logOutButton.y + this.logOutButton.displayHeight + 100,
+          "Neon-Box"
+        )
+        .setDisplaySize(300, 100);
+      this.add
+        .text(PLAYButton.x, PLAYButton.y, "PLAY", { fontSize: 64 })
+        .setOrigin(0.5);
+
+      this.buttons.push(PLAYButton);
+
+      PLAYButton.on("selected", () => {
+        //this is where you'd connect the button with PLAYing the game
+        this.scene.start("MainScene");
+        console.log("PLAY");
+      });
+      this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+        PLAYButton.off("selected");
+      });
+    }
 
     //sets the cursor
     this.buttonSelector = this.add.image(0, 0, "FAIRY").setScale(0.2);
 
     this.selectButton(0);
-
-    logInButton.on("selected", () => {
-      //this is where you'd connect the button with logging in - different scene?
-      console.log("Log In");
-    });
-
-    signUpButton.on("selected", () => {
-      //this is where you'd connect the button with signing up - different scene?
-      console.log("Sign Up");
-    });
-
-    colorBlindButton.on("selected", () => {
-      //this is where you'd connect the button with changing the color scheme of the game to black and white and grey
-      console.log("colorBlind");
-    });
-
-    exitButton.on("selected", () => {
-      //this is where you'd connect the button with exiting the game
-      console.log("exit");
-    });
-
-    PLAYButton.on("selected", () => {
-      //this is where you'd connect the button with PLAYing the game
-      this.scene.start("MainScene");
-      console.log("PLAY");
-    });
-
-    //each .on() should have a matching .off() to ensure that events are cleaned up.
-    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
-      logInButton.off("selected");
-      signUpButton.off("selected");
-      colorBlindButton.off("selected");
-      exitButton.off("selected");
-      PLAYButton.off("selected");
-    });
   }
 
   selectButton(index) {
     const currentButton = this.buttons[this.selectedButtonIndex];
-
-    //TODO: make the fairy bigger when she gets to the PLAY button
-    // if (currentButton === PLAYButton) {
-    //   this.buttonSelector.setScale(2);
-    // }
 
     // set the current selected button to a white tint
     currentButton.setTint(0xffffff);
