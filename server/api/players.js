@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { Player } = require("../db/models");
+const { Player } = require("../db");
 module.exports = router;
 
 // get all players

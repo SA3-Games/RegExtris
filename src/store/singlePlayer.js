@@ -47,8 +47,7 @@ export const auth = (alias, password, method) => async (dispatch) => {
     res = await axios.post(`/auth/${method}`, { alias, password });
     dispatch(getPlayer(res.data));
   } catch (authErr) {
-    console.log("authError", authErr.message);
-    return dispatch(modifyError(authErr, "This alias already exists"));
+    return dispatch(modifyError(authErr, authErr.response.data.error));
   }
 };
 

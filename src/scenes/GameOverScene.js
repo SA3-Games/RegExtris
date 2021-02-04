@@ -1,12 +1,15 @@
-import store from '../store';
+import store from "../store";
+import { postScore } from "../store/score";
 
 export default class GameOverScene extends Phaser.Scene {
   constructor() {
-    super('GameOverScene');
+    super("GameOverScene");
+    this.scorePosted = false;
   }
 
   init(data) {
-    this.finalScore = data.score;
+    this.tetrisScore = data.tetrisScore || 0;
+    this.regExScore = data.regExScore || 0;
   }
 
   preload() {}
@@ -14,12 +17,23 @@ export default class GameOverScene extends Phaser.Scene {
   create() {
     this.reduxState = store.getState();
     this.regexChoices = this.reduxState.regexChoices;
-    this.enter = this.input.keyboard.addKey('ENTER');
+
+    if (!this.scorePosted) {
+      store.dispatch(
+        postScore({
+          tetrisScore: this.tetrisScore,
+          regExScore: this.regExScore,
+        })
+      );
+      this.scorePosted = true;
+    }
+
+    this.enter = this.input.keyboard.addKey("ENTER");
 
     this.add.text(
       10,
       10,
-      `GAME OVER.\n\nFinal Score: ${this.finalScore}\n\nPress enter to go back to the menu!`
+      `GAME OVER.\n\nFinal Tetris Score: ${this.tetrisScore}\n\nFinal RegEx Score: ${this.regExScore}\n\nPress enter to go back to the menu!`
     );
     this.add.text(
       10,
@@ -38,7 +52,7 @@ export default class GameOverScene extends Phaser.Scene {
 
   update() {
     if (Phaser.Input.Keyboard.JustUp(this.enter)) {
-      this.scene.start('MenuScene');
+      this.scene.start("MenuScene");
     }
   }
 }
