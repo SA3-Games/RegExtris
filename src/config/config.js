@@ -2,7 +2,7 @@ export default {
   type: Phaser.AUTO,
   width: 1200,
   height: 700,
-  parent: "game",
+  parent: 'game',
   dom: {
     createContainer: true,
   },
@@ -11,7 +11,7 @@ export default {
   },
   backgroundColor: 0x7c7ac1,
   physics: {
-    default: "arcade",
+    default: 'arcade',
     arcade: {
       gravity: { y: 0, x: 0 },
       //debug: true,
