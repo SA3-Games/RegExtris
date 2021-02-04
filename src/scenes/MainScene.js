@@ -5,6 +5,7 @@ import Board from '../entity/Board';
 import Piece from '../entity/Piece';
 import Square from '../entity/Square';
 import config from '../config/config';
+import RegexOption from '../entity/RegexOption';
 
 export default class MainScene extends Phaser.Scene {
   constructor() {
@@ -16,6 +17,11 @@ export default class MainScene extends Phaser.Scene {
       frameWidth: 288,
       frameHeight: 288,
     });
+    this.load.bitmapFont(
+      'retro-computer',
+      'assets/font/retro_computer_personal_use.bmp',
+      'assets/font/retro_computer_personal_use.ttf'
+    );
   }
 
   create() {
@@ -29,6 +35,7 @@ export default class MainScene extends Phaser.Scene {
     this.regexChoice = null;
     //move board to center of page
     this.gameBoardLoc = [450, 70];
+    this.regexBankLoc = [850, 100];
 
     //visual "containers" for game displays
     this.gameBoard = this.add
@@ -37,6 +44,15 @@ export default class MainScene extends Phaser.Scene {
     this.regexBoard = this.add
       .rectangle(850, 100, 250, 570, 0x000000)
       .setOrigin(0);
+    this.regexOptions = this.physics.add.group({ classType: RegexOption });
+    this.regexOptions.add(
+      new RegexOption(
+        this,
+        this.regexBankLoc[0] + 50,
+        this.regexBankLoc[1] + 50,
+        /\D/
+      )
+    );
     this.scoreBoard = this.add
       .rectangle(100, 370, 250, 300, 0x000000)
       .setOrigin(0);
