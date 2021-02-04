@@ -104,7 +104,7 @@ export default class Piece extends Phaser.GameObjects.Group {
       const square = deadSquare
         ? deadSquare.reset()
         : new Square(this.scene, 0, 0);
-      square.setDisplaySize(28, 28);
+      //square.setDisplaySize(28, 28);
       square.setTint(this.color);
       square.loc = loc;
       //add square to this group
@@ -223,7 +223,7 @@ export default class Piece extends Phaser.GameObjects.Group {
         //if there are full rows, set timeout to delay line destruction
         //**plug-in RegEx gameplay HERE**
         this.scene.time.addEvent({
-          delay: 2000,
+          delay: 3000,
           callback: function () {
             for (let i = 0; i < numFullRows; i++) {
               const rowIndex = Object.keys(fullRows)[i];
@@ -237,7 +237,7 @@ export default class Piece extends Phaser.GameObjects.Group {
           callbackScope: this.scene,
         });
         this.scene.time.addEvent({
-          delay: 2500,
+          delay: 4000,
           //scope for callback is MainScene **Careful with changes**
           callback: function () {
             if (numFullRows === 4) {
