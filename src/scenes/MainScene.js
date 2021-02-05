@@ -52,22 +52,44 @@ export default class MainScene extends Phaser.Scene {
     this.regexBoard = this.add
       .rectangle(850, 100, 250, 570, 0x000000)
       .setOrigin(0);
+    this.regexContolsDisplay = this.add.text(860, 110, 'Press SHIFT', {
+      fontFamily: 'retroFont',
+      fontSize: '20px',
+    });
+    this.regexContolsDisplay = this.add.text(
+      860,
+      140,
+      'to change RegEx choice',
+      { fontFamily: 'retroFont', fontSize: '14px' }
+    );
     this.regexOptions = this.physics.add.group({ classType: RegexOption });
     regexData.forEach((re, idx) => {
       this.regexOptions.add(
         new RegexOption(
           this,
           this.regexBankLoc[0] + 50,
-          this.regexBankLoc[1] + 50 * (idx + 1),
+          this.regexBankLoc[1] + 100 + 50 * idx,
           re
         )
       );
     });
 
+    this.timer = this.add
+      .sprite(600, 350, 'square', 10)
+      .setDisplaySize(75, 75)
+      .setVisible(false);
+
+    this.anims.create({
+      key: 'countDown',
+      frames: this.anims.generateFrameNumbers('square', { start: 11, end: 9 }),
+      frameRate: 1,
+      repeat: 0,
+    });
+
     this.regexChoice = this.regexOptions.getChildren()[0].re;
 
     this.regexFairy = this.physics.add
-      .sprite(this.regexBankLoc[0] + 10, this.regexBankLoc[1] + 50, 'fairy')
+      .sprite(this.regexBankLoc[0] + 10, this.regexBankLoc[1] + 100, 'fairy')
       .setDisplaySize(45, 45)
       .setOrigin(0);
 
@@ -75,14 +97,21 @@ export default class MainScene extends Phaser.Scene {
       .rectangle(100, 370, 250, 300, 0x000000)
       .setOrigin(0);
     this.scoreDisplay = this.add.text(
-      150,
+      110,
       400,
-      `Tetris Score: ${this.score}\n\nRegEx Score: ${this.regexScore}`
+      `Tetris Score: ${this.score}\n\nRegEx Score: ${this.regexScore}`,
+      { fontFamily: 'retroFont', fontSize: '16px' }
     );
 
     this.nextPieceBoard = this.add
       .rectangle(100, 100, 250, 250, 0x000000)
       .setOrigin(0);
+    this.tetrisContolsDisplay = this.add.text(
+      110,
+      110,
+      'UP = rotate\n\nDOWN = fall faster\n\nRIGHT = move right\n\nLEFT = move left',
+      { fontFamily: 'retroFont', fontSize: '16px' }
+    );
     this.gameBoardHeader = this.add
       .rectangle(this.gameBoardLoc[0], 0, 300, 90, config.backgroundColor)
       .setOrigin(0)
@@ -102,8 +131,8 @@ export default class MainScene extends Phaser.Scene {
   update() {
     //only update most recently created piece
     if (Phaser.Input.Keyboard.JustUp(this.cursors.shift)) {
-      if (this.regexFairy.y === this.regexBankLoc[1] + 400) {
-        this.regexFairy.y = this.regexBankLoc[1] + 50;
+      if (this.regexFairy.y === this.regexBankLoc[1] + 450) {
+        this.regexFairy.y = this.regexBankLoc[1] + 100;
       } else {
         this.regexFairy.y += 50;
       }
@@ -111,7 +140,6 @@ export default class MainScene extends Phaser.Scene {
         .getChildren()
         .filter((option) => option.y === this.regexFairy.y);
       this.regexChoice = currentRegex[0].re;
-      console.log(this.regexChoice);
     }
     this.piece = this.pieces.getLast(true);
     this.piece.update();
