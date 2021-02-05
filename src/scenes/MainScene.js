@@ -74,18 +74,6 @@ export default class MainScene extends Phaser.Scene {
       );
     });
 
-    this.timer = this.add
-      .sprite(600, 350, 'square', 10)
-      .setDisplaySize(75, 75)
-      .setVisible(false);
-
-    this.anims.create({
-      key: 'countDown',
-      frames: this.anims.generateFrameNumbers('square', { start: 11, end: 9 }),
-      frameRate: 1,
-      repeat: 0,
-    });
-
     this.regexChoice = this.regexOptions.getChildren()[0].re;
 
     this.regexFairy = this.physics.add
@@ -116,6 +104,18 @@ export default class MainScene extends Phaser.Scene {
       .rectangle(this.gameBoardLoc[0], 0, 300, 90, config.backgroundColor)
       .setOrigin(0)
       .setDepth(10);
+
+    this.timer = this.add
+      .sprite(225, 570, 'square', 10)
+      .setDisplaySize(75, 75)
+      .setVisible(false);
+
+    this.anims.create({
+      key: 'countDown',
+      frames: this.anims.generateFrameNumbers('square', { start: 11, end: 9 }),
+      frameRate: 1,
+      repeat: 0,
+    });
 
     //groups for pieces
     this.pieces = this.physics.add.group({ classType: Piece });
