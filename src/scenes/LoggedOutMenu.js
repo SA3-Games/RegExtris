@@ -77,7 +77,7 @@ export default class LoggedOutMenu extends Phaser.Scene {
     this.buttons.push(signUpButton);
 
     logInButton.on("selected", () => {
-      this.scene.start("AliasScene");
+      this.scene.start("LoginScene");
       console.log("Log In");
     });
 
