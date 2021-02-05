@@ -1,22 +1,19 @@
 import Phaser from "phaser";
 import store from "../store";
-import { me, logout } from "../store/singlePlayer";
+import { me } from "../store/singlePlayer";
 
-export default class MenuScene extends Phaser.Scene {
+export default class LoggedOutMenu extends Phaser.Scene {
   constructor() {
-    super("MenuScene");
+    super("LoggedOutMenu");
     this.cursors;
     this.selectedButtonIndex = 0;
     this.buttonSelector;
-    this.alias;
+    this.alias = "";
     this.logOutButton;
-    this.loggingOut = false;
   }
 
   init(data) {
     this.cursors = this.input.keyboard.createCursorKeys();
-    // this.player = data.player;
-    console.log("logged in menu init function", this.player);
   }
 
   preload() {
@@ -26,6 +23,13 @@ export default class MenuScene extends Phaser.Scene {
   }
 
   create() {
+    // this.unsubscribe = store.subscribe(() => {
+
+    // })
+    // if (this.player.id) {
+    //   this.scene.start("MenuScene", { player: this.player });
+    // }
+
     const width = 1200;
     const height = 800;
     this.selectedButtonIndex = 0;
@@ -35,85 +39,51 @@ export default class MenuScene extends Phaser.Scene {
     store.dispatch(me());
     this.player = store.getState().player;
 
-    // this.unsubscribe = store.subscribe(() => {
-    //   this.player = store.getState().player;
-    //   if (!this.player.id) {
-    //     console.log("there should be no more player and scene should restart");
-    //     this.loggingOut = false;
-    //     this.scene.restart("MenuScene");
-    //   }
-    // });
-
     //Setting background
     this.add.image(600, 400, "background");
 
-    // PLAY button
-    const PLAYButton = this.add
+    // Log in button
+    const logInButton = this.add
       .image(width * 0.5, height * 0.2, "Neon-Box")
-      .setDisplaySize(300, 100);
+      .setDisplaySize(150, 50);
+
     this.add
-      .text(PLAYButton.x, PLAYButton.y, "PLAY", {
+      .text(logInButton.x, logInButton.y, "Log In", {
         fontFamily: "retroFont",
-        fontSize: 64,
       })
       .setOrigin(0.5);
 
-    PLAYButton.on("selected", () => {
-      //this is where you'd connect the button with PLAYing the game
-      this.scene.start("MainScene");
-      console.log("PLAY");
-    });
-    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
-      PLAYButton.off("selected");
-    });
-
-    //Learn Mode button
-    const learnModeButton = this.add
+    // Sign Up button
+    const signUpButton = this.add
       .image(
-        PLAYButton.x,
-        PLAYButton.y + PLAYButton.displayHeight + 10,
+        logInButton.x,
+        logInButton.y + logInButton.displayHeight + 10,
         "Neon-Box"
       )
       .setDisplaySize(150, 50);
     this.add
-      .text(learnModeButton.x, learnModeButton.y, "Learn Mode", {
+      .text(signUpButton.x, signUpButton.y, "Sign Up", {
         fontFamily: "retroFont",
       })
       .setOrigin(0.5);
 
-    // Log out button
-    this.logOutButton = this.add
-      .image(
-        learnModeButton.x,
-        learnModeButton.y + learnModeButton.displayHeight + 10,
-        "Neon-Box"
-      )
-      .setDisplaySize(150, 50);
-    this.add
-      .text(this.logOutButton.x, this.logOutButton.y, "Log Out", {
-        fontFamily: "retroFont",
-      })
-      .setOrigin(0.5);
+    this.buttons.push(logInButton);
+    this.buttons.push(signUpButton);
 
-    this.buttons.push(PLAYButton);
-    this.buttons.push(learnModeButton);
-    this.buttons.push(this.logOutButton);
-
-    learnModeButton.on("selected", () => {
-      console.log("learn mode");
+    logInButton.on("selected", () => {
+      this.scene.start("AliasScene");
+      console.log("Log In");
     });
 
-    this.logOutButton.on("selected", () => {
-      // if (!this.loggingOut) {
-      store.dispatch(logout());
-      // this.loggingOut = true;
-      // }
-    });
+    signUpButton.on("selected", () => {
+      this.scene.start("SignUpScene");
+      console.log("Sign Up");
 
-    //each .on() should have a matching .off() to ensure that events are cleaned up.
-    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
-      learnModeButton.off("selected");
-      this.logOutButton.off("selected");
+      //each .on() should have a matching .off() to ensure that events are cleaned up.
+      this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+        logInButton.off("selected");
+        signUpButton.off("selected");
+      });
     });
 
     //sets the cursor
@@ -156,9 +126,8 @@ export default class MenuScene extends Phaser.Scene {
 
   update() {
     this.player = store.getState().player;
-    if (!this.player.id) {
-      console.log("there should be no more player and scene should restart");
-      this.scene.start("LoggedOutMenu");
+    if (this.player.alias) {
+      this.scene.start("MenuScene", { player: this.player });
     }
     const upJustPressed = Phaser.Input.Keyboard.JustDown(this.cursors.up);
     const downJustPressed = Phaser.Input.Keyboard.JustDown(this.cursors.down);

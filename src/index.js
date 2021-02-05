@@ -7,6 +7,8 @@ import PasswordScene from "./scenes/PasswordScene";
 import MenuScene from "./scenes/MenuScene";
 import SignUpScene from "./scenes/SignUpScene";
 import GameOverScene from "./scenes/GameOverScene";
+import LoggedOutMenu from "./scenes/LoggedOutMenu";
+import LoadingScene from "./scenes/LoadingScene";
 
 class Game extends Phaser.Game {
   constructor() {
@@ -17,7 +19,9 @@ class Game extends Phaser.Game {
     this.scene.add("MenuScene", MenuScene);
     this.scene.add("SignUpScene", SignUpScene);
     this.scene.add("GameOverScene", GameOverScene);
-    this.scene.start("MenuScene");
+    this.scene.add("LoggedOutMenu", LoggedOutMenu);
+    this.scene.add("LoadingScene", LoadingScene);
+    this.scene.start("LoadingScene", { dataLoading: "player" });
   }
 }
 

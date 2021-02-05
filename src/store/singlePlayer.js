@@ -34,7 +34,7 @@ const createError = (error) => ({
 export const me = () => async (dispatch) => {
   try {
     const { data } = await axios.get("/auth/me");
-    dispatch(getPlayer(data || defaultPlayer));
+    dispatch(getPlayer(data || { id: null }));
   } catch (error) {
     dispatch(modifyError(error));
   }
