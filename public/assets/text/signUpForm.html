@@ -1,138 +1,28 @@
-<style>
-  @font-face { font-family: "retrofont"; src: url("assets/font/retrofont.ttf") format("truetype"); }
-
-  #signUpBox {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .signUpTitle {
-    color: white;
-    font-size: 1.75rem;
-    text-align: center;
-    font-family: "retrofont";
-  }
-  .signUp {
-    background: none;
-    border: none;
-    border-radius: 6px;
-    height: 257px;
-    margin: 0;
-    width: 298px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 10px;
-  }
-  input {
-    background: transparent;
-    border: none;
-  }
-  input[type="password"],
-  input[type="text"] {
-    background: none;
-    border: none  ;
-    border-radius: 4px;
-    box-sizing: border-box;
-    color: #fffefe;
-    height: 39px;
-    margin: 31px 0 0 29px;
-    text-align: center;
-    padding: 10px;
-    transition: box-shadow 0.3s;
-    width: 240px;
-    font-size: 1rem;
-    font-family: "retrofont";
-  }
-  input[type="password"]:focus,
-  input[type="text"]:focus {
-    /* box-shadow: 0 0 4px 1px black; */
-    outline: none;
-    caret-color: yellow;
-  }
-
-  ::placeholder {
-    color: lightgrey;
-    opacity: 1;
-    font-family: "retrofont";
-  }
-
-  .signUpSubmit {
-    display: inline-block;
-    background: none;
-    border: none;
-    color: #ffffff;
-    text-align: center;
-    font-size: 2rem;
-    padding: 5px;
-    transition: all 0.5s;
-    cursor: pointer;
-    margin: 25px;
-    outline: none;
-    font-family: retrofont;
-  }
-
-  .signUpSubmit span {
-    cursor: pointer;
-    display: inline-block;
-    position: relative;
-    transition: 0.5s;
-  }
-
-  .signUpSubmit span:after {
-    content: "\00bb";
-    position: absolute;
-    opacity: 0;
-    top: 0;
-    right: -20px;
-    transition: 0.5s;
-  }
-
-  .signUpSubmit:hover span {
-    padding-right: 25px;
-  }
-
-  .signUpSubmit:hover span:after {
-    opacity: 1;
-    right: 0;
-  }
-
-  .signUpSubmit:focus span {
-    padding-right: 25px;
-  }
-
-  .signUpSubmit:focus span:after {
-    opacity: 1;
-    right: 0;
-  }
-
-  #error {
-    color: white;
-    text-align: center;
-  }
-
-  div {
-    font-family: "retroFont";
-  }
-</style>
-
-<h2 class="signUpTitle">Sign up to Play</h2>
+<h2 class="signUpTitle">create an alias to play</h2>
 <div id="signUpBox">
   <form class="signUp" id="signup">
-    <input type="text" placeholder="Enter Alias Here" id="alias" name="alias" autofocus/>
-    <input
-      type="password"
-      placeholder="Enter Password Here"
-      id="password"
-      name="password"
-    />
-    <input
-      type="password"
-      placeholder="Confirm your Password"
-      id="confirmPassword"
-      name="confirmPassword"
-    />
+    <div class="inputs">
+      <div class="input-container">
+        <label>ALIAS:</label>
+        <input type="text" id="alias" name="alias" autofocus/>
+      </div>
+      <div class="input-container">
+        <label>PASSWORD:</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+        />
+      </div>
+      <div class="input-container">
+        <label>CONFIRM<br>PASSWORD:</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+        />
+      </div>
+    </div>
     <div id="error"></div>
     <button type="submit" class="signUpSubmit" name="signUpButton" >
       <span>Sign Up</span>

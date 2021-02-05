@@ -1,0 +1,104 @@
+@font-face { 
+    font-family: "retroFont"; src: url("assets/font/retrofont.ttf") format("truetype"); 
+}
+
+* {
+    font-family: "retroFont";
+}
+
+body {
+    background-color: black;
+}
+
+label {
+    color: white;
+    justify-content: left;
+    height: fit-content;
+    padding-right: 15px;
+    text-align: left;
+}
+
+.inputs {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#signUpBox {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: fit-content;
+}
+
+.signUpTitle {
+    color: white;
+    font-size: 1.75rem;
+    text-align: center;
+}
+.signUp {
+    background: none;
+    height: fit-content;
+    margin: 0;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+input {
+    border: none;
+    outline: none;
+    width: 10.5ch;
+    background: repeating-linear-gradient(90deg, red 0, red 1ch, transparent 0, transparent 1.5ch) 0 100%/ 10ch 4px no-repeat;
+    color: white;
+    letter-spacing: 0.5ch;
+    font-size: 2rem;
+  }
+input:focus {
+    outline: none;
+    color: blue;
+}
+
+
+.signUpSubmit {
+    display: inline-block;
+    background: none;
+    border: none;
+    color: #ffffff;
+    text-align: center;
+    font-size: 2rem;
+    padding: 5px;
+    cursor: pointer;
+    margin: 25px;
+    outline: none;
+    width: fit-content;
+}
+
+.signUpSubmit:focus {
+    animation: glowing 2000ms infinite;
+}
+
+@keyframes glowing {
+    50% {
+      background-color: blue;
+      box-shadow: 0 0 10px blue;
+    }
+  }
+
+#error {
+    color: white;
+    text-align: center;
+    padding: 1em;
+}
+
+
