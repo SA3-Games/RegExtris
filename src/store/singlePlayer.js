@@ -20,7 +20,7 @@ const getPlayer = (player) => ({
   type: GET_PLAYER,
   player,
 });
-const removePlayer = () => ({
+export const removePlayer = () => ({
   type: REMOVE_PLAYER,
 });
 const createError = (error) => ({
@@ -69,6 +69,7 @@ export default function (state = defaultPlayer, action) {
     case GET_PLAYER:
       return action.player;
     case REMOVE_PLAYER:
+      console.log("REMOVING PLAYER");
       return defaultPlayer;
     case CREATE_ERROR:
       return action.error;

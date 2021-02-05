@@ -1,11 +1,11 @@
 export default class AliasScene extends Phaser.Scene {
   constructor() {
     super("AliasScene");
-    this.alias = "";
   }
 
   preload() {}
   create() {
+    this.alias = "";
     this.enter = this.input.keyboard.addKey("ENTER");
 
     this.add.text(10, 10, "Enter your alias:", {
