@@ -9,6 +9,7 @@ router.post("/login", async (req, res, next) => {
       where: {
         alias: req.body.alias,
       },
+      attribues: ["id", "alias"],
     });
     if (!player) {
       res.status(401).send("No such player found");
