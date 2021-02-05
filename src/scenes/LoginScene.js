@@ -1,28 +1,21 @@
-import Phaser from "phaser";
 import store from "../store";
 import { auth } from "../store/singlePlayer";
-import { clearError } from "../store/errorStore";
-import { width, height } from "../config/config";
 
-export default class SignUpScene extends Phaser.Scene {
+export default class LoginScene extends Phaser.Scene {
   constructor() {
-    super("SignUpScene");
+    super("LoginScene");
     this.player;
-    this.error;
+    this.error = {};
   }
-
   init() {}
-
   preload() {
-    this.load.html("signUpForm", "assets/text/signUpForm.html");
+    this.load.html("loginForm", "assets/text/loginForm.html");
     this.load.image("background", "assets/menuSprites/menuBG1.png");
   }
-
   create() {
     this.unsubscribe = store.subscribe(() => {
       this.player = store.getState().player;
       this.error = store.getState().error;
-      console.log("subscribe", this.error);
       this.errorDiv.innerHTML = this.error.message;
       if (this.player && !this.error.message) {
         this.unsubscribe();
@@ -32,9 +25,9 @@ export default class SignUpScene extends Phaser.Scene {
 
     this.add.image(600, 400, "background");
 
-    let element = this.add.dom(600, 350).createFromCache("signUpForm");
+    this.add.dom(600, 350).createFromCache("loginForm");
 
-    this.signUpForm = document.getElementById("signup");
+    this.loginForm = document.getElementById("signup");
     this.errorDiv = document.getElementById("error");
     document.getElementById("signUpBox").addEventListener("keyup", (e) => {
       this.enterToSubmit(e);
@@ -43,18 +36,12 @@ export default class SignUpScene extends Phaser.Scene {
     this.postSubmissionAction = () => {
       let inputAlias = document.getElementById("alias");
       let inputPassword = document.getElementById("password");
-      let inputConfirmPassword = document.getElementById("confirmPassword");
 
       //  check if fields are not empty
       if (inputAlias.value !== "" && inputPassword.value !== "") {
         // check if password and confirm passwords match
-        if (inputPassword.value === inputConfirmPassword.value) {
-          this.errorDiv.innerHTML = "";
-          store.dispatch(clearError());
-          store.dispatch(auth(inputAlias.value, inputPassword.value, "signup"));
-        } else {
-          this.errorDiv.innerHTML = "password does not match";
-        }
+        this.errorDiv.innerHTML = "";
+        store.dispatch(auth(inputAlias.value, inputPassword.value, "login"));
       }
     };
 
@@ -66,11 +53,9 @@ export default class SignUpScene extends Phaser.Scene {
     };
 
     //function runs if you clicked submit button
-    this.signUpForm.onsubmit = (event) => {
+    this.loginForm.onsubmit = (event) => {
       event.preventDefault();
       this.postSubmissionAction();
     };
   }
-
-  update() {}
 }

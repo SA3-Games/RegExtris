@@ -47,6 +47,12 @@ export default class MenuScene extends Phaser.Scene {
     //Setting background
     this.add.image(600, 400, "background");
 
+    // instructions
+    this.add.text(360, 40, "Use arrow keys to move\nUse enter key to select", {
+      fontFamily: "retroFont",
+      fontSize: 30,
+    });
+
     // PLAY button
     const PLAYButton = this.add
       .image(width * 0.5, height * 0.2, "Neon-Box")

@@ -42,6 +42,12 @@ export default class LoggedOutMenu extends Phaser.Scene {
     //Setting background
     this.add.image(600, 400, "background");
 
+    // instructions
+    this.add.text(360, 40, "Use arrow keys to move\nUse enter key to select", {
+      fontFamily: "retroFont",
+      fontSize: 30,
+    });
+
     // Log in button
     const logInButton = this.add
       .image(width * 0.5, height * 0.2, "Neon-Box")
@@ -71,7 +77,7 @@ export default class LoggedOutMenu extends Phaser.Scene {
     this.buttons.push(signUpButton);
 
     logInButton.on("selected", () => {
-      this.scene.start("AliasScene");
+      this.scene.start("LoginScene");
       console.log("Log In");
     });
 

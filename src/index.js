@@ -9,6 +9,7 @@ import SignUpScene from "./scenes/SignUpScene";
 import GameOverScene from "./scenes/GameOverScene";
 import LoggedOutMenu from "./scenes/LoggedOutMenu";
 import LoadingScene from "./scenes/LoadingScene";
+import LoginScene from "./scenes/LoginScene";
 
 class Game extends Phaser.Game {
   constructor() {
@@ -21,6 +22,7 @@ class Game extends Phaser.Game {
     this.scene.add("GameOverScene", GameOverScene);
     this.scene.add("LoggedOutMenu", LoggedOutMenu);
     this.scene.add("LoadingScene", LoadingScene);
+    this.scene.add("LoginScene", LoginScene);
     this.scene.start("LoadingScene", { dataLoading: "player" });
   }
 }
