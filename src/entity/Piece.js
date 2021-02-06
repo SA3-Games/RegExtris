@@ -128,6 +128,7 @@ export default class Piece extends Phaser.GameObjects.Group {
     this.getChildren().forEach(function (square) {
       square.loc = [...square.pending];
     });
+    this.move();
   }
   removePendingMove() {
     this.getChildren().forEach(function (square) {
@@ -387,7 +388,7 @@ export default class Piece extends Phaser.GameObjects.Group {
 
   update() {
     //apply any new square coordinates
-    this.move();
+    //this.move(); **Moved to applyPendingMove method**
     //check for user inputs
     this.keyCheck();
   }
