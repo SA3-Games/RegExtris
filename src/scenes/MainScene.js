@@ -30,10 +30,17 @@ export default class MainScene extends Phaser.Scene {
     });
     this.load.spritesheet('timer', 'assets/spritesheets/timer.png', {
       frameWidth: 192,
-      frameHeight: 192
+      frameHeight: 192,
     });
     this.load.image('fairy', 'assets/menuSprites/FAIRY.png');
     this.load.image('title', 'assets/spritesheets/REGEXTRIS.png');
+    this.load.image('I', 'assets/sprites/0.png');
+    this.load.image('J', 'assets/sprites/1.png');
+    this.load.image('L', 'assets/sprites/2.png');
+    this.load.image('O', 'assets/sprites/3.png');
+    this.load.image('S', 'assets/sprites/4.png');
+    this.load.image('T', 'assets/sprites/5.png');
+    this.load.image('Z', 'assets/sprites/6.png');
   }
 
   create() {
@@ -57,7 +64,13 @@ export default class MainScene extends Phaser.Scene {
 
     //visual "containers" for game displays
     this.gameBoard = this.add
-      .rectangle(this.gameBoardLoc[0], this.gameBoardLoc[1], 300, 600, this.foregroundColor)
+      .rectangle(
+        this.gameBoardLoc[0],
+        this.gameBoardLoc[1],
+        300,
+        600,
+        this.foregroundColor
+      )
       .setOrigin(0);
     this.graphics.strokeRectShape(this.gameBoard);
 
@@ -65,23 +78,28 @@ export default class MainScene extends Phaser.Scene {
       .rectangle(850, 100, 250, 570, this.foregroundColor)
       .setOrigin(0);
     this.graphics.strokeRectShape(this.regexBoard);
-    this.regexContolsDisplay = this.add.text(860, 110, 'Press SHIFT', {
-      fontFamily: 'retroFont',
-      fontSize: '20px',
-    });
     this.regexContolsDisplay = this.add.text(
       860,
-      140,
-      'to change RegEx choice',
-      { fontFamily: 'retroFont', fontSize: '14px' }
+      110,
+      'Press SHIFT to switch',
+      {
+        fontFamily: 'retroFont',
+        fontSize: '14px',
+      }
     );
+    // this.regexContolsDisplay = this.add.text(
+    //   860,
+    //   140,
+    //   'to change RegEx choice',
+    //   { fontFamily: 'retroFont', fontSize: '14px' }
+    // );
     this.regexOptions = this.physics.add.group({ classType: RegexOption });
     regexData.forEach((re, idx) => {
       this.regexOptions.add(
         new RegexOption(
           this,
           this.regexBankLoc[0] + 50,
-          this.regexBankLoc[1] + 100 + 50 * idx,
+          this.regexBankLoc[1] + 50 * (idx + 1),
           re
         )
       );
@@ -90,7 +108,7 @@ export default class MainScene extends Phaser.Scene {
     this.regexChoice = this.regexOptions.getChildren()[0].re;
 
     this.regexFairy = this.physics.add
-      .sprite(this.regexBankLoc[0] + 10, this.regexBankLoc[1] + 100, 'fairy')
+      .sprite(this.regexBankLoc[0] + 10, this.regexBankLoc[1] + 50, 'fairy')
       .setDisplaySize(45, 45)
       .setOrigin(0);
 
@@ -108,10 +126,14 @@ export default class MainScene extends Phaser.Scene {
     this.nextPieceBoard = this.add
       .rectangle(100, 100, 250, 250, this.foregroundColor)
       .setOrigin(0);
+    this.nextPieceText = this.add
+      .text(225, 130, 'Up Next:', { fontFamily: 'retroFont', fontSize: '20px' })
+      .setOrigin();
+    this.nextPieceDisplay = this.add.image(225, 225, 'I').setScale(0.5);
     this.graphics.strokeRectShape(this.nextPieceBoard);
     this.tetrisContolsDisplay = this.add.text(
       110,
-      110,
+      500,
       'UP = rotate\n\nDOWN = fall faster\n\nRIGHT = move right\n\nLEFT = move left',
       { fontFamily: 'retroFont', fontSize: '16px' }
     );
@@ -122,8 +144,8 @@ export default class MainScene extends Phaser.Scene {
     this.graphics.lineStyle(5, 0x00000, 1);
     this.graphics.strokeRectShape(this.gameBoardHeader);
 
-    this.timer = this.add
-      .sprite(225, 570, 'timer', 10)
+    this.timer = this.physics.add
+      .sprite(975, 600, 'timer', 10)
       .setDisplaySize(75, 75)
       .setVisible(false);
 
@@ -146,16 +168,13 @@ export default class MainScene extends Phaser.Scene {
     );
 
     //title display
-    this.title = this.add
-      .sprite(600, 50, 'title').setScale(0.2).setDepth(11);
-
-
+    this.title = this.add.sprite(600, 50, 'title').setScale(0.2).setDepth(11);
   }
   update() {
     //only update most recently created piece
     if (Phaser.Input.Keyboard.JustUp(this.cursors.shift)) {
-      if (this.regexFairy.y === this.regexBankLoc[1] + 450) {
-        this.regexFairy.y = this.regexBankLoc[1] + 100;
+      if (this.regexFairy.y === this.regexBankLoc[1] + 400) {
+        this.regexFairy.y = this.regexBankLoc[1] + 50;
       } else {
         this.regexFairy.y += 50;
       }

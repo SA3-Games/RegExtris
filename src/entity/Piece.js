@@ -89,6 +89,7 @@ export default class Piece extends Phaser.GameObjects.Group {
     const { grid, color, possibleNext } = pieceTypes[type];
     //randomly choose next piece
     this.scene.nextPiece = Phaser.Math.RND.pick(possibleNext);
+    this.scene.nextPieceDisplay.setTexture(this.scene.nextPiece);
     this.grid = grid;
     this.color = color;
     this.id = this.scene.pieceCount;
@@ -103,8 +104,7 @@ export default class Piece extends Phaser.GameObjects.Group {
       //either reset/reuse square or create a new one
       const square = deadSquare
         ? deadSquare.reset()
-        : new Square(this.scene, 0, 0);
-      //square.setDisplaySize(28, 28);
+        : new Square(this.scene, 600, 0);
       square.setTint(this.color);
       square.loc = loc;
       //add square to this group
@@ -130,6 +130,23 @@ export default class Piece extends Phaser.GameObjects.Group {
     });
     this.move();
   }
+
+  //apply new square location to each square's x/y coordinates
+  move() {
+    this.getChildren().forEach((square) => {
+      if (square.loc === null) return;
+      square.x =
+        square.loc[0] * this.scene.board.gridSize + //location -> pixel coordinates
+        this.scene.board.gridSize * 5.5 + //centers piece
+        this.scene.gameBoardLoc[0]; //keeps pieces on board
+      square.y =
+        square.loc[1] * this.scene.board.gridSize +
+        this.scene.board.gridSize / 2 + //aligns pieces with ground and walls
+        this.scene.gameBoardLoc[1];
+    });
+  }
+
+  //when a pending move is impossible, remove it
   removePendingMove() {
     this.getChildren().forEach(function (square) {
       square.pending = null;
@@ -369,21 +386,6 @@ export default class Piece extends Phaser.GameObjects.Group {
     } else if (this.scene.cursors.right.isDown) {
       this.strafe(1); //move right
     }
-  }
-
-  //apply new square location to each square's x/y coordinates
-  move() {
-    this.getChildren().forEach((square) => {
-      if (square.loc === null) return;
-      square.x =
-        square.loc[0] * this.scene.board.gridSize + //location -> pixel coordinates
-        this.scene.board.gridSize * 5.5 + //centers piece
-        this.scene.gameBoardLoc[0]; //keeps pieces on board
-      square.y =
-        square.loc[1] * this.scene.board.gridSize +
-        this.scene.board.gridSize / 2 + //aligns pieces with ground and walls
-        this.scene.gameBoardLoc[1];
-    });
   }
 
   update() {

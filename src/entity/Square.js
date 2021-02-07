@@ -44,7 +44,7 @@ export default class Square extends Phaser.Physics.Arcade.Sprite {
     this.setRandomCharacter();
     this.setActive(true);
     this.setVisible(true);
-    this.setPosition(0, 0);
+    this.setPosition(600, 0);
     return this;
   }
 }
