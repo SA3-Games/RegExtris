@@ -6,7 +6,6 @@ import { setError, clearError } from "./errorStore";
  */
 const GET_PLAYER = "GET_PLAYER";
 const REMOVE_PLAYER = "REMOVE_PLAYER";
-const CREATE_ERROR = "CREATE_ERROR";
 
 /**
  * INITIAL STATE
@@ -22,10 +21,6 @@ const getPlayer = (player) => ({
 });
 export const removePlayer = () => ({
   type: REMOVE_PLAYER,
-});
-const createError = (error) => ({
-  type: CREATE_ERROR,
-  error,
 });
 
 /**
@@ -54,7 +49,6 @@ export const logout = () => async (dispatch) => {
   try {
     await axios.post("/auth/logout");
     dispatch(removePlayer());
-    console.log("logout thunk activated");
   } catch (error) {
     dispatch(modifyError(error));
   }
@@ -68,10 +62,7 @@ export default function (state = defaultPlayer, action) {
     case GET_PLAYER:
       return action.player;
     case REMOVE_PLAYER:
-      console.log("REMOVING PLAYER");
       return defaultPlayer;
-    case CREATE_ERROR:
-      return action.error;
     default:
       return state;
   }

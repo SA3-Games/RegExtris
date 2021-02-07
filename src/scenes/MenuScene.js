@@ -163,7 +163,6 @@ export default class MenuScene extends Phaser.Scene {
   update() {
     this.player = store.getState().player;
     if (!this.player.id) {
-      console.log("there should be no more player and scene should restart");
       this.scene.start("LoggedOutMenu");
     }
     const upJustPressed = Phaser.Input.Keyboard.JustDown(this.cursors.up);
