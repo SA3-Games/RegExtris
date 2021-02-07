@@ -78,12 +78,10 @@ export default class LoggedOutMenu extends Phaser.Scene {
 
     logInButton.on("selected", () => {
       this.scene.start("LoginScene");
-      console.log("Log In");
     });
 
     signUpButton.on("selected", () => {
       this.scene.start("SignUpScene");
-      console.log("Sign Up");
 
       //each .on() should have a matching .off() to ensure that events are cleaned up.
       this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {

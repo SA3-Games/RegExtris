@@ -1,12 +1,11 @@
 import axios from "axios";
-import { modifyError, clearError } from "./errorStore";
+import { setError, clearError } from "./errorStore";
 
 /**
  * ACTION TYPES
  */
 const GET_PLAYER = "GET_PLAYER";
 const REMOVE_PLAYER = "REMOVE_PLAYER";
-const CREATE_ERROR = "CREATE_ERROR";
 
 /**
  * INITIAL STATE
@@ -23,10 +22,6 @@ const getPlayer = (player) => ({
 export const removePlayer = () => ({
   type: REMOVE_PLAYER,
 });
-const createError = (error) => ({
-  type: CREATE_ERROR,
-  error,
-});
 
 /**
  * THUNK CREATORS
@@ -41,14 +36,12 @@ export const me = () => async (dispatch) => {
 };
 
 export const auth = (alias, password, method) => async (dispatch) => {
-  console.log("inside auth thunk: alias:", alias, "password: ", password);
-  let res;
-
+  dispatch(clearError());
   try {
-    res = await axios.post(`/auth/${method}`, { alias, password });
-    dispatch(getPlayer(res.data));
+    const { data } = await axios.post(`/auth/${method}`, { alias, password });
+    dispatch(getPlayer(data));
   } catch (authErr) {
-    return dispatch(modifyError(authErr, authErr.response.data.error));
+    dispatch(setError(authErr.response.status, authErr.response.data));
   }
 };
 
@@ -56,7 +49,6 @@ export const logout = () => async (dispatch) => {
   try {
     await axios.post("/auth/logout");
     dispatch(removePlayer());
-    console.log("logout thunk activated");
   } catch (error) {
     dispatch(modifyError(error));
   }
@@ -70,10 +62,7 @@ export default function (state = defaultPlayer, action) {
     case GET_PLAYER:
       return action.player;
     case REMOVE_PLAYER:
-      console.log("REMOVING PLAYER");
       return defaultPlayer;
-    case CREATE_ERROR:
-      return action.error;
     default:
       return state;
   }
