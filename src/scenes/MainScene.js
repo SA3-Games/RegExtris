@@ -28,7 +28,12 @@ export default class MainScene extends Phaser.Scene {
       frameWidth: 28,
       frameHeight: 28,
     });
+    this.load.spritesheet('timer', 'assets/spritesheets/timer.png', {
+      frameWidth: 192,
+      frameHeight: 192
+    });
     this.load.image('fairy', 'assets/menuSprites/FAIRY.png');
+    this.load.image('title', 'assets/spritesheets/REGEXTRIS.png');
   }
 
   create() {
@@ -118,13 +123,13 @@ export default class MainScene extends Phaser.Scene {
     this.graphics.strokeRectShape(this.gameBoardHeader);
 
     this.timer = this.add
-      .sprite(225, 570, 'square', 10)
+      .sprite(225, 570, 'timer', 10)
       .setDisplaySize(75, 75)
       .setVisible(false);
 
     this.anims.create({
       key: 'countDown',
-      frames: this.anims.generateFrameNumbers('square', { start: 11, end: 9 }),
+      frames: this.anims.generateFrameNumbers('timer', { start: 2, end: 0 }),
       frameRate: 1,
       repeat: 0,
     });
@@ -139,6 +144,12 @@ export default class MainScene extends Phaser.Scene {
     this.pieces.add(
       new Piece(this, Phaser.Math.RND.pick(['I', 'J', 'L', 'O', 'S', 'T', 'Z']))
     );
+
+    //title display
+    this.title = this.add
+      .sprite(600, 50, 'title').setScale(0.2).setDepth(11);
+
+
   }
   update() {
     //only update most recently created piece
