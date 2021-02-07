@@ -1,13 +1,13 @@
 const SET_ERROR = "SET_ERROR";
 const CLEAR_ERROR = "CLEAR_ERROR";
 
-export const setError = (error) => {
+export const setError = (status, message) => {
   return {
     type: SET_ERROR,
     payload: {
       error: true,
-      message: error.message,
-      status: error.status,
+      message,
+      status,
     },
   };
 };
@@ -22,12 +22,12 @@ export const modifyError = (error, customMessage) => {
   return (dispatch) => {
     const err = new Error();
     switch (error.message) {
-      case "Network Error":
-        err.status = "500";
-        err.message =
-          "Something went wrong on our end. Please try again later.";
-        break;
-      case "Request failed with status code 401":
+      // case "Network Error":
+      //   err.status = "500";
+      //   err.message =
+      //     "Something went wrong on our end. Please try again later.";
+      //   break;
+      case 401:
         err.status = "401";
         err.message = customMessage || error.message;
         break;

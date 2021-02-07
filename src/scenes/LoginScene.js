@@ -17,7 +17,7 @@ export default class LoginScene extends Phaser.Scene {
       this.player = store.getState().player;
       this.error = store.getState().error;
       this.errorDiv.innerHTML = this.error.message;
-      if (this.player && !this.error.message) {
+      if (this.player.id && !this.error.message.length) {
         this.unsubscribe();
         this.scene.start("MenuScene");
       }

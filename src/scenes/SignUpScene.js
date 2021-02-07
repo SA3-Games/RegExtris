@@ -22,9 +22,8 @@ export default class SignUpScene extends Phaser.Scene {
     this.unsubscribe = store.subscribe(() => {
       this.player = store.getState().player;
       this.error = store.getState().error;
-      console.log("subscribe", this.error);
       this.errorDiv.innerHTML = this.error.message;
-      if (this.player && !this.error.message) {
+      if (this.player.id && !this.error.message.length) {
         this.unsubscribe();
         this.scene.start("MenuScene");
       }

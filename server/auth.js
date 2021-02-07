@@ -31,7 +31,7 @@ router.post("/signup", async (req, res, next) => {
   } catch (err) {
     if (err.name === "SequelizeUniqueConstraintError") {
       console.log("not unique error in auth");
-      res.status(401).send({ error: "This alias already exists" });
+      res.status(401).send("This alias already exists");
     } else {
       next(err);
     }
