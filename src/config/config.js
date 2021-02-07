@@ -9,7 +9,7 @@ export default {
   render: {
     pixelArt: true,
   },
-  backgroundColor: 0x7c7ac1,
+  backgroundColor: 0x000000,
   physics: {
     default: 'arcade',
     arcade: {

@@ -32,6 +32,7 @@ export default class MainScene extends Phaser.Scene {
   }
 
   create() {
+    this.foregroundColor = 0x000000;
     this.pieceCount = 0;
     this.cursors = this.input.keyboard.createCursorKeys();
     this.cursors.shift = this.input.keyboard.addKey('SHIFT');
@@ -41,17 +42,24 @@ export default class MainScene extends Phaser.Scene {
     this.destroyedRows = 0;
     this.level = 0;
 
+    //container border
+    this.graphics = this.add.graphics();
+    this.graphics.lineStyle(5, 0xffffff, 1);
+
     //move board to center of page
     this.gameBoardLoc = [450, 70];
     this.regexBankLoc = [850, 100];
 
     //visual "containers" for game displays
     this.gameBoard = this.add
-      .rectangle(this.gameBoardLoc[0], this.gameBoardLoc[1], 300, 600, 0x000000)
+      .rectangle(this.gameBoardLoc[0], this.gameBoardLoc[1], 300, 600, this.foregroundColor)
       .setOrigin(0);
+    this.graphics.strokeRectShape(this.gameBoard);
+
     this.regexBoard = this.add
-      .rectangle(850, 100, 250, 570, 0x000000)
+      .rectangle(850, 100, 250, 570, this.foregroundColor)
       .setOrigin(0);
+    this.graphics.strokeRectShape(this.regexBoard);
     this.regexContolsDisplay = this.add.text(860, 110, 'Press SHIFT', {
       fontFamily: 'retroFont',
       fontSize: '20px',
@@ -82,8 +90,9 @@ export default class MainScene extends Phaser.Scene {
       .setOrigin(0);
 
     this.scoreBoard = this.add
-      .rectangle(100, 370, 250, 300, 0x000000)
+      .rectangle(100, 370, 250, 300, this.foregroundColor)
       .setOrigin(0);
+    this.graphics.strokeRectShape(this.scoreBoard);
     this.scoreDisplay = this.add.text(
       110,
       400,
@@ -92,8 +101,9 @@ export default class MainScene extends Phaser.Scene {
     );
 
     this.nextPieceBoard = this.add
-      .rectangle(100, 100, 250, 250, 0x000000)
+      .rectangle(100, 100, 250, 250, this.foregroundColor)
       .setOrigin(0);
+    this.graphics.strokeRectShape(this.nextPieceBoard);
     this.tetrisContolsDisplay = this.add.text(
       110,
       110,
@@ -104,6 +114,8 @@ export default class MainScene extends Phaser.Scene {
       .rectangle(this.gameBoardLoc[0], 0, 300, 90, config.backgroundColor)
       .setOrigin(0)
       .setDepth(10);
+    this.graphics.lineStyle(5, 0x00000, 1);
+    this.graphics.strokeRectShape(this.gameBoardHeader);
 
     this.timer = this.add
       .sprite(225, 570, 'square', 10)
