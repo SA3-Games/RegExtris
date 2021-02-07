@@ -10,6 +10,16 @@ body {
     background-color: black;
 }
 
+#game-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+}
+
 label {
     color: white;
     justify-content: left;
@@ -68,7 +78,6 @@ input:focus {
     outline: none;
     color: blue;
 }
-
 
 .signUpSubmit {
     display: inline-block;
