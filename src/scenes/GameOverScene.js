@@ -12,7 +12,9 @@ export default class GameOverScene extends Phaser.Scene {
     this.regExScore = data.regExScore || 0;
   }
 
-  preload() {}
+  preload() {
+    this.load.image('title', 'assets/spritesheets/REGEXTRIScolors.png');
+  }
 
   create() {
     this.reduxState = store.getState();
@@ -48,6 +50,9 @@ export default class GameOverScene extends Phaser.Scene {
         `${re}                ${this.regexChoices[re].timesUsed}                 ${this.regexChoices[re].totalCharacters}`
       );
     });
+
+    //title display
+    this.title = this.add.sprite(600, 20, 'title').setScale(0.2).setDepth(11);
   }
 
   update() {

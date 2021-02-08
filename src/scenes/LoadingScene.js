@@ -9,13 +9,20 @@ export default class LoadingScene extends Phaser.Scene {
   init(data) {
     this.dataLoading = data.dataLoading;
   }
+
+  preload() {
+    this.load.image('title', 'assets/spritesheets/REGEXTRIScolors.png');
+  }
+  
   create() {
     this.add.text(10, 10, "Loading", {
       font: "32px Courier",
       fill: "#ffffff",
     });
     store.dispatch(me());
+    this.title = this.add.sprite(600, 20, 'title').setScale(0.2).setDepth(11);
   }
+
   update() {
     this.state = store.getState();
     if (this.dataLoading === "player" && this.state.player) {

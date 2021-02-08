@@ -23,6 +23,7 @@ export default class MenuScene extends Phaser.Scene {
     this.load.image("Neon-Box", "assets/menuSprites/neonBlueBox.png");
     this.load.image("FAIRY", "assets/menuSprites/FAIRY.png");
     this.load.image("background", "assets/menuSprites/menuBG1.png");
+    this.load.image('title', 'assets/spritesheets/REGEXTRIScolors.png');
   }
 
   create() {
@@ -48,14 +49,14 @@ export default class MenuScene extends Phaser.Scene {
     this.add.image(600, 400, "background");
 
     // instructions
-    this.add.text(360, 40, "Use arrow keys to move\nUse enter key to select", {
+    this.add.text(360, 100, "Use arrow keys to move\nUse enter key to select", {
       fontFamily: "retroFont",
       fontSize: 30,
     });
 
     // PLAY button
     const PLAYButton = this.add
-      .image(width * 0.5, height * 0.2, "Neon-Box")
+      .image(width * 0.5, height * 0.4, "Neon-Box")
       .setDisplaySize(300, 100);
     this.add
       .text(PLAYButton.x, PLAYButton.y, "PLAY", {
@@ -126,6 +127,8 @@ export default class MenuScene extends Phaser.Scene {
     this.buttonSelector = this.add.image(0, 0, "FAIRY").setScale(0.2);
 
     this.selectButton(0);
+
+    this.title = this.add.sprite(600, 20, 'title').setScale(0.2).setDepth(11);
   }
 
   selectButton(index) {
