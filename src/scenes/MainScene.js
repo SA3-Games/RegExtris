@@ -64,7 +64,7 @@ export default class MainScene extends Phaser.Scene {
     this.graphics.strokeRectShape(this.gameBoard);
 
     this.regexBoard = this.add
-      .rectangle(850, 100, 250, 570, this.foregroundColor)
+      .rectangle(850, 105, 250, 570, this.foregroundColor)
       .setOrigin(0);
     this.graphics.strokeRectShape(this.regexBoard);
     this.regexLabel = this.add
@@ -116,12 +116,12 @@ export default class MainScene extends Phaser.Scene {
     );
 
     this.nextPieceBoard = this.add
-      .rectangle(100, 100, 250, 250, this.foregroundColor)
+      .rectangle(100, 105, 250, 250, this.foregroundColor)
       .setOrigin(0);
     this.nextPieceText = this.add
       .text(225, 130, 'Up Next:', { fontFamily: 'retroFont', fontSize: '20px' })
       .setOrigin();
-    this.nextPieceDisplay = this.add.image(225, 225, 'I');
+    this.nextPieceDisplay = this.add.image(225, 235, 'I');
     this.graphics.strokeRectShape(this.nextPieceBoard);
     this.tetrisContolsDisplay = this.add.text(
       110,
@@ -130,13 +130,13 @@ export default class MainScene extends Phaser.Scene {
       { fontFamily: 'retroFont', fontSize: '16px' }
     );
     this.gameBoardHeader = this.add
-      .rectangle(this.gameBoardLoc[0], 0, 300, 92, config.backgroundColor)
+      .rectangle(this.gameBoardLoc[0], 0, 300, 100, config.backgroundColor)
       .setOrigin(0)
       .setDepth(10);
     this.graphics.lineStyle(10, 0x00000, 1);
     this.graphics.strokeRectShape(this.gameBoardHeader);
     //line for top of tetris board
-    this.add.line(448, 93, 0, 0, 304, 0, 0xffffff).setDepth(11).setOrigin(0);
+    this.add.rectangle(445, 101, 310, 4, 0xffffff).setOrigin(0).setDepth(11);
 
     this.timer = this.physics.add
       .sprite(975, 590, 'timer', 10)
