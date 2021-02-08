@@ -2,7 +2,7 @@ import 'phaser';
 
 const regexGroups = [
   [/[abfn]/, /[ABFN]/, /\d/, /[^abfn]/],
-  [/[^ABFN]/, /\D/, /\s/, /[^\w\d\s]/],
+  [/[^\w\d\s]/, /[^ABFN]/, /\D/, /\s/],
   [/[a-f]/, /a*/, /[a\*]/, /\w/],
   [/\W/, /[B-N]/, /\S/, /[^abAB]/],
   [/[^FNfn]/, /[FNfn]/, /[?#$+]/, /[/]/],
