@@ -7,17 +7,6 @@ import Square from '../entity/Square';
 import config from '../config/config';
 import RegexOption from '../entity/RegexOption';
 
-const regexData = [
-  /[abfn]/,
-  /[ABFN]/,
-  /\d/,
-  /[^abfn]/,
-  /[^ABFN]/,
-  /\D/,
-  /\s/,
-  /[^\w\d\s]/,
-];
-
 export default class MainScene extends Phaser.Scene {
   constructor() {
     super('MainScene');
@@ -94,16 +83,15 @@ export default class MainScene extends Phaser.Scene {
     //   { fontFamily: 'retroFont', fontSize: '14px' }
     // );
     this.regexOptions = this.physics.add.group({ classType: RegexOption });
-    regexData.forEach((re, idx) => {
+    for (let i = 1; i < 9; i++) {
       this.regexOptions.add(
         new RegexOption(
           this,
           this.regexBankLoc[0] + 50,
-          this.regexBankLoc[1] + 50 * (idx + 1),
-          re
+          this.regexBankLoc[1] + 50 * i
         )
       );
-    });
+    }
 
     this.regexChoice = this.regexOptions.getChildren()[0].re;
 
@@ -138,11 +126,13 @@ export default class MainScene extends Phaser.Scene {
       { fontFamily: 'retroFont', fontSize: '16px' }
     );
     this.gameBoardHeader = this.add
-      .rectangle(this.gameBoardLoc[0], 0, 300, 90, config.backgroundColor)
+      .rectangle(this.gameBoardLoc[0], 0, 300, 92, config.backgroundColor)
       .setOrigin(0)
       .setDepth(10);
     this.graphics.lineStyle(5, 0x00000, 1);
     this.graphics.strokeRectShape(this.gameBoardHeader);
+    //line for top of tetris board
+    this.add.line(448, 93, 0, 0, 304, 0, 0xffffff).setDepth(11).setOrigin(0);
 
     this.timer = this.physics.add
       .sprite(975, 600, 'timer', 10)
