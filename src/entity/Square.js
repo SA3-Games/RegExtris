@@ -31,7 +31,7 @@ export default class Square extends Phaser.Physics.Arcade.Sprite {
       ['?', 14],
       ['#', 15],
       ['()', 16],
-      ['[]', 17],
+      ['*', 17],
       ['/', 18],
       ['+', 19],
     ]);

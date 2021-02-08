@@ -249,7 +249,7 @@ export default class Piece extends Phaser.GameObjects.Group {
               const rowIndex = Object.keys(fullRows)[i];
               const regexTotal = this.board.checkRegEx(
                 rowIndex,
-                this.regexChoice
+                this.regexChoice.re
               );
               this.regexScore += regexTotal * 10;
               this.timer.setVisible(false);
@@ -276,6 +276,7 @@ export default class Piece extends Phaser.GameObjects.Group {
             if (this.destroyedRows % 10 === 0) {
               this.level++;
             }
+            this.regexChoice.changeRegex();
             //destroy this piece group and create the next one
             this.pieces.getLast(true).destroy();
             this.pieces.add(new Piece(this, this.nextPiece));

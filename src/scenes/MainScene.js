@@ -7,17 +7,6 @@ import Square from '../entity/Square';
 import config from '../config/config';
 import RegexOption from '../entity/RegexOption';
 
-const regexData = [
-  /[abfn]/,
-  /[ABFN]/,
-  /\d/,
-  /[^abfn]/,
-  /[^ABFN]/,
-  /\D/,
-  /\s/,
-  /[^\w\d\s]/,
-];
-
 export default class MainScene extends Phaser.Scene {
   constructor() {
     super('MainScene');
@@ -78,15 +67,18 @@ export default class MainScene extends Phaser.Scene {
       .rectangle(850, 100, 250, 570, this.foregroundColor)
       .setOrigin(0);
     this.graphics.strokeRectShape(this.regexBoard);
-    this.regexContolsDisplay = this.add.text(
-      860,
-      110,
-      'Press SHIFT to switch',
-      {
+    this.regexLabel = this.add
+      .text(975, 130, 'Regex Choice', {
+        fontFamily: 'retroFont',
+        fontSize: '20px',
+      })
+      .setOrigin(0.5);
+    this.regexControlsDisplay = this.add
+      .text(975, 160, 'Press SHIFT to switch', {
         fontFamily: 'retroFont',
         fontSize: '14px',
-      }
-    );
+      })
+      .setOrigin(0.5);
     // this.regexContolsDisplay = this.add.text(
     //   860,
     //   140,
@@ -94,23 +86,23 @@ export default class MainScene extends Phaser.Scene {
     //   { fontFamily: 'retroFont', fontSize: '14px' }
     // );
     this.regexOptions = this.physics.add.group({ classType: RegexOption });
-    regexData.forEach((re, idx) => {
+    for (let i = 0; i < 5; i++) {
       this.regexOptions.add(
         new RegexOption(
           this,
-          this.regexBankLoc[0] + 50,
-          this.regexBankLoc[1] + 50 * (idx + 1),
-          re
+          this.regexBankLoc[0] + 70,
+          this.regexBankLoc[1] + 140 + 60 * i,
+          i
         )
       );
-    });
+    }
 
-    this.regexChoice = this.regexOptions.getChildren()[0].re;
+    this.regexChoice = this.regexOptions.getChildren()[0];
 
     this.regexFairy = this.physics.add
-      .sprite(this.regexBankLoc[0] + 10, this.regexBankLoc[1] + 50, 'fairy')
-      .setDisplaySize(45, 45)
-      .setOrigin(0);
+      .sprite(this.regexBankLoc[0] + 10, this.regexBankLoc[1] + 140, 'fairy')
+      .setDisplaySize(55, 55)
+      .setOrigin(0, 0.2);
 
     this.scoreBoard = this.add
       .rectangle(100, 370, 250, 300, this.foregroundColor)
@@ -138,14 +130,16 @@ export default class MainScene extends Phaser.Scene {
       { fontFamily: 'retroFont', fontSize: '16px' }
     );
     this.gameBoardHeader = this.add
-      .rectangle(this.gameBoardLoc[0], 0, 300, 90, config.backgroundColor)
+      .rectangle(this.gameBoardLoc[0], 0, 300, 92, config.backgroundColor)
       .setOrigin(0)
       .setDepth(10);
     this.graphics.lineStyle(10, 0x00000, 1);
     this.graphics.strokeRectShape(this.gameBoardHeader);
+    //line for top of tetris board
+    this.add.line(448, 93, 0, 0, 304, 0, 0xffffff).setDepth(11).setOrigin(0);
 
     this.timer = this.physics.add
-      .sprite(975, 600, 'timer', 10)
+      .sprite(975, 590, 'timer', 10)
       .setDisplaySize(75, 75)
       .setVisible(false);
 
@@ -173,15 +167,15 @@ export default class MainScene extends Phaser.Scene {
   update() {
     //only update most recently created piece
     if (Phaser.Input.Keyboard.JustUp(this.cursors.shift)) {
-      if (this.regexFairy.y === this.regexBankLoc[1] + 400) {
-        this.regexFairy.y = this.regexBankLoc[1] + 50;
+      if (this.regexFairy.y === this.regexBankLoc[1] + 380) {
+        this.regexFairy.y = this.regexBankLoc[1] + 140;
       } else {
-        this.regexFairy.y += 50;
+        this.regexFairy.y += 60;
       }
       const currentRegex = this.regexOptions
         .getChildren()
         .filter((option) => option.y === this.regexFairy.y);
-      this.regexChoice = currentRegex[0].re;
+      this.regexChoice = currentRegex[0];
     }
     this.piece = this.pieces.getLast(true);
     this.piece.update();
