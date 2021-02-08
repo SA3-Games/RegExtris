@@ -11,6 +11,7 @@ export default class LoginScene extends Phaser.Scene {
   preload() {
     this.load.html("loginForm", "assets/text/loginForm.html");
     this.load.image("background", "assets/menuSprites/menuBG1.png");
+    this.load.image('title', 'assets/spritesheets/REGEXTRIScolors.png');
   }
   create() {
     this.unsubscribe = store.subscribe(() => {
@@ -57,5 +58,8 @@ export default class LoginScene extends Phaser.Scene {
       event.preventDefault();
       this.postSubmissionAction();
     };
+
+    //title display
+    this.title = this.add.sprite(600, 20, 'title').setScale(0.2).setDepth(11);
   }
 }

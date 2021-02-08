@@ -9,13 +9,15 @@ export default class LoadingScene extends Phaser.Scene {
   init(data) {
     this.dataLoading = data.dataLoading;
   }
+
   create() {
-    this.add.text(10, 10, "Loading", {
+    this.add.text(10, 10, "Loading...", {
       font: "32px Courier",
       fill: "#ffffff",
     });
     store.dispatch(me());
   }
+
   update() {
     this.state = store.getState();
     if (this.dataLoading === "player" && this.state.player) {
