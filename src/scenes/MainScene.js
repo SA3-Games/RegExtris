@@ -33,7 +33,7 @@ export default class MainScene extends Phaser.Scene {
       frameHeight: 192,
     });
     this.load.image('fairy', 'assets/menuSprites/FAIRY.png');
-    this.load.image('title', 'assets/spritesheets/REGEXTRIS.png');
+    this.load.image('title', 'assets/spritesheets/REGEXTRIScolors.png');
     this.load.image('I', 'assets/sprites/0.png');
     this.load.image('J', 'assets/sprites/1.png');
     this.load.image('L', 'assets/sprites/2.png');
@@ -129,7 +129,7 @@ export default class MainScene extends Phaser.Scene {
     this.nextPieceText = this.add
       .text(225, 130, 'Up Next:', { fontFamily: 'retroFont', fontSize: '20px' })
       .setOrigin();
-    this.nextPieceDisplay = this.add.image(225, 225, 'I').setScale(0.5);
+    this.nextPieceDisplay = this.add.image(225, 225, 'I');
     this.graphics.strokeRectShape(this.nextPieceBoard);
     this.tetrisContolsDisplay = this.add.text(
       110,
@@ -168,7 +168,7 @@ export default class MainScene extends Phaser.Scene {
     );
 
     //title display
-    this.title = this.add.sprite(600, 50, 'title').setScale(0.2).setDepth(11);
+    this.title = this.add.sprite(600, 20, 'title').setScale(0.2).setDepth(11);
   }
   update() {
     //only update most recently created piece
