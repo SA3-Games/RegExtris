@@ -83,17 +83,18 @@ export default class MainScene extends Phaser.Scene {
     //   { fontFamily: 'retroFont', fontSize: '14px' }
     // );
     this.regexOptions = this.physics.add.group({ classType: RegexOption });
-    for (let i = 1; i < 9; i++) {
+    for (let i = 0; i < 5; i++) {
       this.regexOptions.add(
         new RegexOption(
           this,
           this.regexBankLoc[0] + 50,
-          this.regexBankLoc[1] + 50 * i
+          this.regexBankLoc[1] + 50 * (i + 1),
+          i
         )
       );
     }
 
-    this.regexChoice = this.regexOptions.getChildren()[0].re;
+    this.regexChoice = this.regexOptions.getChildren()[0];
 
     this.regexFairy = this.physics.add
       .sprite(this.regexBankLoc[0] + 10, this.regexBankLoc[1] + 50, 'fairy')
@@ -171,7 +172,7 @@ export default class MainScene extends Phaser.Scene {
       const currentRegex = this.regexOptions
         .getChildren()
         .filter((option) => option.y === this.regexFairy.y);
-      this.regexChoice = currentRegex[0].re;
+      this.regexChoice = currentRegex[0];
     }
     this.piece = this.pieces.getLast(true);
     this.piece.update();
