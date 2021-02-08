@@ -16,7 +16,7 @@ export default class SignUpScene extends Phaser.Scene {
   preload() {
     this.load.html("signUpForm", "assets/text/signUpForm.html");
     this.load.image("background", "assets/menuSprites/menuBG1.png");
-    this.load.image('title', 'assets/spritesheets/REGEXTRIScolors.png');
+    this.load.image('title', 'assets/spritesheets/REGEXTRISbw.png');
   }
 
   create() {
@@ -71,7 +71,7 @@ export default class SignUpScene extends Phaser.Scene {
       this.postSubmissionAction();
     };
 
-    this.title = this.add.sprite(600, 20, 'title').setScale(0.2).setDepth(11);
+    this.title = this.add.sprite(600, 35, 'title').setScale(0.2).setDepth(11);
   }
 
   update() {}

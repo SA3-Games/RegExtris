@@ -33,7 +33,7 @@ export default class MainScene extends Phaser.Scene {
       frameHeight: 192,
     });
     this.load.image('fairy', 'assets/menuSprites/FAIRY.png');
-    this.load.image('title', 'assets/spritesheets/REGEXTRIScolors.png');
+    this.load.image('title', 'assets/spritesheets/REGEXTRISbw.png');
     this.load.image('I', 'assets/sprites/0.png');
     this.load.image('J', 'assets/sprites/1.png');
     this.load.image('L', 'assets/sprites/2.png');
@@ -56,7 +56,7 @@ export default class MainScene extends Phaser.Scene {
 
     //container border
     this.graphics = this.add.graphics();
-    this.graphics.lineStyle(5, 0xffffff, 1);
+    this.graphics.lineStyle(10, 0xffffff, 1);
 
     //move board to center of page
     this.gameBoardLoc = [450, 70];
@@ -141,7 +141,7 @@ export default class MainScene extends Phaser.Scene {
       .rectangle(this.gameBoardLoc[0], 0, 300, 90, config.backgroundColor)
       .setOrigin(0)
       .setDepth(10);
-    this.graphics.lineStyle(5, 0x00000, 1);
+    this.graphics.lineStyle(10, 0x00000, 1);
     this.graphics.strokeRectShape(this.gameBoardHeader);
 
     this.timer = this.physics.add
@@ -168,7 +168,7 @@ export default class MainScene extends Phaser.Scene {
     );
 
     //title display
-    this.title = this.add.sprite(600, 20, 'title').setScale(0.2).setDepth(11);
+    this.title = this.add.sprite(600, 35, 'title').setScale(0.2).setDepth(11);
   }
   update() {
     //only update most recently created piece
