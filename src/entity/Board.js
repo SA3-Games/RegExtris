@@ -37,16 +37,14 @@ export default class Board {
         //the piece has landed above the board
         this.scene.gameOver = true;
         // save scores to database
-        this.scene.scene.start("GameOverScene", {
-          tetrisScore: this.scene.score,
-          regExScore: this.scene.regexScore,
-        });
-        // store.dispatch(
-        //   postScore({
-        //     tetrisScore: this.scene.score,
-        //     regExScore: this.scene.regexScore,
-        //   })
-        // );
+        if (this.scene.mode === "learn") {
+          this.scene.scene.restart();
+        } else {
+            this.scene.scene.start("GameOverScene", {
+            tetrisScore: this.scene.score,
+            regExScore: this.scene.regexScore,
+          });
+        }
       }
     });
 

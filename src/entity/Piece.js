@@ -89,7 +89,10 @@ export default class Piece extends Phaser.GameObjects.Group {
     const { grid, color, possibleNext } = pieceTypes[type];
     //randomly choose next piece
     this.scene.nextPiece = Phaser.Math.RND.pick(possibleNext);
-    this.scene.nextPieceDisplay.setTexture(this.scene.nextPiece);
+    //skips nextPieceDisplay in Learn Mode:
+    if (this.mode === "normal") {
+      this.scene.nextPieceDisplay.setTexture(this.scene.nextPiece);
+    }
     this.grid = grid;
     this.color = color;
     this.id = this.scene.pieceCount;
