@@ -10,7 +10,6 @@ export default class LoginScene extends Phaser.Scene {
   init() {}
   preload() {
     this.load.html("loginForm", "assets/text/loginForm.html");
-    this.load.image("background", "assets/menuSprites/menuBG1.png");
     this.load.image('title', 'assets/spritesheets/REGEXTRISbw2.png');
   }
   create() {
@@ -23,8 +22,6 @@ export default class LoginScene extends Phaser.Scene {
         this.scene.start("MenuScene");
       }
     });
-
-    this.add.image(600, 400, "background");
 
     this.add.dom(600, 350).createFromCache("loginForm");
 

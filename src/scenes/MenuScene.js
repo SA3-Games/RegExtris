@@ -20,15 +20,14 @@ export default class MenuScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("Neon-Box", "assets/menuSprites/neonBlueBox.png");
     this.load.image("FAIRY", "assets/menuSprites/FAIRY.png");
-    this.load.image("background", "assets/menuSprites/menuBG1.png");
     this.load.image('title', 'assets/spritesheets/REGEXTRISbw2.png');
+    this.load.image('play', 'assets/menuSprites/play.png');
+    this.load.image('learnmode', 'assets/menuSprites/learnmode.png')
+    this.load.image('logout', 'assets/menuSprites/logout.png');
   }
 
   create() {
-    const width = 1200;
-    const height = 800;
     this.selectedButtonIndex = 0;
     this.buttons = [];
     this.enter = this.input.keyboard.addKey("ENTER");
@@ -45,25 +44,8 @@ export default class MenuScene extends Phaser.Scene {
     //   }
     // });
 
-    //Setting background
-    this.add.image(600, 400, "background");
-
-    // instructions
-    this.add.text(360, 100, "Use arrow keys to move\nUse enter key to select", {
-      fontFamily: "retroFont",
-      fontSize: 30,
-    });
-
     // PLAY button
-    const PLAYButton = this.add
-      .image(width * 0.5, height * 0.4, "Neon-Box")
-      .setDisplaySize(300, 100);
-    this.add
-      .text(PLAYButton.x, PLAYButton.y, "PLAY", {
-        fontFamily: "retroFont",
-        fontSize: 64,
-      })
-      .setOrigin(0.5);
+    const PLAYButton = this.add.image(600, 200, "play").setScale(0.2);    
 
     PLAYButton.on("selected", () => {
       //this is where you'd connect the button with PLAYing the game
@@ -74,33 +56,17 @@ export default class MenuScene extends Phaser.Scene {
       PLAYButton.off("selected");
     });
 
-    //Learn Mode button
-    const learnModeButton = this.add
-      .image(
-        PLAYButton.x,
-        PLAYButton.y + PLAYButton.displayHeight + 10,
-        "Neon-Box"
-      )
-      .setDisplaySize(150, 50);
-    this.add
-      .text(learnModeButton.x, learnModeButton.y, "Learn Mode", {
-        fontFamily: "retroFont",
-      })
-      .setOrigin(0.5);
+    // Learn Mode button
+    const learnModeButton = this.add.image(600, 300, "learnmode").setScale(0.2);
 
     // Log out button
-    this.logOutButton = this.add
-      .image(
-        learnModeButton.x,
-        learnModeButton.y + learnModeButton.displayHeight + 10,
-        "Neon-Box"
-      )
-      .setDisplaySize(150, 50);
-    this.add
-      .text(this.logOutButton.x, this.logOutButton.y, "Log Out", {
-        fontFamily: "retroFont",
-      })
-      .setOrigin(0.5);
+    this.logOutButton = this.add.image(600, 400, "logout").setScale(0.2);
+
+    // instructions
+    this.add.text(400, 500, "Use arrow keys to move\nUse enter key to select", {
+      fontFamily: "retroFont",
+      fontSize: 25,
+    });
 
     this.buttons.push(PLAYButton);
     this.buttons.push(learnModeButton);
@@ -137,10 +103,10 @@ export default class MenuScene extends Phaser.Scene {
     currentButton.setTint(0xffffff);
     const button = this.buttons[index];
     // set the newly selected button to a green tint
-    button.setTint(0x66ff7f);
+    button.setTint(0x7a8bf4);
     // move the hand cursor to the right edge
-    this.buttonSelector.x = button.x - button.displayWidth * 0.6;
-    this.buttonSelector.y = button.y + 10;
+    this.buttonSelector.x = button.x - button.displayWidth * 0.7;
+    this.buttonSelector.y = button.y;
     // store the new selected index
     this.selectedButtonIndex = index;
   }

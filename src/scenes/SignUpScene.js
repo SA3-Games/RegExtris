@@ -15,7 +15,6 @@ export default class SignUpScene extends Phaser.Scene {
 
   preload() {
     this.load.html("signUpForm", "assets/text/signUpForm.html");
-    this.load.image("background", "assets/menuSprites/menuBG1.png");
     this.load.image('title', 'assets/spritesheets/REGEXTRISbw2.png');
   }
 
@@ -30,9 +29,7 @@ export default class SignUpScene extends Phaser.Scene {
       }
     });
 
-    this.add.image(600, 400, "background");
-
-    let element = this.add.dom(600, 350).createFromCache("signUpForm");
+    this.add.dom(600, 350).createFromCache("signUpForm");
 
     this.signUpForm = document.getElementById("signup");
     this.errorDiv = document.getElementById("error");
