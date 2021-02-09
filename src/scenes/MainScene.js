@@ -22,7 +22,7 @@ export default class MainScene extends Phaser.Scene {
       frameHeight: 192,
     });
     this.load.image('fairy', 'assets/menuSprites/FAIRY.png');
-    this.load.image('title', 'assets/spritesheets/REGEXTRISbw.png');
+    this.load.image('title', 'assets/spritesheets/REGEXTRISbw2.png');
     this.load.image('I', 'assets/sprites/0.png');
     this.load.image('J', 'assets/sprites/1.png');
     this.load.image('L', 'assets/sprites/2.png');

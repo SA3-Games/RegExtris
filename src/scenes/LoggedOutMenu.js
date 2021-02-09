@@ -18,21 +18,13 @@ export default class LoggedOutMenu extends Phaser.Scene {
 
   preload() {
     this.load.image("Neon-Box", "assets/menuSprites/neonBlueBox.png");
+    this.load.image("login", "assets/menuSprites/login.png");
+    this.load.image("signup", "assets/menuSprites/signup.png");
     this.load.image("FAIRY", "assets/menuSprites/FAIRY.png");
-    this.load.image("background", "assets/menuSprites/menuBG1.png");
-    this.load.image('title', 'assets/spritesheets/REGEXTRISbw.png');
+    this.load.image('title', 'assets/spritesheets/REGEXTRISbw2.png');
   }
 
   create() {
-    // this.unsubscribe = store.subscribe(() => {
-
-    // })
-    // if (this.player.id) {
-    //   this.scene.start("MenuScene", { player: this.player });
-    // }
-
-    const width = 1200;
-    const height = 800;
     this.selectedButtonIndex = 0;
     this.buttons = [];
     this.enter = this.input.keyboard.addKey("ENTER");
@@ -40,39 +32,16 @@ export default class LoggedOutMenu extends Phaser.Scene {
     store.dispatch(me());
     this.player = store.getState().player;
 
-    //Setting background
-    this.add.image(600, 400, "background");
-
-    // instructions
-    this.add.text(360, 100, "Use arrow keys to move\nUse enter key to select", {
-      fontFamily: "retroFont",
-      fontSize: 30,
-    });
-
     // Log in button
-    const logInButton = this.add
-      .image(width * 0.5, height * 0.4, "Neon-Box")
-      .setDisplaySize(150, 50);
-
-    this.add
-      .text(logInButton.x, logInButton.y, "Log In", {
-        fontFamily: "retroFont",
-      })
-      .setOrigin(0.5);
+    const logInButton = this.add.image(600, 200, "login").setScale(.2);
 
     // Sign Up button
-    const signUpButton = this.add
-      .image(
-        logInButton.x,
-        logInButton.y + logInButton.displayHeight + 10,
-        "Neon-Box"
-      )
-      .setDisplaySize(150, 50);
-    this.add
-      .text(signUpButton.x, signUpButton.y, "Sign Up", {
-        fontFamily: "retroFont",
-      })
-      .setOrigin(0.5);
+    const signUpButton = this.add.image(600, 300, "signup").setScale(.2);
+    // instructions
+    this.add.text(400, 400, "Use arrow keys to move\nUse enter key to select", {
+      fontFamily: "retroFont",
+      fontSize: 25,
+    });
 
     this.buttons.push(logInButton);
     this.buttons.push(signUpButton);
@@ -105,11 +74,11 @@ export default class LoggedOutMenu extends Phaser.Scene {
     // set the current selected button to a white tint
     currentButton.setTint(0xffffff);
     const button = this.buttons[index];
-    // set the newly selected button to a green tint
-    button.setTint(0x66ff7f);
+    // set the newly selected button to a blue tint
+    button.setTint(0x7a8bf4); //c3edf5
     // move the hand cursor to the right edge
-    this.buttonSelector.x = button.x - button.displayWidth * 0.6;
-    this.buttonSelector.y = button.y + 10;
+    this.buttonSelector.x = button.x - button.displayWidth * 0.7;
+    this.buttonSelector.y = button.y;
     // store the new selected index
     this.selectedButtonIndex = index;
   }
