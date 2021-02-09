@@ -20,7 +20,7 @@ export default class LoggedOutMenu extends Phaser.Scene {
     this.load.image("Neon-Box", "assets/menuSprites/neonBlueBox.png");
     this.load.image("FAIRY", "assets/menuSprites/FAIRY.png");
     this.load.image("background", "assets/menuSprites/menuBG1.png");
-    this.load.image('title', 'assets/spritesheets/REGEXTRIScolors.png');
+    this.load.image('title', 'assets/spritesheets/REGEXTRISbw.png');
   }
 
   create() {
@@ -97,7 +97,7 @@ export default class LoggedOutMenu extends Phaser.Scene {
     this.selectButton(0);
 
     //title display
-    this.title = this.add.sprite(600, 20, 'title').setScale(0.2).setDepth(11);
+    this.title = this.add.sprite(600, 35, 'title').setScale(0.2).setDepth(11);
   }
 
   selectButton(index) {

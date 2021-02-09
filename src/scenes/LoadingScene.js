@@ -11,10 +11,11 @@ export default class LoadingScene extends Phaser.Scene {
   }
 
   create() {
-    this.add.text(10, 10, "Loading...", {
-      font: "32px Courier",
-      fill: "#ffffff",
-    });
+    // this.add.text(600, 350, "Loading...", {
+    //   fontFamily: "retroFont",
+    //   fill: "#ffffff",
+    //   fontSize: 50
+    // });
     store.dispatch(me());
   }
 

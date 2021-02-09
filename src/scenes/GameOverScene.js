@@ -15,7 +15,7 @@ export default class GameOverScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("title", "assets/spritesheets/REGEXTRIScolors.png");
+    this.load.image('title', 'assets/spritesheets/REGEXTRISbw.png');
     this.load.script(
       "chartjs",
       "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"
@@ -204,7 +204,8 @@ export default class GameOverScene extends Phaser.Scene {
       .setOrigin(0.5, 0.5);
 
     //title display
-    this.title = this.add.sprite(600, 20, "title").setScale(0.2).setDepth(11);
+    this.title = this.add.sprite(600, 35, 'title').setScale(0.2).setDepth(11);
+
   }
 
   update() {
