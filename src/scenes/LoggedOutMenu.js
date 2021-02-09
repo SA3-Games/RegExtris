@@ -75,7 +75,7 @@ export default class LoggedOutMenu extends Phaser.Scene {
     currentButton.setTint(0xffffff);
     const button = this.buttons[index];
     // set the newly selected button to a blue tint
-    button.setTint(0x3333ff);
+    button.setTint(0x7a8bf4); //c3edf5
     // move the hand cursor to the right edge
     this.buttonSelector.x = button.x - button.displayWidth * 0.7;
     this.buttonSelector.y = button.y;
