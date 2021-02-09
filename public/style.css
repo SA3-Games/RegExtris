@@ -18,7 +18,7 @@ body {
     top: 0;
     height: 100vh;
     width: 100vw;
-}
+} 
 
 label {
     color: white;
@@ -108,6 +108,10 @@ input:focus {
     color: white;
     text-align: center;
     padding: 1em;
+}
+
+.esc {
+    color: white;
 }
 
 

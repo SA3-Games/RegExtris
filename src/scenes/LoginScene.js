@@ -7,10 +7,14 @@ export default class LoginScene extends Phaser.Scene {
     this.player;
     this.error = {};
   }
+
+  escape() {
+    this.scene.start('LoadingScene');
+  }
+
   init() {}
   preload() {
     this.load.html("loginForm", "assets/text/loginForm.html");
-    this.load.image("background", "assets/menuSprites/menuBG1.png");
     this.load.image('title', 'assets/spritesheets/REGEXTRISbw2.png');
   }
   create() {
@@ -23,8 +27,6 @@ export default class LoginScene extends Phaser.Scene {
         this.scene.start("MenuScene");
       }
     });
-
-    this.add.image(600, 400, "background");
 
     this.add.dom(600, 350).createFromCache("loginForm");
 
@@ -48,6 +50,9 @@ export default class LoginScene extends Phaser.Scene {
 
     //function runs if you pressed enter to submit
     this.enterToSubmit = (e) => {
+      if (e.keyCode == 27) {
+        this.escape();
+      }
       if ((e && e.keyCode == 13) || e == 0) {
         this.postSubmissionAction();
       }
