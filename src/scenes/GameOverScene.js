@@ -39,140 +39,169 @@ export default class GameOverScene extends Phaser.Scene {
     this.regexChoices = this.reduxState.regexChoices;
     this.scores = this.reduxState.scores;
 
-    //extract scores from all scores
-    this.allTetrisScores = [];
-    this.allRegexScores = [];
-    console.log("redux State: " + this.reduxState);
-    this.scores.forEach((scoreSet) => {
-      this.allTetrisScores.push(scoreSet.tetrisScore);
-      this.allRegexScores.push(scoreSet.regExScore);
-      //find frequency of occurences
-    });
-    //The chart that displays your score broken down by Tetris score and Regex Score
+    //Function that helps create the number of occurences a certain score happens along with their segments
+    function getScoreChart(
+      numSegments,
+      scores,
+      scoreType,
+      title,
+      currentScore
+    ) {
+      let thisScores = scores.map((score) => score[scoreType]);
+      let maxScore = Math.max(...thisScores);
+      let segmentSize = Math.floor(maxScore / numSegments);
+      let labels = [];
+      let occurences = [];
+      let bgColors = [];
+      for (let i = 0; i <= numSegments; i++) {
+        let label = i * segmentSize;
+        let numItems = 0;
+        let bgColor = "rgba(255,255,255, 1)";
+        thisScores.forEach((score) => {
+          if (score <= label && score > (i - 1) * segmentSize) {
+            numItems++;
+            if (score === currentScore && scoreType === "tetrisScore") {
+              bgColor = "rgba(153,0,255, 0.4)";
+            } else if (score === currentScore && scoreType === "regExScore") {
+              bgColor = "rgba(102,255,51, 0.4)";
+            }
+          }
+        });
+        labels.push(label);
+        occurences.push(numItems);
+        bgColors.push(bgColor);
+      }
+      let chart = {
+        type: "bar",
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              data: occurences,
+              backgroundColor: bgColors,
+              color: "white",
+              borderWidth: 0,
+            },
+          ],
+        },
+        options: {
+          legend: {
+            display: false,
+          },
+          title: {
+            display: true,
+            text: title,
+            fontColor: "white",
+            fontSize: 14,
+          },
+          scales: {
+            xAxes: [
+              {
+                display: false,
+                categoryPercentage: 1.0,
+                barPercentage: 1.0,
+                ticks: {
+                  fontColor: "white",
+                  fontSize: 10,
+                },
+              },
+            ],
+            yAxes: [
+              {
+                ticks: {
+                  beginAtZero: true,
+                  fontColor: "white",
+                  fontSize: 10,
+                },
+              },
+            ],
+          },
+        },
+      };
+
+      return chart;
+    }
+    //creates the tetris score chart
+    let tetrisScoreChart = getScoreChart(
+      6,
+      this.scores,
+      "tetrisScore",
+      "All Users Tetris Score Breakdown",
+      this.tetrisScore
+    );
+
+    //displays the histogram
+    this.rexUI.add.chart(600, 400, 200, 100, tetrisScoreChart).resize(300, 300);
+
+    //creates the Regex score chart
+    let regExScoreChart = getScoreChart(
+      6,
+      this.scores,
+      "regExScore",
+      "All Users Regex Score Breakdown",
+      this.regExScore
+    );
+
+    //displays the histogram
+    this.rexUI.add.chart(900, 400, 200, 100, regExScoreChart).resize(300, 300);
+
+    //chart that shows your scorebreakdown for this game
     let gameScore = {
-      type: "bar",
+      type: "doughnut",
       data: {
-        labels: ["Tetris", "Regex"],
+        labels: [this.tetrisScore, this.regExScore],
+        backgroundColor: "rgba(153,0,255, 0.4)",
+        borderColor: "rgba(153,0,255, 1)",
+        borderColor: ["rgba(153,0,255, 0.2)", "rgba(102,255,51, 0.2)"],
         datasets: [
           {
             data: [this.tetrisScore, this.regExScore],
             backgroundColor: ["rgba(153,0,255, 0.2)", "rgba(102,255,51, 0.2)"],
-            borderColor: "white",
-            color: "white",
-            borderWidth: 1,
           },
         ],
       },
       options: {
+        showTooltips: true,
         legend: {
-          display: false,
-        },
-        title: {
-          display: true,
-          text: "Your Score Breakdown",
-          fontColor: "white",
-          fontSize: 14,
-        },
-        scales: {
-          xAxes: [
-            {
-              ticks: {
-                fontColor: "white",
-                fontSize: 10,
-              },
-            },
-          ],
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-                fontColor: "white",
-                fontSize: 10,
-              },
-            },
-          ],
-        },
-      },
-    };
-
-    this.rexUI.add.chart(300, 400, 200, 100, gameScore).resize(200, 200);
-
-    let allScores = {
-      type: "bar",
-      data: {
-        datasets: [
-          {
-            data: [this.allTetrisScores],
-            backgroundColor: ["rgba(153,0,255, 0.2)", "rgba(102,255,51, 0.2)"],
-            borderColor: "white",
-            color: "white",
-            borderWidth: 1,
+          labels: {
+            position: "top",
+            fontColor: "white",
           },
-        ],
-      },
-      options: {
-        legend: {
-          display: false,
         },
         title: {
           display: true,
-          text: "All Users Scores Breakdown",
+          text: "Your Scores Today",
           fontColor: "white",
-          fontSize: 14,
         },
-        scales: {
-          xAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-                stepSize: 500,
-                fontColor: "white",
-                fontSize: 10,
-              },
-            },
-          ],
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-                fontColor: "white",
-                fontSize: 10,
-              },
-            },
-          ],
+        animation: {
+          animateScale: true,
+          animateRotate: true,
+        },
+        tooltip: {
+          mode: "nearest",
         },
       },
     };
 
-    this.rexUI.add.chart(600, 400, 200, 100, allScores).resize(200, 200);
+    //displays the doughnut chart
+    this.rexUI.add.chart(300, 400, 200, 100, gameScore).resize(300, 300);
+
+    //The Game over Text
     this.add
       .text(600, 80, `GAME OVER!`, {
         fontSize: "24px",
       })
       .setOrigin(0.5, 0.5);
     this.add
-      .text(
-        600,
-        120,
-        `Final Tetris Score: ${this.tetrisScore}  Final RegEx Score: ${this.regExScore}`,
-        {
-          fontSize: "20px",
-        }
-      )
+      .text(600, 120, `Final Score: ${this.tetrisScore + this.regExScore}`, {
+        fontSize: "20px",
+      })
       .setOrigin(0.5, 0.5);
     this.add
       .text(600, 160, `Press enter to go back to the menu!`, {
         fontSize: "24px",
       })
       .setOrigin(0.5, 0.5);
-
-    // Object.keys(this.regexChoices).forEach((re, index) => {
-    //   this.add.text(
-    //     10,
-    //     275 + 25 * index,
-    //     `${re}                ${this.regexChoices[re].timesUsed}                 ${this.regexChoices[re].totalCharacters}`
-    //   );
-    // });
 
     //title display
     this.title = this.add.sprite(600, 20, "title").setScale(0.2).setDepth(11);

@@ -19,8 +19,8 @@ class Game extends Phaser.Game {
     this.scene.add("LoggedOutMenu", LoggedOutMenu);
     this.scene.add("LoadingScene", LoadingScene);
     this.scene.add("LoginScene", LoginScene);
-    this.scene.start("LoadingScene", { dataLoading: "player" });
+    this.scene.start("MenuScene", { dataLoading: "player" });
   }
 }
 
-new Game(config);
+window.game = new Game(config);
