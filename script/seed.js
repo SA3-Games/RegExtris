@@ -41,24 +41,10 @@ const seed = async () => {
       }),
     ]);
 
-    const [session1, session2] = await Promise.all([
-      Session.create(),
-      Session.create(),
-    ]);
-
     await sam.addScore(sam1);
     await sam.addScore(sam2);
     await mark.addScore(mark1);
     await alex.addScore(alex1);
-
-    await sam.addSession(session1);
-    await mark.addSession(session1);
-    await alex.addSession(session1);
-    await julie.addSession(session1);
-
-    await sam1.addSession(session1);
-    await mark1.addSession(session1);
-    await alex1.addSession(session1);
   } catch (error) {
     console.log("seed didn't work");
     console.log(error);

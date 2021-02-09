@@ -11,14 +11,14 @@ export default class SignUpScene extends Phaser.Scene {
   }
 
   escape() {
-    this.scene.start('LoadingScene');
+    this.scene.start("LoadingScene");
   }
 
   init() {}
 
   preload() {
-    this.load.html("signUpForm", "assets/text/signUpForm.html");
-    this.load.image('title', 'assets/spritesheets/REGEXTRISbw2.png');
+    this.load.html("signUpForm", "assets/dom/signUpForm.html");
+    this.load.image("title", "assets/spritesheets/REGEXTRISbw2.png");
   }
 
   create() {
@@ -76,7 +76,7 @@ export default class SignUpScene extends Phaser.Scene {
       this.postSubmissionAction();
     };
 
-    this.title = this.add.sprite(600, 35, 'title').setScale(0.2).setDepth(11);
+    this.title = this.add.sprite(600, 35, "title").setScale(0.2).setDepth(11);
   }
 
   update() {

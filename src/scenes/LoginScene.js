@@ -9,13 +9,13 @@ export default class LoginScene extends Phaser.Scene {
   }
 
   escape() {
-    this.scene.start('LoadingScene');
+    this.scene.start("LoadingScene");
   }
 
   init() {}
   preload() {
-    this.load.html("loginForm", "assets/text/loginForm.html");
-    this.load.image('title', 'assets/spritesheets/REGEXTRISbw2.png');
+    this.load.html("loginForm", "assets/dom/loginForm.html");
+    this.load.image("title", "assets/spritesheets/REGEXTRISbw2.png");
   }
   create() {
     this.unsubscribe = store.subscribe(() => {
@@ -65,6 +65,6 @@ export default class LoginScene extends Phaser.Scene {
     };
 
     //title display
-    this.title = this.add.sprite(600, 35, 'title').setScale(0.2).setDepth(11);
+    this.title = this.add.sprite(600, 35, "title").setScale(0.2).setDepth(11);
   }
 }
