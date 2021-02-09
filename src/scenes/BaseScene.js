@@ -42,7 +42,7 @@ export default class BaseScene extends Phaser.Scene {
       .setOrigin(0);
 
     this.gameBoardHeader = this.add
-      .rectangle(x, 0, 300, 100, config.backgroundColor)
+      .rectangle(x-5, 0, 310, 105, 0x000000)
       .setOrigin(0)
       .setDepth(10);
 
@@ -111,21 +111,16 @@ export default class BaseScene extends Phaser.Scene {
     this.nextPieceDisplay = this.add.image(225, 235, 'I');
   }
 
-  createBorders() {
+  createBorders(boards) {
     //container border
     this.graphics = this.add.graphics();
     this.graphics.lineStyle(4, 0xffffff, 1);
-    this.graphics.strokeRectShape(this.gameBoard);
-    this.graphics.strokeRectShape(this.regexBoard);
-    this.graphics.strokeRectShape(this.scoreBoard);
-    this.graphics.strokeRectShape(this.nextPieceBoard);
-    this.graphics.lineStyle(10, 0x00000, 1);
-    this.graphics.strokeRectShape(this.gameBoardHeader);
+    boards.forEach(board => {this.graphics.strokeRectShape(board)})
   }
 
-  createTimer(fps = 1) {
+  createTimer(x, y, fps = 1) {
     this.timer = this.physics.add
-      .sprite(975, 590, 'timer', 10)
+      .sprite(x, y, 'timer', 10)
       .setDisplaySize(75, 75)
       .setVisible(false);
 
