@@ -31,61 +31,53 @@ export default class BaseScene extends Phaser.Scene {
   }
 
   assignLocations(tetrisLoc, regexLoc) {
+    //used in multiple files
     this.gameBoardLoc = tetrisLoc;
     this.regexBankLoc = regexLoc;
   }
 
-  createGameBoard() {
+  createGameBoard(x, y) {
     this.gameBoard = this.add
-      .rectangle(
-        this.gameBoardLoc[0],
-        this.gameBoardLoc[1],
-        300,
-        600,
-        this.foregroundColor
-      )
+      .rectangle(x, y, 300, 600, this.foregroundColor)
       .setOrigin(0);
 
     this.gameBoardHeader = this.add
-      .rectangle(this.gameBoardLoc[0], 0, 300, 100, config.backgroundColor)
+      .rectangle(x, 0, 300, 100, config.backgroundColor)
       .setOrigin(0)
       .setDepth(10);
 
     //line for top of tetris board
-    this.add.rectangle(448, 101, 304, 4, 0xffffff).setOrigin(0).setDepth(11);
+    this.add
+      .rectangle(x - 2, y + 31, 304, 4, 0xffffff)
+      .setOrigin(0)
+      .setDepth(11);
   }
 
-  createRegexBoard() {
+  createRegexBoard(x, y) {
     this.regexBoard = this.add
-      .rectangle(850, 105, 250, 570, this.foregroundColor)
+      .rectangle(x, y + 5, 250, 570, this.foregroundColor)
       .setOrigin(0);
 
     this.regexLabel = this.add
-      .text(975, 130, 'Regex Choice', {
+      .text(x + 125, y + 30, 'Regex Choice', {
         fontFamily: 'retroFont',
         fontSize: '20px',
       })
       .setOrigin(0.5);
     this.regexControlsDisplay = this.add
-      .text(975, 160, 'Press SHIFT to switch', {
+      .text(x + 125, y + 60, 'Press SHIFT to switch', {
         fontFamily: 'retroFont',
         fontSize: '14px',
       })
       .setOrigin(0.5);
     this.regexOptions = this.physics.add.group({ classType: RegexOption });
     for (let i = 0; i < 5; i++) {
-      this.regexOptions.add(
-        new RegexOption(
-          this,
-          this.regexBankLoc[0] + 70,
-          this.regexBankLoc[1] + 140 + 60 * i,
-          i
-        )
-      );
+      this.regexOptions.add(new RegexOption(this, x + 70, y + 140 + 60 * i, i));
     }
     this.regexChoice = this.regexOptions.getChildren()[0];
+    this.regexChoice.setTint(0x7a8bf4);
     this.regexFairy = this.physics.add
-      .sprite(this.regexBankLoc[0] + 10, this.regexBankLoc[1] + 140, 'fairy')
+      .sprite(x + 10, y + 140, 'fairy')
       .setDisplaySize(55, 55)
       .setOrigin(0, 0.2);
   }
@@ -178,10 +170,12 @@ export default class BaseScene extends Phaser.Scene {
       } else {
         this.regexFairy.y += 60;
       }
+      this.regexOptions.setTint(0xffffff);
       const currentRegex = this.regexOptions
         .getChildren()
         .filter((option) => option.y === this.regexFairy.y);
       this.regexChoice = currentRegex[0];
+      this.regexChoice.setTint(0x7a8bf4);
     }
   }
 }
