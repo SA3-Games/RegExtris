@@ -1,5 +1,6 @@
 import axios from "axios";
 import { setError, clearError } from "./errorStore";
+import { fetchPlayersScores } from "./score";
 
 /**
  * ACTION TYPES
@@ -30,6 +31,7 @@ export const me = () => async (dispatch) => {
   try {
     const { data } = await axios.get("/auth/me");
     dispatch(getPlayer(data || { id: null }));
+    if (data.id) dispatch(fetchPlayersScores(data.id));
   } catch (error) {
     dispatch(modifyError(error));
   }

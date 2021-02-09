@@ -21,6 +21,7 @@ export const fetchPlayersScores = (playerId) => {
   return async (dispatch) => {
     try {
       const { data } = await axios.get(`/api/scores/${playerId}`);
+      console.log("data in fetch player scores thunk", data);
       dispatch(getPlayersScores(data));
     } catch (error) {
       modifyError(error);
@@ -32,7 +33,6 @@ export const postScore = (score) => {
   return async (dispatch) => {
     try {
       const playerId = store.getState().player.id;
-      console.log("inside postScore thunk", playerId, typeof playerId);
       // assumes score comes in as an object with keys tetrisScore and regExScore
       await axios.post(`/api/scores/${playerId}`, score);
       dispatch(saveScore(score));

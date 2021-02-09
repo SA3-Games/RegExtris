@@ -72,9 +72,7 @@ export default class GameOverScene extends Phaser.Scene {
     }
 
     this.enter = this.input.keyboard.addKey("ENTER");
-
-    // this.reduxState = store.getState();
-    // this.regexChoices = this.reduxState.regexChoices;
+    this.shift = this.input.keyboard.addKey("SHIFT");
 
     //Function that helps create the number of occurences a certain score happens along with their segments
     function getScoreChart(
@@ -228,6 +226,8 @@ export default class GameOverScene extends Phaser.Scene {
   update() {
     if (Phaser.Input.Keyboard.JustUp(this.enter)) {
       this.scene.start("MenuScene");
+    } else if (Phaser.Input.Keyboard.JustUp(this.shift)) {
+      this.scene.start("DetailedScoreScene");
     }
   }
 }
