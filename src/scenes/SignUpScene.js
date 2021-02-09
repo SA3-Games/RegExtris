@@ -2,7 +2,6 @@ import Phaser from "phaser";
 import store from "../store";
 import { auth } from "../store/singlePlayer";
 import { clearError } from "../store/errorStore";
-import { width, height } from "../config/config";
 
 export default class SignUpScene extends Phaser.Scene {
   constructor() {
@@ -11,15 +10,20 @@ export default class SignUpScene extends Phaser.Scene {
     this.error;
   }
 
+  escape() {
+    this.scene.start("LoadingScene");
+  }
+
   init() {}
 
   preload() {
     this.load.html("signUpForm", "assets/dom/signUpForm.html");
-    this.load.image("background", "assets/menuSprites/menuBG1.png");
     this.load.image("title", "assets/spritesheets/REGEXTRISbw2.png");
   }
 
   create() {
+    // this.escape = this.input.keyboard.addKey("ESCAPE");
+
     this.unsubscribe = store.subscribe(() => {
       this.player = store.getState().player;
       this.error = store.getState().error;
@@ -30,9 +34,7 @@ export default class SignUpScene extends Phaser.Scene {
       }
     });
 
-    this.add.image(600, 400, "background");
-
-    let element = this.add.dom(600, 350).createFromCache("signUpForm");
+    this.add.dom(600, 350).createFromCache("signUpForm");
 
     this.signUpForm = document.getElementById("signup");
     this.errorDiv = document.getElementById("error");
@@ -60,6 +62,9 @@ export default class SignUpScene extends Phaser.Scene {
 
     //function runs if you pressed enter to submit
     this.enterToSubmit = (e) => {
+      if (e.keyCode == 27) {
+        this.escape();
+      }
       if ((e && e.keyCode == 13) || e == 0) {
         this.postSubmissionAction();
       }
@@ -74,5 +79,10 @@ export default class SignUpScene extends Phaser.Scene {
     this.title = this.add.sprite(600, 35, "title").setScale(0.2).setDepth(11);
   }
 
-  update() {}
+  update() {
+    // const escJustPressed = Phaser.Input.Keyboard.JustDown(this.escape);
+    // if (escJustPressed) {
+    //   this.scene.start("LoggedOutMenu.js");
+    // }
+  }
 }

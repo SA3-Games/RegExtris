@@ -38,7 +38,7 @@ export default class LoggedOutMenu extends Phaser.Scene {
     // Sign Up button
     const signUpButton = this.add.image(600, 300, "signup").setScale(.2);
     // instructions
-    this.add.text(400, 400, "Use arrow keys to move\nUse enter key to select", {
+    this.add.text(400, 500, "Use arrow keys to move\nUse enter key to select", {
       fontFamily: "retroFont",
       fontSize: 25,
     });
