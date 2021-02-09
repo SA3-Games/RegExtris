@@ -68,7 +68,7 @@ export default class Board {
       if (square.loc[1] === parseInt(index)) {
         const result = square.character.match(re);
         if (result) {
-          square.setTint(0xffffff);
+          square.setTint(0x7a8bf4);
           total += 1;
         }
       }
