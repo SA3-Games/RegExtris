@@ -13,12 +13,6 @@ export default class MenuScene extends Phaser.Scene {
     this.loggingOut = false;
   }
 
-  init(data) {
-    this.cursors = this.input.keyboard.createCursorKeys();
-    // this.player = data.player;
-    console.log("logged in menu init function", this.player);
-  }
-
   preload() {
     this.load.image("FAIRY", "assets/menuSprites/FAIRY.png");
     this.load.image('title', 'assets/spritesheets/REGEXTRISbw2.png');
@@ -31,6 +25,7 @@ export default class MenuScene extends Phaser.Scene {
     this.selectedButtonIndex = 0;
     this.buttons = [];
     this.enter = this.input.keyboard.addKey("ENTER");
+    this.cursors = this.input.keyboard.createCursorKeys();
 
     store.dispatch(me());
     this.player = store.getState().player;
