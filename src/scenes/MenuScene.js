@@ -23,7 +23,7 @@ export default class MenuScene extends Phaser.Scene {
     this.load.image("Neon-Box", "assets/menuSprites/neonBlueBox.png");
     this.load.image("FAIRY", "assets/menuSprites/FAIRY.png");
     this.load.image("background", "assets/menuSprites/menuBG1.png");
-    this.load.image('title', 'assets/spritesheets/REGEXTRISbw.png');
+    this.load.image('title', 'assets/spritesheets/REGEXTRISbw2.png');
   }
 
   create() {

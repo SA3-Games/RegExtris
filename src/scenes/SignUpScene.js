@@ -16,7 +16,7 @@ export default class SignUpScene extends Phaser.Scene {
   preload() {
     this.load.html("signUpForm", "assets/text/signUpForm.html");
     this.load.image("background", "assets/menuSprites/menuBG1.png");
-    this.load.image('title', 'assets/spritesheets/REGEXTRISbw.png');
+    this.load.image('title', 'assets/spritesheets/REGEXTRISbw2.png');
   }
 
   create() {

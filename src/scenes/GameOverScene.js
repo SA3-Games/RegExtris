@@ -15,11 +15,13 @@ export default class GameOverScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('title', 'assets/spritesheets/REGEXTRISbw.png');
+
+    this.load.image('title', 'assets/spritesheets/REGEXTRISbw2.png');
     this.load.script(
       "chartjs",
       "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"
     );
+
   }
 
   create() {
