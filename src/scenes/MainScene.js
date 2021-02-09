@@ -10,8 +10,6 @@ export default class MainScene extends BaseScene {
     //pixel location for top left corner of game and regex boards
     this.assignLocations([450, 70], [850, 100]);
 
-    this.createGraphics();
-
     this.createGameBoard();
 
     this.createRegexBoard();
@@ -19,6 +17,8 @@ export default class MainScene extends BaseScene {
     this.createScoreBoard();
 
     this.createNextPieceBoard();
+
+    this.createBorders();
 
     this.createTimer();
 

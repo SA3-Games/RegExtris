@@ -35,12 +35,6 @@ export default class BaseScene extends Phaser.Scene {
     this.regexBankLoc = regexLoc;
   }
 
-  createGraphics() {
-    //container border
-    this.graphics = this.add.graphics();
-    this.graphics.lineStyle(10, 0xffffff, 1);
-  }
-
   createGameBoard() {
     this.gameBoard = this.add
       .rectangle(
@@ -51,22 +45,21 @@ export default class BaseScene extends Phaser.Scene {
         this.foregroundColor
       )
       .setOrigin(0);
-    this.graphics.strokeRectShape(this.gameBoard);
+
     this.gameBoardHeader = this.add
       .rectangle(this.gameBoardLoc[0], 0, 300, 100, config.backgroundColor)
       .setOrigin(0)
       .setDepth(10);
-    this.graphics.lineStyle(10, 0x00000, 1);
-    this.graphics.strokeRectShape(this.gameBoardHeader);
+
     //line for top of tetris board
-    this.add.rectangle(445, 101, 310, 4, 0xffffff).setOrigin(0).setDepth(11);
+    this.add.rectangle(448, 101, 304, 4, 0xffffff).setOrigin(0).setDepth(11);
   }
 
   createRegexBoard() {
     this.regexBoard = this.add
       .rectangle(850, 105, 250, 570, this.foregroundColor)
       .setOrigin(0);
-    this.graphics.strokeRectShape(this.regexBoard);
+
     this.regexLabel = this.add
       .text(975, 130, 'Regex Choice', {
         fontFamily: 'retroFont',
@@ -101,7 +94,7 @@ export default class BaseScene extends Phaser.Scene {
     this.scoreBoard = this.add
       .rectangle(100, 370, 250, 300, this.foregroundColor)
       .setOrigin(0);
-    this.graphics.strokeRectShape(this.scoreBoard);
+
     this.scoreDisplay = this.add.text(
       110,
       400,
@@ -124,7 +117,18 @@ export default class BaseScene extends Phaser.Scene {
       .text(225, 130, 'Up Next:', { fontFamily: 'retroFont', fontSize: '20px' })
       .setOrigin();
     this.nextPieceDisplay = this.add.image(225, 235, 'I');
+  }
+
+  createBorders() {
+    //container border
+    this.graphics = this.add.graphics();
+    this.graphics.lineStyle(4, 0xffffff, 1);
+    this.graphics.strokeRectShape(this.gameBoard);
+    this.graphics.strokeRectShape(this.regexBoard);
+    this.graphics.strokeRectShape(this.scoreBoard);
     this.graphics.strokeRectShape(this.nextPieceBoard);
+    this.graphics.lineStyle(10, 0x00000, 1);
+    this.graphics.strokeRectShape(this.gameBoardHeader);
   }
 
   createTimer(fps = 1) {
