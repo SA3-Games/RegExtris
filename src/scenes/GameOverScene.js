@@ -15,16 +15,52 @@ export default class GameOverScene extends Phaser.Scene {
   }
 
   preload() {
-
-    this.load.image('title', 'assets/spritesheets/REGEXTRISbw2.png');
+    this.load.image("title", "assets/spritesheets/REGEXTRISbw2.png");
     this.load.script(
       "chartjs",
       "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"
     );
-
   }
 
   create() {
+    this.unsubscribe = store.subscribe(() => {
+      this.reduxState = store.getState();
+      this.scores = this.reduxState.scores;
+
+      if (this.scores.length) {
+        this.unsubscribe();
+        // graphs
+        //creates the tetris score chart
+        let tetrisScoreChart = getScoreChart(
+          6,
+          this.scores,
+          "tetrisScore",
+          "All Users Tetris Score Breakdown",
+          this.tetrisScore
+        );
+
+        //displays the histogram
+        this.rexUI.add
+          .chart(600, 400, 200, 100, tetrisScoreChart)
+          .resize(300, 300);
+
+        //creates the Regex score chart
+        let regExScoreChart = getScoreChart(
+          6,
+          this.scores,
+          "regExScore",
+          "All Users Regex Score Breakdown",
+          this.regExScore
+        );
+
+        //displays the histogram
+        this.rexUI.add
+          .chart(900, 400, 200, 100, regExScoreChart)
+          .resize(300, 300);
+
+        this.unsubscribe();
+      }
+    });
     if (!this.scorePosted) {
       store.dispatch(
         postScore({
@@ -37,9 +73,8 @@ export default class GameOverScene extends Phaser.Scene {
 
     this.enter = this.input.keyboard.addKey("ENTER");
 
-    this.reduxState = store.getState();
-    this.regexChoices = this.reduxState.regexChoices;
-    this.scores = this.reduxState.scores;
+    // this.reduxState = store.getState();
+    // this.regexChoices = this.reduxState.regexChoices;
 
     //Function that helps create the number of occurences a certain score happens along with their segments
     function getScoreChart(
@@ -99,12 +134,16 @@ export default class GameOverScene extends Phaser.Scene {
           scales: {
             xAxes: [
               {
-                display: false,
                 categoryPercentage: 1.0,
                 barPercentage: 1.0,
                 ticks: {
                   fontColor: "white",
                   fontSize: 10,
+                },
+                scaleLabel: {
+                  display: true,
+                  labelString: "Score",
+                  fontColor: "white",
                 },
               },
             ],
@@ -123,35 +162,12 @@ export default class GameOverScene extends Phaser.Scene {
 
       return chart;
     }
-    //creates the tetris score chart
-    let tetrisScoreChart = getScoreChart(
-      6,
-      this.scores,
-      "tetrisScore",
-      "All Users Tetris Score Breakdown",
-      this.tetrisScore
-    );
-
-    //displays the histogram
-    this.rexUI.add.chart(600, 400, 200, 100, tetrisScoreChart).resize(300, 300);
-
-    //creates the Regex score chart
-    let regExScoreChart = getScoreChart(
-      6,
-      this.scores,
-      "regExScore",
-      "All Users Regex Score Breakdown",
-      this.regExScore
-    );
-
-    //displays the histogram
-    this.rexUI.add.chart(900, 400, 200, 100, regExScoreChart).resize(300, 300);
 
     //chart that shows your scorebreakdown for this game
     let gameScore = {
       type: "doughnut",
       data: {
-        labels: [this.tetrisScore, this.regExScore],
+        labels: ["Tetris Score", "RegEx Score"],
         backgroundColor: "rgba(153,0,255, 0.4)",
         borderColor: "rgba(153,0,255, 1)",
         borderColor: ["rgba(153,0,255, 0.2)", "rgba(102,255,51, 0.2)"],
@@ -190,24 +206,23 @@ export default class GameOverScene extends Phaser.Scene {
 
     //The Game over Text
     this.add
-      .text(600, 80, `GAME OVER!`, {
+      .text(600, 100, `GAME OVER!`, {
         fontSize: "24px",
       })
       .setOrigin(0.5, 0.5);
     this.add
-      .text(600, 120, `Final Score: ${this.tetrisScore + this.regExScore}`, {
+      .text(600, 140, `Final Score: ${this.tetrisScore + this.regExScore}`, {
         fontSize: "20px",
       })
       .setOrigin(0.5, 0.5);
     this.add
-      .text(600, 160, `Press enter to go back to the menu!`, {
+      .text(600, 180, `Press enter to go back to the menu!`, {
         fontSize: "24px",
       })
       .setOrigin(0.5, 0.5);
 
     //title display
-    this.title = this.add.sprite(600, 35, 'title').setScale(0.2).setDepth(11);
-
+    this.title = this.add.sprite(600, 35, "title").setScale(0.2).setDepth(11);
   }
 
   update() {
