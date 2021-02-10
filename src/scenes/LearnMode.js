@@ -7,6 +7,8 @@ export default class LearnMode extends BaseScene {
   }
 
   create() {
+    this.enter = this.input.keyboard.addKey('ENTER');
+
     this.assignLocations([100, 70], [475, 100]);
     this.createGameBoard(...this.gameBoardLoc);
     this.createRegexBoard(...this.regexBankLoc);
@@ -23,6 +25,11 @@ export default class LearnMode extends BaseScene {
     this.createBorders([this.gameBoard, this.regexBoard, this.regexHintsBoard]);
     this.createTimer(600, 590);
     this.createTitle();
+    this.add.text(600, 80, "press enter to return to menu", {
+        fontFamily: "retroFont",
+        fontSize: 20,
+        color: "#7a8bf4"
+      }).setOrigin(0.5).setDepth(12);
     this.initializeGame();
   }
 
@@ -30,6 +37,9 @@ export default class LearnMode extends BaseScene {
     this.checkRegexChoice();
     this.piece = this.pieces.getLast(true);
     this.piece.update();
+    if (this.enter.isDown) {
+        this.scene.start('MenuScene');
+      }
   }
 }
 

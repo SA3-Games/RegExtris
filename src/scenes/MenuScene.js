@@ -68,7 +68,7 @@ export default class MenuScene extends Phaser.Scene {
     this.buttons.push(this.logOutButton);
 
     learnModeButton.on("selected", () => {
-      this.scene.start('LearnMode');
+      this.scene.start('LearnModeTutorial');
     });
 
     this.logOutButton.on("selected", () => {
