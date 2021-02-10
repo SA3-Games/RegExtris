@@ -34,22 +34,9 @@ router.get("/:playerId", async (req, res, next) => {
   try {
     const scores = await Score.findAll({
       where: { playerId: req.params.playerId },
-      attributes: ["createdAt", "tetrisScore", "regExScore"],
+      attributes: ["tetrisScore", "regExScore"],
     });
-    if (scores.length) {
-      res.send(scores);
-    } else {
-      res.send(404).send("Player does not have any scores on record");
-    }
-  } catch (error) {
-    next(error);
-  }
-});
-
-router.get("/histogram", async (req, res, next) => {
-  try {
-    const histData = await Score.makeHistogram();
-    res.send(histData);
+    res.send(scores);
   } catch (error) {
     next(error);
   }
