@@ -10,6 +10,8 @@ import LoadingScene from "./scenes/LoadingScene";
 import LoginScene from "./scenes/LoginScene";
 import DetailedScoreScene from "./scenes/DetailedScoreScene";
 import LearnMode from "./scenes/LearnMode";
+import LearnModeTutorial from "./scenes/LearnModeTutorial";
+import MainTutorial from "./scenes/MainTutorial";
 
 class Game extends Phaser.Game {
   constructor() {
@@ -23,6 +25,8 @@ class Game extends Phaser.Game {
     this.scene.add("LoginScene", LoginScene);
     this.scene.add("DetailedScoreScene", DetailedScoreScene);
     this.scene.add("LearnMode", LearnMode);
+    this.scene.add("LearnModeTutorial", LearnModeTutorial);
+    this.scene.add("MainTutorial", MainTutorial);    
     this.scene.start("LoadingScene", { dataLoading: "player" });
   }
 }

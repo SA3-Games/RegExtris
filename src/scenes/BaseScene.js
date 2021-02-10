@@ -85,20 +85,20 @@ export default class BaseScene extends Phaser.Scene {
 
   createScoreBoard() {
     this.scoreBoard = this.add
-      .rectangle(100, 370, 250, 300, this.foregroundColor)
+      .rectangle(100, 370, 250, 305, this.foregroundColor)
       .setOrigin(0);
 
     this.scoreDisplay = this.add.text(
-      110,
-      400,
-      `Tetris Score: ${this.score}\n\nRegEx Score: ${this.regexScore}`,
-      { fontFamily: 'retroFont', fontSize: '16px' }
-    );
+      225,
+      380,
+      `Tetris Score:\n\n${this.score}\n\n\nRegEx Score:\n\n${this.regexScore}`,
+      { fontFamily: 'retroFont', fontSize: '20px', align: 'center' }
+    ).setOrigin(0.5, 0);
     this.tetrisControlsDisplay = this.add.text(
-      110,
-      500,
-      'UP = rotate\n\nDOWN = fall faster\n\nRIGHT = move right\n\nLEFT = move left',
-      { fontFamily: 'retroFont', fontSize: '16px' }
+      120,
+      560,
+      'UP = rotate\n\nDOWN = fall faster\n\nRIGHT = move right\n\nLEFT = move left', 
+      { fontFamily: 'retroFont', fontSize: '14px' }
     );
   }
 
