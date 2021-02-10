@@ -38,17 +38,17 @@ export default class BaseScene extends Phaser.Scene {
 
   createGameBoard(x, y) {
     this.gameBoard = this.add
-      .rectangle(x, y, 300, 600, this.foregroundColor)
+      .rectangle(x - 5, y, 310, 605, this.foregroundColor)
       .setOrigin(0);
 
     this.gameBoardHeader = this.add
-      .rectangle(x - 5, 0, 310, 105, 0x000000)
+      .rectangle(x - 10, 0, 320, 105, 0x000000)
       .setOrigin(0)
       .setDepth(10);
 
     //line for top of tetris board
     this.add
-      .rectangle(x - 2, y + 31, 304, 4, 0xffffff)
+      .rectangle(x - 7, y + 31, 314, 4, 0xffffff)
       .setOrigin(0)
       .setDepth(11);
   }

@@ -16,8 +16,8 @@ export default class LearnMode extends BaseScene {
       .setOrigin(0);
     this.regexHints = this.add.text(
       808,
-      110,
-      "RegEx is case sensitive\nExpressions written btw /'s\n-----------------------------\n\n[]: Character Class\nMatches any enclosed character\n\nIncludes single characters \nand/or ranges\n\n-: Creates range if between\ntwo individual characters\n  x-z = xyz\n  5-9 = 56789\nOtherwise treated as normal\n  -xz = -xz\n  5-7-9 = 567-9\n\nSpecial characters(*, $, etc.)\nare treated as normal when\ninside a character class\n\n[^]: Everything except ...\n-----------------------------\n\n\\: Normal changed to special\ncharacter and vice versa\n  \\d: All digits\n  \\w: Latin alphanumeric\n  \\s: Whitespace\n\nCapitalized special character:\n  Exclude matches"
+      115,
+      "RegEx is case sensitive\nExpressions written btw /'s\n_____________________________ \n\n[]: Character Class\nMatches any enclosed character\n\nIncludes single characters \nand/or ranges\n\n-: Creates range if between\ntwo individual characters\n  x-z = xyz\n  5-9 = 56789\nOtherwise treated as normal\n  -xz = -xz\n  5-7-9 = 567-9\n\nSpecial characters(*, $, etc.)\nare treated as normal when\ninside a character class\n\n[^]: Everything except ...\n_____________________________ \n\n\\: Normal changed to special\ncharacter and vice versa\n  \\w: Latin alphanumeric\n  \\s: Whitespace\n  \\d: Digits\nCapitalizing inverts matches\n  \\D: Everything but digits"
     );
 
     this.createBorders([this.gameBoard, this.regexBoard, this.regexHintsBoard]);
