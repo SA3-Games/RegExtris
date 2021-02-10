@@ -65,9 +65,10 @@ export default class BaseScene extends Phaser.Scene {
       })
       .setOrigin(0.5);
     this.regexControlsDisplay = this.add
-      .text(x + 125, y + 60, 'Press SHIFT to switch', {
+      .text(x + 125, y + 65, 'Press SHIFT to move\nfairy between options', {
         fontFamily: 'retroFont',
         fontSize: '14px',
+        align: 'center',
       })
       .setOrigin(0.5);
     this.regexOptions = this.physics.add.group({ classType: RegexOption });
