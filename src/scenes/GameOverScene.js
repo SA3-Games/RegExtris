@@ -33,7 +33,7 @@ export default class GameOverScene extends Phaser.Scene {
         // Histogram Chart Creation
         //creates the tetris score chart
         let tetrisScoreChart = getScoreChart(
-          "All Users Tetris Score Breakdown",
+          "All Players Tetris Breakdown",
           this.tetrisScore,
           this.histogramData.tetrisBins,
           this.histogramData.tetrisFreqs,
@@ -41,7 +41,7 @@ export default class GameOverScene extends Phaser.Scene {
         );
         //creates the Regex score chart
         let regExScoreChart = getScoreChart(
-          "All Users Regex Score Breakdown",
+          "All Players Regex Breakdown",
           this.regExScore,
           this.histogramData.regexBins,
           this.histogramData.regexFreqs,
@@ -49,7 +49,7 @@ export default class GameOverScene extends Phaser.Scene {
         );
         //displays the Tetris histogram
         this.rexUI.add
-          .chart(600, 400, 200, 100, tetrisScoreChart)
+          .chart(300, 400, 200, 100, tetrisScoreChart)
           .resize(300, 300);
 
         //displays the Regex histogram
@@ -106,7 +106,6 @@ export default class GameOverScene extends Phaser.Scene {
             display: true,
             text: title,
             fontColor: "white",
-            fontSize: 14,
           },
           scales: {
             xAxes: [
@@ -160,13 +159,14 @@ export default class GameOverScene extends Phaser.Scene {
         showTooltips: true,
         legend: {
           labels: {
-            position: "top",
+            position: "bottom",
             fontColor: "white",
           },
         },
         title: {
           display: true,
-          text: "Your Scores Today",
+          text: "Your Scores",
+          fontSize: 24,
           fontColor: "white",
         },
         animation: {
@@ -182,16 +182,19 @@ export default class GameOverScene extends Phaser.Scene {
     this.add
       .text(600, 100, `GAME OVER!`, {
         fontSize: "24px",
+        fontFamily: "retroFont",
       })
       .setOrigin(0.5, 0.5);
     this.add
       .text(600, 140, `Final Score: ${this.tetrisScore + this.regExScore}`, {
         fontSize: "20px",
+        fontFamily: "retroFont",
       })
       .setOrigin(0.5, 0.5);
     this.add
       .text(600, 180, `Press enter to go back to the menu!`, {
         fontSize: "24px",
+        fontFamily: "retroFont",
       })
       .setOrigin(0.5, 0.5);
 
@@ -199,12 +202,13 @@ export default class GameOverScene extends Phaser.Scene {
     this.title = this.add.sprite(600, 35, "title").setScale(0.2).setDepth(11);
 
     //displays the doughnut chart
-    this.rexUI.add.chart(300, 400, 200, 100, gameScore).resize(300, 300);
+    this.rexUI.add.chart(600, 400, 200, 100, gameScore).resize(300, 300);
 
     // display option for in depth charts
     this.add
       .text(600, 650, "Press shift to see more charts!", {
         fontSize: "24px",
+        fontFamily: "retroFont",
       })
       .setOrigin(0.5, 0.5);
   }

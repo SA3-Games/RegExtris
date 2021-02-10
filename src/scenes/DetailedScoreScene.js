@@ -8,6 +8,9 @@ export default class DetailedScoreScene extends Phaser.Scene {
     this.load.image("title", "assets/spritesheets/REGEXTRISbw2.png");
   }
   create() {
+    this.enter = this.input.keyboard.addKey("ENTER");
+    this.shift = this.input.keyboard.addKey("SHIFT");
+
     // Displays the title sprite
     this.title = this.add.sprite(600, 35, "title").setScale(0.2).setDepth(11);
 
@@ -41,40 +44,54 @@ export default class DetailedScoreScene extends Phaser.Scene {
           {
             label: "Regex",
             fill: false,
-            backgroundColor: "blue",
-            borderColor: "blue",
+            backgroundColor: "rgba(153, 0, 255, 1)",
+            borderColor: "rgba(153, 0, 255, 1)",
             data: this.onlyRegexScores,
           },
         ],
       },
       options: {
-        responsive: true,
-        plugins: {
-          title: {
-            display: true,
-            text: "Player Score History",
+        legend: {
+          labels: {
             fontColor: "white",
           },
         },
+        title: {
+          display: true,
+          text: "Player Score History",
+          fontSize: 24,
+          fontColor: "white",
+        },
         scales: {
-          x: {
-            display: false,
-            fontColor: "white",
-            scaleLabel: {
-              display: true,
-              labelString: "Games",
-              fontColor: "white",
+          xAxes: [
+            {
+              ticks: {
+                display: false,
+                fontColor: "white",
+                fontSize: 10,
+              },
+              scaleLabel: {
+                display: true,
+                labelString: "Games Played",
+                fontColor: "white",
+              },
             },
-          },
-          y: {
-            display: true,
-            fontColor: "white",
-            scaleLabel: {
-              display: true,
-              labelString: "Scores",
-              fontColor: "white",
+          ],
+          yAxes: [
+            {
+              ticks: {
+                display: true,
+                beginAtZero: true,
+                fontColor: "white",
+                fontSize: 10,
+              },
+              scaleLabel: {
+                display: true,
+                labelString: "Scores",
+                fontColor: "white",
+              },
             },
-          },
+          ],
         },
       },
     };
@@ -82,11 +99,35 @@ export default class DetailedScoreScene extends Phaser.Scene {
     //displays the line graph called scoreHistory
     this.rexUI.add
       .chart(300, 400, 200, 100, this.scoreHistory)
-      .resize(300, 300);
+      .resize(500, 350);
+
+    // display option to go back to the game over scene
+    this.add
+      .text(600, 100, "Press SHIFT to go back!", {
+        fontSize: "24px",
+        fontFamily: "retroFont",
+      })
+      .setOrigin(0.5, 0.5);
+
+    // display option to go back to the Menu scene
+    this.add
+      .text(600, 150, "Press Enter to go back to the Menu!", {
+        fontSize: "24px",
+        fontFamily: "retroFont",
+      })
+      .setOrigin(0.5, 0.5);
 
     // Object.keys(this.regexChoices).forEach((re) => {
     //   console.log("inside for each", re);
     //   // clearedChars.innerHTML = this.regexChoices[re].totalCharacters;
     // });
+  }
+
+  update() {
+    if (Phaser.Input.Keyboard.JustUp(this.enter)) {
+      this.scene.start("MenuScene");
+    } else if (Phaser.Input.Keyboard.JustUp(this.shift)) {
+      this.scene.start("GameOverScene");
+    }
   }
 }
