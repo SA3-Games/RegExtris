@@ -16,13 +16,13 @@ export default class Square extends Phaser.Physics.Arcade.Sprite {
     const randomCharacter = Phaser.Math.RND.pick([
       [' ', 0],
       ['A', 1],
-      ['B', 2],
+      ['D', 2],
       ['F', 3],
-      ['N', 4],
+      ['W', 4],
       ['a', 5],
-      ['b', 6],
+      ['d', 6],
       ['f', 7],
-      ['n', 8],
+      ['w', 8],
       ['1', 9],
       ['2', 10],
       ['3', 11],
@@ -33,18 +33,18 @@ export default class Square extends Phaser.Physics.Arcade.Sprite {
       ['()', 16],
       ['*', 17],
       ['/', 18],
-      ['+', 19],
+      ['-', 19],
     ]);
     this.character = randomCharacter[0];
     this.setTexture('square', randomCharacter[1]);
   }
 
   //reset sprite for reuse
-  reset(color) {
+  reset() {
     this.setRandomCharacter();
     this.setActive(true);
     this.setVisible(true);
-    this.setPosition(600, 0);
+    this.setPosition(600, 50);
     return this;
   }
 }

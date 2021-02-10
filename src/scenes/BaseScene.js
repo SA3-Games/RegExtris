@@ -20,7 +20,7 @@ export default class BaseScene extends Phaser.Scene {
       frameHeight: 192,
     });
     this.load.image('fairy', 'assets/menuSprites/FAIRY.png');
-    this.load.image('title', 'assets/spritesheets/REGEXTRISbw.png');
+    this.load.image('title', 'assets/spritesheets/REGEXTRISbw2.png');
     this.load.image('I', 'assets/sprites/0.png');
     this.load.image('J', 'assets/sprites/1.png');
     this.load.image('L', 'assets/sprites/2.png');
@@ -42,7 +42,7 @@ export default class BaseScene extends Phaser.Scene {
       .setOrigin(0);
 
     this.gameBoardHeader = this.add
-      .rectangle(x-5, 0, 310, 105, 0x000000)
+      .rectangle(x - 5, 0, 310, 105, 0x000000)
       .setOrigin(0)
       .setDepth(10);
 
@@ -115,7 +115,9 @@ export default class BaseScene extends Phaser.Scene {
     //container border
     this.graphics = this.add.graphics();
     this.graphics.lineStyle(4, 0xffffff, 1);
-    boards.forEach(board => {this.graphics.strokeRectShape(board)})
+    boards.forEach((board) => {
+      this.graphics.strokeRectShape(board);
+    });
   }
 
   createTimer(x, y, fps = 1) {
