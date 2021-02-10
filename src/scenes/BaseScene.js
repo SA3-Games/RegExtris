@@ -85,7 +85,7 @@ export default class BaseScene extends Phaser.Scene {
 
   createScoreBoard() {
     this.scoreBoard = this.add
-      .rectangle(100, 370, 250, 300, this.foregroundColor)
+      .rectangle(100, 370, 250, 305, this.foregroundColor)
       .setOrigin(0);
 
     this.scoreDisplay = this.add.text(
@@ -96,7 +96,7 @@ export default class BaseScene extends Phaser.Scene {
     ).setOrigin(0.5, 0);
     this.tetrisControlsDisplay = this.add.text(
       120,
-      555,
+      560,
       'UP = rotate\n\nDOWN = fall faster\n\nRIGHT = move right\n\nLEFT = move left', 
       { fontFamily: 'retroFont', fontSize: '14px' }
     );
