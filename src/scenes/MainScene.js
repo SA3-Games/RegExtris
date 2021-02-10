@@ -34,7 +34,7 @@ export default class MainScene extends BaseScene {
     this.piece = this.pieces.getLast(true);
     this.piece.update();
     this.scoreDisplay.setText(
-      `Tetris Score: ${this.score}\n\nRegEx Score: ${this.regexScore}`
+      `Tetris Score:\n\n${this.score}\n\n\nRegEx Score:\n\n${this.regexScore}`
     );
   }
 }
