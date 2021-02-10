@@ -45,3 +45,12 @@ router.get("/:playerId", async (req, res, next) => {
     next(error);
   }
 });
+
+router.get("/histogram", async (req, res, next) => {
+  try {
+    const histData = await Score.makeHistogram();
+    res.send(histData);
+  } catch (error) {
+    next(error);
+  }
+});

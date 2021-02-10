@@ -27,8 +27,8 @@ export default class GameOverScene extends Phaser.Scene {
       this.reduxState = store.getState();
       this.scores = this.reduxState.scores;
 
-      if (this.scores.length) {
-        this.unsubscribe();
+      if (this.scores.histData) {
+        this.histogramData = this.scores.histData;
         this.unsubscribe();
       }
     });
@@ -46,44 +46,25 @@ export default class GameOverScene extends Phaser.Scene {
     this.shift = this.input.keyboard.addKey("SHIFT");
 
     //Function that helps create the number of occurences a certain score happens along with their segments
-    function getScoreChart(
-      numSegments,
-      scores,
-      scoreType,
-      title,
-      currentScore
-    ) {
-      let thisScores = scores.map((score) => score[scoreType]);
-      let maxScore = Math.max(...thisScores);
-      let segmentSize = Math.floor(maxScore / numSegments);
-      let labels = [];
-      let occurences = [];
+    function getScoreChart(title, currentScore, bins, frequencies, scoreType) {
       let bgColors = [];
-      for (let i = 0; i <= numSegments; i++) {
-        let label = i * segmentSize;
-        let numItems = 0;
-        let bgColor = "rgba(255,255,255, 1)";
-        thisScores.forEach((score) => {
-          if (score <= label && score > (i - 1) * segmentSize) {
-            numItems++;
-            if (score === currentScore && scoreType === "tetrisScore") {
-              bgColor = "rgba(153,0,255, 0.4)";
-            } else if (score === currentScore && scoreType === "regExScore") {
-              bgColor = "rgba(102,255,51, 0.4)";
-            }
-          }
-        });
-        labels.push(label);
-        occurences.push(numItems);
+      for (let i = 0; i <= bins.length; i++) {
+        let bgColor;
+        if (currentScore > bins[i - 1] && currentScore <= bins[i]) {
+          bgColor = "rgba(255,255,255, 1)";
+          scoreType === "tetris"
+            ? "rgba(153,0,255, 0.4)"
+            : "rgba(102,255,51, 0.4)";
+        }
         bgColors.push(bgColor);
       }
       let chart = {
         type: "bar",
         data: {
-          labels: labels,
+          labels: bins,
           datasets: [
             {
-              data: occurences,
+              data: frequencies,
               backgroundColor: bgColors,
               color: "white",
               borderWidth: 0,
@@ -135,19 +116,19 @@ export default class GameOverScene extends Phaser.Scene {
     // Histogram Chart Creation
     //creates the tetris score chart
     let tetrisScoreChart = getScoreChart(
-      6,
-      this.scores,
-      "tetrisScore",
       "All Users Tetris Score Breakdown",
-      this.tetrisScore
+      this.tetrisScore,
+      this.histogramData.tetrisBins,
+      this.histogramData.tetrisFreqs,
+      "tetris"
     );
     //creates the Regex score chart
     let regExScoreChart = getScoreChart(
-      6,
-      this.scores,
-      "regExScore",
       "All Users Regex Score Breakdown",
-      this.regExScore
+      this.regExScore,
+      this.histogramData.regexBins,
+      this.histogramData.regexFreqs,
+      "regEx"
     );
     //chart that shows your scorebreakdown for this game
     let gameScore = {
