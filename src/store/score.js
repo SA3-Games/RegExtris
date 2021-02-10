@@ -1,6 +1,7 @@
 import axios from "axios";
 import { modifyError } from "./errorStore";
 import store from "./index";
+import { fetchHistData } from "./histogram";
 
 // action types
 const GET_PLAYER_SCORES = "GET_PLAYER_SCORES";
@@ -36,6 +37,7 @@ export const postScore = (score) => {
       // assumes score comes in as an object with keys tetrisScore and regExScore
       await axios.post(`/api/scores/${playerId}`, score);
       dispatch(saveScore(score));
+      dispatch(fetchHistData());
     } catch (error) {
       modifyError(error);
     }

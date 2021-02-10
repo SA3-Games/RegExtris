@@ -1,6 +1,6 @@
 import store from "../store";
 import { postScore } from "../store/score";
-import { fetchAllScores } from "../store/scores";
+import { fetchHistData } from "../store/histogram";
 
 export default class GameOverScene extends Phaser.Scene {
   constructor() {
@@ -11,7 +11,6 @@ export default class GameOverScene extends Phaser.Scene {
   init(data) {
     this.tetrisScore = data.tetrisScore || 0;
     this.regExScore = data.regExScore || 0;
-    store.dispatch(fetchAllScores());
   }
 
   preload() {
@@ -26,38 +25,37 @@ export default class GameOverScene extends Phaser.Scene {
     this.unsubscribe = store.subscribe(() => {
       this.reduxState = store.getState();
       this.scores = this.reduxState.scores;
+      console.log(this.reduxState);
 
-      if (this.scores.length) {
-        this.unsubscribe();
-        // graphs
+      if (this.reduxState.histogram.tetrisBins) {
+        console.log("histogram data exists");
+        this.histogramData = this.reduxState.histogram;
+        // Histogram Chart Creation
         //creates the tetris score chart
         let tetrisScoreChart = getScoreChart(
-          6,
-          this.scores,
-          "tetrisScore",
-          "All Users Tetris Score Breakdown",
-          this.tetrisScore
+          "All Players Tetris Breakdown",
+          this.tetrisScore,
+          this.histogramData.tetrisBins,
+          this.histogramData.tetrisFreqs,
+          "tetris"
         );
-
-        //displays the histogram
-        this.rexUI.add
-          .chart(600, 400, 200, 100, tetrisScoreChart)
-          .resize(300, 300);
-
         //creates the Regex score chart
         let regExScoreChart = getScoreChart(
-          6,
-          this.scores,
-          "regExScore",
-          "All Users Regex Score Breakdown",
-          this.regExScore
+          "All Players Regex Breakdown",
+          this.regExScore,
+          this.histogramData.regexBins,
+          this.histogramData.regexFreqs,
+          "regEx"
         );
+        //displays the Tetris histogram
+        this.rexUI.add
+          .chart(300, 400, 200, 100, tetrisScoreChart)
+          .resize(300, 300);
 
-        //displays the histogram
+        //displays the Regex histogram
         this.rexUI.add
           .chart(900, 400, 200, 100, regExScoreChart)
           .resize(300, 300);
-
         this.unsubscribe();
       }
     });
@@ -75,44 +73,25 @@ export default class GameOverScene extends Phaser.Scene {
     this.shift = this.input.keyboard.addKey("SHIFT");
 
     //Function that helps create the number of occurences a certain score happens along with their segments
-    function getScoreChart(
-      numSegments,
-      scores,
-      scoreType,
-      title,
-      currentScore
-    ) {
-      let thisScores = scores.map((score) => score[scoreType]);
-      let maxScore = Math.max(...thisScores);
-      let segmentSize = Math.floor(maxScore / numSegments);
-      let labels = [];
-      let occurences = [];
+    function getScoreChart(title, currentScore, bins, frequencies, scoreType) {
       let bgColors = [];
-      for (let i = 0; i <= numSegments; i++) {
-        let label = i * segmentSize;
-        let numItems = 0;
+      for (let i = 0; i <= bins.length; i++) {
         let bgColor = "rgba(255,255,255, 1)";
-        thisScores.forEach((score) => {
-          if (score <= label && score > (i - 1) * segmentSize) {
-            numItems++;
-            if (score === currentScore && scoreType === "tetrisScore") {
-              bgColor = "rgba(153,0,255, 0.4)";
-            } else if (score === currentScore && scoreType === "regExScore") {
-              bgColor = "rgba(102,255,51, 0.4)";
-            }
-          }
-        });
-        labels.push(label);
-        occurences.push(numItems);
+        if (currentScore > bins[i] && currentScore <= bins[i + 1]) {
+          bgColor =
+            scoreType === "tetris"
+              ? "rgba(153,0,255, 0.4)"
+              : "rgba(102,255,51, 0.4)";
+        }
         bgColors.push(bgColor);
       }
       let chart = {
         type: "bar",
         data: {
-          labels: labels,
+          labels: bins,
           datasets: [
             {
-              data: occurences,
+              data: frequencies,
               backgroundColor: bgColors,
               color: "white",
               borderWidth: 0,
@@ -127,7 +106,6 @@ export default class GameOverScene extends Phaser.Scene {
             display: true,
             text: title,
             fontColor: "white",
-            fontSize: 14,
           },
           scales: {
             xAxes: [
@@ -148,6 +126,7 @@ export default class GameOverScene extends Phaser.Scene {
             yAxes: [
               {
                 ticks: {
+                  display: false,
                   beginAtZero: true,
                   fontColor: "white",
                   fontSize: 10,
@@ -165,7 +144,7 @@ export default class GameOverScene extends Phaser.Scene {
     let gameScore = {
       type: "doughnut",
       data: {
-        labels: ["Tetris Score", "RegEx Score"],
+        labels: ["Tetris: " + this.tetrisScore, "RegEx: " + this.regExScore],
         backgroundColor: "rgba(153,0,255, 0.4)",
         borderColor: "rgba(153,0,255, 1)",
         borderColor: ["rgba(153,0,255, 0.2)", "rgba(102,255,51, 0.2)"],
@@ -180,13 +159,14 @@ export default class GameOverScene extends Phaser.Scene {
         showTooltips: true,
         legend: {
           labels: {
-            position: "top",
+            position: "bottom",
             fontColor: "white",
           },
         },
         title: {
           display: true,
-          text: "Your Scores Today",
+          text: "Your Scores",
+          fontSize: 24,
           fontColor: "white",
         },
         animation: {
@@ -198,29 +178,39 @@ export default class GameOverScene extends Phaser.Scene {
         },
       },
     };
-
-    //displays the doughnut chart
-    this.rexUI.add.chart(300, 400, 200, 100, gameScore).resize(300, 300);
-
-    //The Game over Text
+    //Display the The Game over Text
     this.add
       .text(600, 100, `GAME OVER!`, {
         fontSize: "24px",
+        fontFamily: "retroFont",
       })
       .setOrigin(0.5, 0.5);
     this.add
       .text(600, 140, `Final Score: ${this.tetrisScore + this.regExScore}`, {
         fontSize: "20px",
+        fontFamily: "retroFont",
       })
       .setOrigin(0.5, 0.5);
     this.add
       .text(600, 180, `Press enter to go back to the menu!`, {
         fontSize: "24px",
+        fontFamily: "retroFont",
       })
       .setOrigin(0.5, 0.5);
 
-    //title display
+    //displays the title
     this.title = this.add.sprite(600, 35, "title").setScale(0.2).setDepth(11);
+
+    //displays the doughnut chart
+    this.rexUI.add.chart(600, 400, 200, 100, gameScore).resize(300, 300);
+
+    // display option for in depth charts
+    this.add
+      .text(600, 650, "Press shift to see more charts!", {
+        fontSize: "24px",
+        fontFamily: "retroFont",
+      })
+      .setOrigin(0.5, 0.5);
   }
 
   update() {

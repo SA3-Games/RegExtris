@@ -34,13 +34,9 @@ router.get("/:playerId", async (req, res, next) => {
   try {
     const scores = await Score.findAll({
       where: { playerId: req.params.playerId },
-      attributes: ["createdAt", "tetrisScore", "regExScore"],
+      attributes: ["tetrisScore", "regExScore"],
     });
-    if (scores.length) {
-      res.send(scores);
-    } else {
-      res.send(404).send("Player does not have any scores on record");
-    }
+    res.send(scores);
   } catch (error) {
     next(error);
   }
