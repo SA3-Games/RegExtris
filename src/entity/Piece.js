@@ -90,7 +90,7 @@ export default class Piece extends Phaser.GameObjects.Group {
     //randomly choose next piece
     this.scene.nextPiece = Phaser.Math.RND.pick(possibleNext);
     //skips nextPieceDisplay in Learn Mode:
-    if (this.scene.mode === "normal") {
+    if (this.scene.mode === 'normal') {
       this.scene.nextPieceDisplay.setTexture(this.scene.nextPiece);
     }
     this.grid = grid;
@@ -107,7 +107,7 @@ export default class Piece extends Phaser.GameObjects.Group {
       //either reset/reuse square or create a new one
       const square = deadSquare
         ? deadSquare.reset()
-        : new Square(this.scene, 600, 0);
+        : new Square(this.scene, 600, 50);
       square.setTint(this.color);
       square.loc = loc;
       //add square to this group
@@ -241,8 +241,12 @@ export default class Piece extends Phaser.GameObjects.Group {
       //this.regex = true
       const numFullRows = Object.keys(fullRows).length;
       if (numFullRows) {
-        const fullRowSquares = this.scene.squares.getMatching('active', true).filter(square => fullRows[square.loc[1]]);
-        fullRowSquares.forEach(square => {square.setTint(0xffffff)});
+        const fullRowSquares = this.scene.squares
+          .getMatching('active', true)
+          .filter((square) => fullRows[square.loc[1]]);
+        fullRowSquares.forEach((square) => {
+          square.setTint(0xffffff);
+        });
         //if there are full rows, set timeout to delay line destruction
         //**plug-in RegEx gameplay HERE**
         this.scene.timer.setVisible(true);

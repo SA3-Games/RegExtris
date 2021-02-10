@@ -20,7 +20,7 @@ export default class BaseScene extends Phaser.Scene {
       frameHeight: 192,
     });
     this.load.image('fairy', 'assets/menuSprites/FAIRY.png');
-    this.load.image('title', 'assets/spritesheets/REGEXTRISbw.png');
+    this.load.image('title', 'assets/spritesheets/REGEXTRISbw2.png');
     this.load.image('I', 'assets/sprites/0.png');
     this.load.image('J', 'assets/sprites/1.png');
     this.load.image('L', 'assets/sprites/2.png');
@@ -38,17 +38,17 @@ export default class BaseScene extends Phaser.Scene {
 
   createGameBoard(x, y) {
     this.gameBoard = this.add
-      .rectangle(x, y, 300, 600, this.foregroundColor)
+      .rectangle(x - 5, y, 310, 605, this.foregroundColor)
       .setOrigin(0);
 
     this.gameBoardHeader = this.add
-      .rectangle(x-5, 0, 310, 105, 0x000000)
+      .rectangle(x - 10, 0, 320, 105, 0x000000)
       .setOrigin(0)
       .setDepth(10);
 
     //line for top of tetris board
     this.add
-      .rectangle(x - 2, y + 31, 304, 4, 0xffffff)
+      .rectangle(x - 7, y + 31, 314, 4, 0xffffff)
       .setOrigin(0)
       .setDepth(11);
   }
@@ -65,9 +65,10 @@ export default class BaseScene extends Phaser.Scene {
       })
       .setOrigin(0.5);
     this.regexControlsDisplay = this.add
-      .text(x + 125, y + 60, 'Press SHIFT to switch', {
+      .text(x + 125, y + 65, 'Press SHIFT to move\nfairy between options', {
         fontFamily: 'retroFont',
         fontSize: '14px',
+        align: 'center',
       })
       .setOrigin(0.5);
     this.regexOptions = this.physics.add.group({ classType: RegexOption });
@@ -115,7 +116,9 @@ export default class BaseScene extends Phaser.Scene {
     //container border
     this.graphics = this.add.graphics();
     this.graphics.lineStyle(4, 0xffffff, 1);
-    boards.forEach(board => {this.graphics.strokeRectShape(board)})
+    boards.forEach((board) => {
+      this.graphics.strokeRectShape(board);
+    });
   }
 
   createTimer(x, y, fps = 1) {
