@@ -29,35 +29,6 @@ export default class GameOverScene extends Phaser.Scene {
 
       if (this.scores.length) {
         this.unsubscribe();
-        // graphs
-        //creates the tetris score chart
-        let tetrisScoreChart = getScoreChart(
-          6,
-          this.scores,
-          "tetrisScore",
-          "All Users Tetris Score Breakdown",
-          this.tetrisScore
-        );
-
-        //displays the histogram
-        this.rexUI.add
-          .chart(600, 400, 200, 100, tetrisScoreChart)
-          .resize(300, 300);
-
-        //creates the Regex score chart
-        let regExScoreChart = getScoreChart(
-          6,
-          this.scores,
-          "regExScore",
-          "All Users Regex Score Breakdown",
-          this.regExScore
-        );
-
-        //displays the histogram
-        this.rexUI.add
-          .chart(900, 400, 200, 100, regExScoreChart)
-          .resize(300, 300);
-
         this.unsubscribe();
       }
     });
@@ -161,6 +132,23 @@ export default class GameOverScene extends Phaser.Scene {
       return chart;
     }
 
+    // Histogram Chart Creation
+    //creates the tetris score chart
+    let tetrisScoreChart = getScoreChart(
+      6,
+      this.scores,
+      "tetrisScore",
+      "All Users Tetris Score Breakdown",
+      this.tetrisScore
+    );
+    //creates the Regex score chart
+    let regExScoreChart = getScoreChart(
+      6,
+      this.scores,
+      "regExScore",
+      "All Users Regex Score Breakdown",
+      this.regExScore
+    );
     //chart that shows your scorebreakdown for this game
     let gameScore = {
       type: "doughnut",
@@ -198,11 +186,7 @@ export default class GameOverScene extends Phaser.Scene {
         },
       },
     };
-
-    //displays the doughnut chart
-    this.rexUI.add.chart(300, 400, 200, 100, gameScore).resize(300, 300);
-
-    //The Game over Text
+    //Display the The Game over Text
     this.add
       .text(600, 100, `GAME OVER!`, {
         fontSize: "24px",
@@ -219,8 +203,17 @@ export default class GameOverScene extends Phaser.Scene {
       })
       .setOrigin(0.5, 0.5);
 
-    //title display
+    //displays the title
     this.title = this.add.sprite(600, 35, "title").setScale(0.2).setDepth(11);
+
+    //displays the doughnut chart
+    this.rexUI.add.chart(300, 400, 200, 100, gameScore).resize(300, 300);
+
+    //displays the Tetris histogram
+    this.rexUI.add.chart(600, 400, 200, 100, tetrisScoreChart).resize(300, 300);
+
+    //displays the Regex histogram
+    this.rexUI.add.chart(900, 400, 200, 100, regExScoreChart).resize(300, 300);
   }
 
   update() {

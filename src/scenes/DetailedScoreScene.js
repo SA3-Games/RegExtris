@@ -8,8 +8,7 @@ export default class DetailedScoreScene extends Phaser.Scene {
     this.load.image("title", "assets/spritesheets/REGEXTRISbw2.png");
   }
   create() {
-    console.log("inside regex breakdown scene");
-
+    // Displays the title sprite
     this.title = this.add.sprite(600, 35, "title").setScale(0.2).setDepth(11);
 
     this.reduxState = store.getState();
@@ -17,19 +16,20 @@ export default class DetailedScoreScene extends Phaser.Scene {
     this.regexChoices = this.reduxState.regexChoices;
 
     // create arrays to input into score history chart
-    this.createdAt = [];
+    this.gameNum = [];
     this.onlyTetrisScores = [];
     this.onlyRegexScores = [];
-    this.scores.map((score) => {
-      this.createdAt.push(score.createdAt);
+    this.scores.map((score, index) => {
+      this.gameNum.push(index + 1);
       this.onlyTetrisScores.push(score.tetrisScore);
       this.onlyRegexScores.push(score.regExScore);
     });
 
+    //line graph that shows Your scores through the time you've played it on the current account
     this.scoreHistory = {
       type: "line",
       data: {
-        labels: this.createdAt,
+        labels: this.gameNum,
         datasets: [
           {
             label: "Tetris",
@@ -53,6 +53,7 @@ export default class DetailedScoreScene extends Phaser.Scene {
           title: {
             display: true,
             text: "Player Score History",
+            fontColor: "white",
           },
         },
         scales: {
@@ -71,12 +72,14 @@ export default class DetailedScoreScene extends Phaser.Scene {
             scaleLabel: {
               display: true,
               labelString: "Scores",
+              fontColor: "white",
             },
           },
         },
       },
     };
 
+    //displays the line graph called scoreHistory
     this.rexUI.add
       .chart(300, 400, 200, 100, this.scoreHistory)
       .resize(300, 300);
