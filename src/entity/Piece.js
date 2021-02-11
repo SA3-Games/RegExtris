@@ -256,6 +256,7 @@ export default class Piece extends Phaser.GameObjects.Group {
         this.scene.time.addEvent({
           delay: 3000,
           callback: function () {
+            this.regexLocked = true;
             let squaresMatched = 0;
             for (let i = 0; i < numFullRows; i++) {
               const rowIndex = Object.keys(fullRows)[i];
@@ -292,6 +293,7 @@ export default class Piece extends Phaser.GameObjects.Group {
               this.level++;
             }
             this.regexChoice.changeRegex();
+            this.regexLocked = false;
             //destroy this piece group and create the next one
             this.pieces.getLast(true).destroy();
             this.pieces.add(new Piece(this, this.nextPiece));

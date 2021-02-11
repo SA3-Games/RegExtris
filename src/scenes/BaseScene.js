@@ -88,16 +88,18 @@ export default class BaseScene extends Phaser.Scene {
       .rectangle(100, 370, 250, 305, this.foregroundColor)
       .setOrigin(0);
 
-    this.scoreDisplay = this.add.text(
-      225,
-      380,
-      `Tetris Score:\n\n${this.score}\n\n\nRegEx Score:\n\n${this.regexScore}`,
-      { fontFamily: 'retroFont', fontSize: '20px', align: 'center' }
-    ).setOrigin(0.5, 0);
+    this.scoreDisplay = this.add
+      .text(
+        225,
+        380,
+        `Tetris Score:\n\n${this.score}\n\n\nRegEx Score:\n\n${this.regexScore}`,
+        { fontFamily: 'retroFont', fontSize: '20px', align: 'center' }
+      )
+      .setOrigin(0.5, 0);
     this.tetrisControlsDisplay = this.add.text(
       120,
       560,
-      'UP = rotate\n\nDOWN = fall faster\n\nRIGHT = move right\n\nLEFT = move left', 
+      'UP = rotate\n\nDOWN = fall faster\n\nRIGHT = move right\n\nLEFT = move left',
       { fontFamily: 'retroFont', fontSize: '14px' }
     );
   }
@@ -149,6 +151,7 @@ export default class BaseScene extends Phaser.Scene {
     this.score = 0;
     this.destroyedRows = 0;
     this.level = 0;
+    this.regexLocked = false;
     //groups for pieces
     this.pieces = this.physics.add.group({ classType: Piece });
     //group for landed squares
@@ -163,17 +166,19 @@ export default class BaseScene extends Phaser.Scene {
 
   checkRegexChoice() {
     if (Phaser.Input.Keyboard.JustUp(this.cursors.shift)) {
-      if (this.regexFairy.y === this.regexBankLoc[1] + 380) {
-        this.regexFairy.y = this.regexBankLoc[1] + 140;
-      } else {
-        this.regexFairy.y += 60;
+      if (!this.regexLocked) {
+        if (this.regexFairy.y === this.regexBankLoc[1] + 380) {
+          this.regexFairy.y = this.regexBankLoc[1] + 140;
+        } else {
+          this.regexFairy.y += 60;
+        }
+        this.regexOptions.setTint(0xffffff);
+        const currentRegex = this.regexOptions
+          .getChildren()
+          .filter((option) => option.y === this.regexFairy.y);
+        this.regexChoice = currentRegex[0];
+        this.regexChoice.setTint(0x7a8bf4);
       }
-      this.regexOptions.setTint(0xffffff);
-      const currentRegex = this.regexOptions
-        .getChildren()
-        .filter((option) => option.y === this.regexFairy.y);
-      this.regexChoice = currentRegex[0];
-      this.regexChoice.setTint(0x7a8bf4);
     }
   }
 }
