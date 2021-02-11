@@ -1,5 +1,6 @@
 // action type
-const ADD_REGEX_CHOICE = "ADD_REGEX_CHOICES";
+const ADD_REGEX_CHOICE = 'ADD_REGEX_CHOICES';
+const CLEAR_REGEX_CHOICES = 'CLEAR_REGEX_CHOICES';
 
 // action creator
 export const addRegexChoice = (re, totalCharacters) => ({
@@ -8,11 +9,15 @@ export const addRegexChoice = (re, totalCharacters) => ({
   totalCharacters,
 });
 
-// thunk
+export const clearRegexChoices = () => ({
+  type: CLEAR_REGEX_CHOICES,
+});
 
 // initial state
 const initialState = {};
+
 /*
+Regex choices stores in this format
 {
   re: totalCharacters
 }
@@ -33,6 +38,8 @@ export default function regexChoices(state = initialState, action) {
       }
       return newState;
     }
+    case CLEAR_REGEX_CHOICES:
+      return initialState;
     default:
       return state;
   }
