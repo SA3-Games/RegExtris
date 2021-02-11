@@ -16,7 +16,7 @@ const reducer = combineReducers({
   regexChoices,
   score,
   histogram,
-  tetrisRegexRatio,
+  ratios: tetrisRegexRatio,
 });
 
 const middleware = composeWithDevTools(applyMiddleware(thunkMiddleware));

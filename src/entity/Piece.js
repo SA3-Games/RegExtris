@@ -1,5 +1,7 @@
 import 'phaser';
 import Square from './Square';
+import store from '../store';
+import { addRatio } from '../store/tetrisRegexRatio';
 
 const pieceTypes = {
   //name of piece
@@ -254,15 +256,19 @@ export default class Piece extends Phaser.GameObjects.Group {
         this.scene.time.addEvent({
           delay: 3000,
           callback: function () {
+            let squaresMatched = 0;
             for (let i = 0; i < numFullRows; i++) {
               const rowIndex = Object.keys(fullRows)[i];
-              const regexTotal = this.board.checkRegEx(
+              const regexRowTotal = this.board.checkRegEx(
                 rowIndex,
                 this.regexChoice.re
               );
-              this.regexScore += regexTotal * 10;
-              this.timer.setVisible(false);
+              squaresMatched += regexRowTotal;
             }
+            const totalSquares = numFullRows * 10;
+            store.dispatch(addRatio(totalSquares, squaresMatched));
+            this.regexScore += squaresMatched * 10;
+            this.timer.setVisible(false);
           },
           callbackScope: this.scene,
         });

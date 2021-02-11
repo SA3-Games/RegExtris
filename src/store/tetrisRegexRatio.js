@@ -4,13 +4,13 @@ const CLEAR_RATIOS = 'CLEAR_RATIOS';
 
 // action creator
 export const addRatio = (totalSquares, squaresMatched) => ({
-  type: ADD_REGEX_CHOICE,
+  type: ADD_RATIO,
   totalSquares,
   squaresMatched,
 });
 
 export const clearRatio = () => ({
-  type: CLEAR_REGEX_CHOICES,
+  type: CLEAR_RATIOS,
 });
 
 // initial state
@@ -24,7 +24,7 @@ Ratios stored in this format
 }
 */
 
-export default function regexChoices(state = initialState, action) {
+export default function tetrisRegexRatio(state = initialState, action) {
   switch (action.type) {
     case ADD_RATIO: {
       const newState = [...state];
