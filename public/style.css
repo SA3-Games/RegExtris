@@ -41,19 +41,19 @@ label {
     align-items: center;
 }
 
-#signUpBox {
+.form-container {
     display: flex;
     flex-direction: column;
     text-align: center;
     width: fit-content;
 }
 
-.signUpTitle {
+.form-title {
     color: white;
     font-size: 1.75rem;
     text-align: center;
 }
-.signUp {
+form {
     background: none;
     height: fit-content;
     margin: 0;
@@ -76,10 +76,10 @@ input {
   }
 input:focus {
     outline: none;
-    color: blue;
+    color: #7a8bf4;
 }
 
-.signUpSubmit {
+.submit-button, .escape-button {
     display: inline-block;
     background: none;
     border: none;
@@ -93,14 +93,14 @@ input:focus {
     width: fit-content;
 }
 
-.signUpSubmit:focus {
+.submit-button:focus, .escape-button:focus {
     animation: glowing 2000ms infinite;
 }
 
 @keyframes glowing {
     50% {
-      background-color: blue;
-      box-shadow: 0 0 10px blue;
+      background-color: #7a8bf4;
+      box-shadow: 0 0 10px #7a8bf4;
     }
   }
 
@@ -110,8 +110,5 @@ input:focus {
     padding: 1em;
 }
 
-.esc {
-    color: white;
-}
 
 

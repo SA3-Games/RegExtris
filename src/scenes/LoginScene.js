@@ -12,6 +12,10 @@ export default class LoginScene extends Phaser.Scene {
     this.scene.start("LoadingScene");
   }
 
+  enterSubmit() {
+    
+  }
+
   init() {}
   preload() {
     this.load.html("loginForm", "assets/dom/loginForm.html");
@@ -30,11 +34,16 @@ export default class LoginScene extends Phaser.Scene {
 
     this.add.dom(600, 350).createFromCache("loginForm");
 
-    this.loginForm = document.getElementById("signup");
+    this.loginForm = document.getElementById("log-in");
     this.errorDiv = document.getElementById("error");
-    document.getElementById("signUpBox").addEventListener("keyup", (e) => {
+
+    document.getElementById("submit-login").addEventListener("keyup", (e) => {
       this.enterToSubmit(e);
     });
+
+    document.getElementById("escape-login").addEventListener("keyup", (e) => {
+
+    })
 
     this.postSubmissionAction = () => {
       let inputAlias = document.getElementById("alias");

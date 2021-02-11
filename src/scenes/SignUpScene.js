@@ -36,16 +36,16 @@ export default class SignUpScene extends Phaser.Scene {
 
     this.add.dom(600, 350).createFromCache("signUpForm");
 
-    this.signUpForm = document.getElementById("signup");
+    this.signUpForm = document.getElementById("sign-up");
     this.errorDiv = document.getElementById("error");
-    document.getElementById("signUpBox").addEventListener("keyup", (e) => {
+    document.getElementById("submit-signup").addEventListener("keyup", (e) => {
       this.enterToSubmit(e);
     });
 
     this.postSubmissionAction = () => {
       let inputAlias = document.getElementById("alias");
       let inputPassword = document.getElementById("password");
-      let inputConfirmPassword = document.getElementById("confirmPassword");
+      let inputConfirmPassword = document.getElementById("confirm-password");
 
       //  check if fields are not empty
       if (inputAlias.value !== "" && inputPassword.value !== "") {

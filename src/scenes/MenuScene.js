@@ -45,7 +45,6 @@ export default class MenuScene extends Phaser.Scene {
     PLAYButton.on("selected", () => {
       //this is where you'd connect the button with PLAYing the game
       this.scene.start("MainScene");
-      console.log("PLAY");
     });
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       PLAYButton.off("selected");
