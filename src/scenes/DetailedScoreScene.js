@@ -4,6 +4,12 @@ export default class DetailedScoreScene extends Phaser.Scene {
   constructor() {
     super("DetailedScoreScene");
   }
+
+  // init(data) {
+  //   this.tetrisScore = data.tetrisScore || 0;
+  //   this.regExScore = data.regExScore || 0;
+  // }
+
   preload() {
     this.load.image("title", "assets/spritesheets/REGEXTRISbw2.png");
   }
@@ -116,11 +122,6 @@ export default class DetailedScoreScene extends Phaser.Scene {
         fontFamily: "retroFont",
       })
       .setOrigin(0.5, 0.5);
-
-    // Object.keys(this.regexChoices).forEach((re) => {
-    //   console.log("inside for each", re);
-    //   // clearedChars.innerHTML = this.regexChoices[re].totalCharacters;
-    // });
   }
 
   update() {
