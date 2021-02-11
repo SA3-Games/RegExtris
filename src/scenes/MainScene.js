@@ -4,7 +4,7 @@ import BaseScene from './BaseScene';
 export default class MainScene extends BaseScene {
   constructor() {
     super('MainScene');
-    this.mode = "normal";
+    this.mode = 'normal';
   }
 
   create() {
@@ -19,7 +19,12 @@ export default class MainScene extends BaseScene {
 
     this.createNextPieceBoard();
 
-    this.createBorders([this.gameBoard, this.regexBoard, this.scoreBoard, this.nextPieceBoard]);
+    this.createBorders([
+      this.gameBoard,
+      this.regexBoard,
+      this.scoreBoard,
+      this.nextPieceBoard,
+    ]);
 
     this.createTimer(975, 590);
 

@@ -282,7 +282,7 @@ export default class Piece extends Phaser.GameObjects.Group {
             //increase score and game level accordingly
             this.score += scores[numFullRows - 1] * (this.level + 1);
             this.destroyedRows += numFullRows;
-            if (this.destroyedRows % 10 === 0) {
+            if (this.mode === 'normal' && this.destroyedRows % 10 === 0) {
               this.level++;
             }
             this.regexChoice.changeRegex();
