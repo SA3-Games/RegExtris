@@ -62,6 +62,13 @@ const setSaltAndPassword = (player) => {
   }
 };
 
+// change all aliases to lowercase before save
+Player.beforeCreate((player) => {
+  console.log(player.alias);
+  player.alias = player.alias.toLowerCase();
+  console.log(player.alias);
+});
+
 Player.beforeCreate(setSaltAndPassword);
 Player.beforeUpdate(setSaltAndPassword);
 Player.beforeBulkCreate((players) => {
