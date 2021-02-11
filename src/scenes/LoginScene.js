@@ -49,7 +49,6 @@ export default class LoginScene extends Phaser.Scene {
 
     this.add.dom(600, 350).createFromCache("loginForm");
 
-    this.loginForm = document.getElementById("log-in");
     this.errorDiv = document.getElementById("error");
 
     //submit listeners:
@@ -69,11 +68,6 @@ export default class LoginScene extends Phaser.Scene {
     document.getElementById("escape-login").addEventListener("click", () => {
       this.enterMenu(0);
     });
-
-    // this.loginForm.onsubmit = (event) => {
-    //   event.preventDefault();
-    //   this.postSubmissionAction();
-    // };
 
     //title display
     this.title = this.add.sprite(600, 35, "title").setScale(0.2).setDepth(11);

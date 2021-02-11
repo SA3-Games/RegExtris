@@ -27,7 +27,7 @@ export default class SignUpScene extends Phaser.Scene {
     let inputPassword = document.getElementById("password");
     let inputConfirmPassword = document.getElementById("confirm-password");
     //  check if fields are not empty
-    if (inputAlias.value !== "" && inputPassword.value !== "") {
+    if (inputAlias.value.length && inputPassword.value.length) {
       // check if password and confirm passwords match
       if (inputPassword.value === inputConfirmPassword.value) {
         this.errorDiv.innerHTML = "";
@@ -57,7 +57,6 @@ export default class SignUpScene extends Phaser.Scene {
 
     this.add.dom(600, 350).createFromCache("signUpForm");
 
-    this.signUpForm = document.getElementById("sign-up");
     this.errorDiv = document.getElementById("error");
 
     //submit listeners:
