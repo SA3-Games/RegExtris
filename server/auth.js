@@ -4,10 +4,9 @@ module.exports = router;
 
 router.post("/login", async (req, res, next) => {
   try {
-    console.log("req.bdoy in /auth/login", req.body);
     const player = await Player.findOne({
       where: {
-        alias: req.body.alias,
+        alias: req.body.alias.toLowerCase(),
       },
       attribues: ["id", "alias"],
     });
