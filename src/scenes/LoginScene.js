@@ -8,8 +8,27 @@ export default class LoginScene extends Phaser.Scene {
     this.error = {};
   }
 
-  escape() {
-    this.scene.start("LoadingScene");
+  enterSubmit(e) {
+    if ((e && e.keyCode == 13) || e == 0) {
+      this.postSubmissionAction();
+    }
+  }
+
+  enterMenu(e) {
+    if ((e && e.keyCode == 13) || e == 0) {
+      this.scene.start("LoadingScene");
+    }
+  }
+
+  postSubmissionAction() {
+      let inputAlias = document.getElementById("alias");
+      let inputPassword = document.getElementById("password");
+      //  check if fields are not empty
+      if (inputAlias.value.length && inputPassword.value.length) {
+        // check if password and confirm passwords match
+        this.errorDiv.innerHTML = "";
+        store.dispatch(auth(inputAlias.value, inputPassword.value, "login"));
+      }
   }
 
   init() {}
@@ -30,39 +49,25 @@ export default class LoginScene extends Phaser.Scene {
 
     this.add.dom(600, 350).createFromCache("loginForm");
 
-    this.loginForm = document.getElementById("signup");
     this.errorDiv = document.getElementById("error");
-    document.getElementById("signUpBox").addEventListener("keyup", (e) => {
-      this.enterToSubmit(e);
+
+    //submit listeners:
+    document.getElementById("submit-login").addEventListener("keyup", (e) => {
+      this.enterSubmit(e);
     });
 
-    this.postSubmissionAction = () => {
-      let inputAlias = document.getElementById("alias");
-      let inputPassword = document.getElementById("password");
+    document.getElementById("submit-login").addEventListener("click", () => {
+      this.enterSubmit(0);
+    });
 
-      //  check if fields are not empty
-      if (inputAlias.value !== "" && inputPassword.value !== "") {
-        // check if password and confirm passwords match
-        this.errorDiv.innerHTML = "";
-        store.dispatch(auth(inputAlias.value, inputPassword.value, "login"));
-      }
-    };
+    //menu listeners:
+    document.getElementById("escape-login").addEventListener("keyup", (e) => {
+      this.enterMenu(e);
+    });
 
-    //function runs if you pressed enter to submit
-    this.enterToSubmit = (e) => {
-      if (e.keyCode == 27) {
-        this.escape();
-      }
-      if ((e && e.keyCode == 13) || e == 0) {
-        this.postSubmissionAction();
-      }
-    };
-
-    //function runs if you clicked submit button
-    this.loginForm.onsubmit = (event) => {
-      event.preventDefault();
-      this.postSubmissionAction();
-    };
+    document.getElementById("escape-login").addEventListener("click", () => {
+      this.enterMenu(0);
+    });
 
     //title display
     this.title = this.add.sprite(600, 35, "title").setScale(0.2).setDepth(11);

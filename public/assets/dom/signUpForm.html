@@ -1,6 +1,6 @@
-<h2 class="signUpTitle">create an alias to play</h2>
-<div id="signUpBox">
-  <form class="signUp" id="signup">
+<h2 class="form-title">create an alias to play</h2>
+<div class="form-container" id="sign-up-box">
+  <form id="sign-up">
     <div class="inputs">
       <div class="input-container">
         <label>ALIAS:</label>
@@ -18,15 +18,17 @@
         <label>CONFIRM<br>PASSWORD:</label>
         <input
           type="password"
-          id="confirmPassword"
-          name="confirmPassword"
+          id="confirm-password"
+          name="confirm-password"
         />
       </div>
     </div>
     <div id="error"></div>
-    <button type="submit" class="signUpSubmit" name="signUpButton" >
+    <button type="button" id="submit-signup" class="submit-button" name="submit" >
       <span>Sign Up</span>
     </button>
+    <button type="button" id="escape-signup" class="escape-button" name="escape">
+      <span>Return To Menu</span>
+    </button>
   </form>
-  <div class="esc">Press escape to return to menu</div>
 </div>
