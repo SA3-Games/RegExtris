@@ -8,12 +8,27 @@ export default class LoginScene extends Phaser.Scene {
     this.error = {};
   }
 
-  escape() {
-    this.scene.start("LoadingScene");
+  enterSubmit(e) {
+    if ((e && e.keyCode == 13) || e == 0) {
+      this.postSubmissionAction();
+    }
   }
 
-  enterSubmit() {
-    
+  enterMenu(e) {
+    if ((e && e.keyCode == 13) || e == 0) {
+      this.scene.start("LoadingScene");
+    }
+  }
+
+  postSubmissionAction() {
+      let inputAlias = document.getElementById("alias");
+      let inputPassword = document.getElementById("password");
+      //  check if fields are not empty
+      if (inputAlias.value.length && inputPassword.value.length) {
+        // check if password and confirm passwords match
+        this.errorDiv.innerHTML = "";
+        store.dispatch(auth(inputAlias.value, inputPassword.value, "login"));
+      }
   }
 
   init() {}
@@ -37,41 +52,28 @@ export default class LoginScene extends Phaser.Scene {
     this.loginForm = document.getElementById("log-in");
     this.errorDiv = document.getElementById("error");
 
+    //submit listeners:
     document.getElementById("submit-login").addEventListener("keyup", (e) => {
-      this.enterToSubmit(e);
+      this.enterSubmit(e);
     });
 
+    document.getElementById("submit-login").addEventListener("click", () => {
+      this.enterSubmit(0);
+    });
+
+    //menu listeners:
     document.getElementById("escape-login").addEventListener("keyup", (e) => {
+      this.enterMenu(e);
+    });
 
-    })
+    document.getElementById("escape-login").addEventListener("click", () => {
+      this.enterMenu(0);
+    });
 
-    this.postSubmissionAction = () => {
-      let inputAlias = document.getElementById("alias");
-      let inputPassword = document.getElementById("password");
-
-      //  check if fields are not empty
-      if (inputAlias.value !== "" && inputPassword.value !== "") {
-        // check if password and confirm passwords match
-        this.errorDiv.innerHTML = "";
-        store.dispatch(auth(inputAlias.value, inputPassword.value, "login"));
-      }
-    };
-
-    //function runs if you pressed enter to submit
-    this.enterToSubmit = (e) => {
-      if (e.keyCode == 27) {
-        this.escape();
-      }
-      if ((e && e.keyCode == 13) || e == 0) {
-        this.postSubmissionAction();
-      }
-    };
-
-    //function runs if you clicked submit button
-    this.loginForm.onsubmit = (event) => {
-      event.preventDefault();
-      this.postSubmissionAction();
-    };
+    // this.loginForm.onsubmit = (event) => {
+    //   event.preventDefault();
+    //   this.postSubmissionAction();
+    // };
 
     //title display
     this.title = this.add.sprite(600, 35, "title").setScale(0.2).setDepth(11);

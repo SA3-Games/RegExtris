@@ -93,7 +93,7 @@ input:focus {
     width: fit-content;
 }
 
-.submit-button:focus, .escape-button:focus {
+.submit-button:focus, .escape-button:focus, .submit-button:hover, .escape-button:hover {
     animation: glowing 2000ms infinite;
 }
 
