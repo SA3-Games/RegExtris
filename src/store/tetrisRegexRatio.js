@@ -3,10 +3,10 @@ const ADD_RATIO = 'ADD_RATIO';
 const CLEAR_RATIOS = 'CLEAR_RATIOS';
 
 // action creator
-export const addRatio = (totalSquares, squaresMatched) => ({
+export const addRatio = (matched, unmatched) => ({
   type: ADD_RATIO,
-  totalSquares,
-  squaresMatched,
+  matched,
+  unmatched,
 });
 
 export const clearRatio = () => ({
@@ -14,24 +14,14 @@ export const clearRatio = () => ({
 });
 
 // initial state
-const initialState = [];
-
-/*
-Ratios stored in this format
-{
-  tetris: totalSquares
-  regex: squaresMatched
-}
-*/
+const initialState = { unmatched: [], matched: [] };
 
 export default function tetrisRegexRatio(state = initialState, action) {
   switch (action.type) {
     case ADD_RATIO: {
-      const newState = [...state];
-      newState.push({
-        tetris: action.totalSquares,
-        regex: action.squaresMatched,
-      });
+      const newState = { ...state };
+      newState.unmatched = [...state.unmatched, action.unmatched];
+      newState.matched = [...state.matched, action.matched];
       return newState;
     }
     case CLEAR_RATIOS:
