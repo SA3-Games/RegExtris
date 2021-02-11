@@ -37,6 +37,7 @@ export default class GameOverScene extends Phaser.Scene {
 
     //toggling the state so that it refreshes when you come back from extra charts scene
     store.dispatch(toggleSwitch());
+
     this.unsubscribe = store.subscribe(() => {
       this.reduxState = store.getState();
 
@@ -87,8 +88,20 @@ export default class GameOverScene extends Phaser.Scene {
       for (let i = 0; i <= bins.length; i++) {
         let bgColor = "rgba(255,255,255, 1)";
         if (currentScore > bins[i] && currentScore <= bins[i + 1]) {
-          bgColor = scoreType === "tetris" ? "yellow" : "rgba(153, 0, 255, 1)";
+          bgColor =
+            scoreType === "tetris"
+              ? "rgba(255, 216, 5, 1)"
+              : "rgba(153, 0, 255, 1)";
+        } else if (
+          currentScore > bins[bins.length - 1] &&
+          i === bins.length - 1
+        ) {
+          bgColor =
+            scoreType === "tetris"
+              ? "rgba(255, 216, 5, 1)"
+              : "rgba(153, 0, 255, 1)";
         }
+
         bgColors.push(bgColor);
       }
       let chart = {
@@ -152,12 +165,12 @@ export default class GameOverScene extends Phaser.Scene {
       data: {
         labels: ["Tetris: " + this.tetrisScore, "RegEx: " + this.regExScore],
         backgroundColor: "yellow",
-        borderColor: "yellow",
-        borderColor: ["yellow", "rgba(153, 0, 255, 1)"],
+        borderColor: "rgba(255, 216, 5, 1)",
+        borderColor: ["rgba(255, 216, 5, 1)", "rgba(153, 0, 255, 1)"],
         datasets: [
           {
             data: [this.tetrisScore, this.regExScore],
-            backgroundColor: ["yellow", "rgba(153, 0, 255, 1)"],
+            backgroundColor: ["rgba(255, 216, 5, 1)", "rgba(153, 0, 255, 1)"],
           },
         ],
       },
@@ -221,6 +234,7 @@ export default class GameOverScene extends Phaser.Scene {
 
   update() {
     if (Phaser.Input.Keyboard.JustUp(this.enter)) {
+      this.scorePosted = false;
       this.scene.start("MenuScene");
     } else if (Phaser.Input.Keyboard.JustUp(this.shift)) {
       this.scene.start("DetailedScoreScene");
