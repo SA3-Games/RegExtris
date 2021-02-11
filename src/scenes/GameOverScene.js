@@ -1,11 +1,13 @@
 import store from "../store";
 import { postScore } from "../store/score";
-import { fetchHistData } from "../store/histogram";
+import { toggleSwitch } from "../store/histogram";
 
 export default class GameOverScene extends Phaser.Scene {
   constructor() {
     super("GameOverScene");
     this.scorePosted = false;
+    this.tetrisScore;
+    this.regExScore;
   }
 
   init(data) {
@@ -22,29 +24,44 @@ export default class GameOverScene extends Phaser.Scene {
   }
 
   create() {
+    //dispatches the current game's scores to the store
+    if (!this.scorePosted) {
+      store.dispatch(
+        postScore({
+          tetrisScore: this.tetrisScore,
+          regExScore: this.regExScore,
+        })
+      );
+      this.scorePosted = true;
+    }
+
+    //toggling the state so that it refreshes when you come back from extra charts scene
+    store.dispatch(toggleSwitch());
     this.unsubscribe = store.subscribe(() => {
       this.reduxState = store.getState();
-      this.scores = this.reduxState.scores;
-      console.log(this.reduxState);
 
-      if (this.reduxState.histogram.tetrisBins) {
-        console.log("histogram data exists");
-        this.histogramData = this.reduxState.histogram;
+      if (this.reduxState.histogram.histData) {
+        this.histogramData = this.reduxState.histogram.histData;
+        this.tetrisBins = this.histogramData.tetrisBins;
+        this.regexBins = this.histogramData.regexBins;
+        this.regexFreqs = this.histogramData.regexFreqs;
+        this.tetrisFreqs = this.histogramData.tetrisFreqs;
+
         // Histogram Chart Creation
         //creates the tetris score chart
         let tetrisScoreChart = getScoreChart(
           "All Players Tetris Breakdown",
           this.tetrisScore,
-          this.histogramData.tetrisBins,
-          this.histogramData.tetrisFreqs,
+          this.tetrisBins,
+          this.tetrisFreqs,
           "tetris"
         );
         //creates the Regex score chart
         let regExScoreChart = getScoreChart(
           "All Players Regex Breakdown",
           this.regExScore,
-          this.histogramData.regexBins,
-          this.histogramData.regexFreqs,
+          this.regexBins,
+          this.regexFreqs,
           "regEx"
         );
         //displays the Tetris histogram
@@ -56,18 +73,10 @@ export default class GameOverScene extends Phaser.Scene {
         this.rexUI.add
           .chart(900, 400, 200, 100, regExScoreChart)
           .resize(300, 300);
+
         this.unsubscribe();
       }
     });
-    if (!this.scorePosted) {
-      store.dispatch(
-        postScore({
-          tetrisScore: this.tetrisScore,
-          regExScore: this.regExScore,
-        })
-      );
-      this.scorePosted = true;
-    }
 
     this.enter = this.input.keyboard.addKey("ENTER");
     this.shift = this.input.keyboard.addKey("SHIFT");
@@ -78,10 +87,7 @@ export default class GameOverScene extends Phaser.Scene {
       for (let i = 0; i <= bins.length; i++) {
         let bgColor = "rgba(255,255,255, 1)";
         if (currentScore > bins[i] && currentScore <= bins[i + 1]) {
-          bgColor =
-            scoreType === "tetris"
-              ? "rgba(153,0,255, 0.4)"
-              : "rgba(102,255,51, 0.4)";
+          bgColor = scoreType === "tetris" ? "yellow" : "rgba(153, 0, 255, 1)";
         }
         bgColors.push(bgColor);
       }
@@ -145,13 +151,13 @@ export default class GameOverScene extends Phaser.Scene {
       type: "doughnut",
       data: {
         labels: ["Tetris: " + this.tetrisScore, "RegEx: " + this.regExScore],
-        backgroundColor: "rgba(153,0,255, 0.4)",
-        borderColor: "rgba(153,0,255, 1)",
-        borderColor: ["rgba(153,0,255, 0.2)", "rgba(102,255,51, 0.2)"],
+        backgroundColor: "yellow",
+        borderColor: "yellow",
+        borderColor: ["yellow", "rgba(153, 0, 255, 1)"],
         datasets: [
           {
             data: [this.tetrisScore, this.regExScore],
-            backgroundColor: ["rgba(153,0,255, 0.2)", "rgba(102,255,51, 0.2)"],
+            backgroundColor: ["yellow", "rgba(153, 0, 255, 1)"],
           },
         ],
       },
