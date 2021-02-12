@@ -4,9 +4,9 @@ const tutorialText = [
   'Use right arrow key\nto progess the tutorial.\nUse left arrow key\nto view a previous step',
   'Over here we have Tetris!\nUse the arrow Keys to control:\nUP: rotate\nDOWN: fall faster\nRIGHT/LEFT: move sideways',
   'Each square has a character\nthat represents its own\nsingle character string.',
-  'When you get a full line,\nthe characters will be compared to\nyour RegEx choice on the right.',
+  'When you get a full line,\nthe characters will be compared to\nyour RegEx choice nn the middle.',
   'Your regex choice is made here.\nYou can be switch at\nany time with SHIFT.',
-  'Learn Mode provides a helpful\nlist of regex hints here!',
+  'Learn Mode provides a helpful\nlist of regex hints on the right!',
   'In normal mode, you receive\na Tetris score and a RegEx score,\nbut Learn Mode is just for getting\ncomfortable with the gameplay.',
   'Also, there are no levels,\nso fall speed never increases\nand a game over just restarts the game.',
   'When full lines are made,\nthe lines are highlighted and\nTetris pauses to give you time\nto finalize your RegEx choice.',
@@ -67,10 +67,10 @@ export default class LearnModeTutorial extends Phaser.Scene {
       if (this.stage === 11) {
         this.gameView.setTexture('LMT2');
       }
-      if (this.stage === 9 || this.stage === 5 || this.stage === 12) {
+      if (this.stage === 10 || this.stage === 5 || this.stage === 12) {
         this.tutorialTextDisplay.setPosition(...this.tetrisPosition);
       }
-      if (this.stage === 7 || this.stage === 13) {
+      if (this.stage === 7 || this.stage === 14) {
         this.tutorialTextDisplay.setPosition(...this.regexPosition);
       }
       if (this.stage === 11) {
@@ -101,7 +101,7 @@ export default class LearnModeTutorial extends Phaser.Scene {
         this.tutorialTextDisplay.setPosition(...this.timerPosition);
       }
       if (this.stage === 13) {
-        this.tutorialTextDisplay.setPosition(600, 350);
+        this.tutorialTextDisplay.setPosition(600, 300);
       }
       if (this.stage < 14) {
         this.tutorialTextDisplay.setText(tutorialText[this.stage]);
