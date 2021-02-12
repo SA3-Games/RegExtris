@@ -1,6 +1,7 @@
 import store from "../store";
 import { postScore } from "../store/score";
 import { toggleSwitch } from "../store/histogram";
+import { clearPlayerData } from "../store/playerRegex";
 
 export default class GameOverScene extends Phaser.Scene {
   constructor() {
@@ -236,7 +237,7 @@ export default class GameOverScene extends Phaser.Scene {
   update() {
     if (Phaser.Input.Keyboard.JustUp(this.enter)) {
       this.scorePosted = false;
-      //dispatch clear histogram
+      store.dispatch(clearPlayerData());
       this.scene.start("MenuScene");
     } else if (Phaser.Input.Keyboard.JustUp(this.shift)) {
       this.scene.start("DetailedScoreScene");
