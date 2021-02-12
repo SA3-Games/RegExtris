@@ -12,9 +12,6 @@ export default class BaseScene extends Phaser.Scene {
   }
   preload() {
     this.load.audio("heckincrows", "assets/audio/heckincrows.ogg");
-    this.load.audio("creepy", "assets/audio/the_field_of_dreams.mp3");
-    this.load.audio("chimes", "assets/audio/wind_chimes_loop_1.ogg");
-    this.load.audio("chiptune", "assets/audio/chiptune.ogg");
 
     this.load.spritesheet("square", "assets/spritesheets/WHITEtetrominos.png", {
       frameWidth: 28,

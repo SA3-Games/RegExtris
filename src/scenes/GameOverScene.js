@@ -202,7 +202,7 @@ export default class GameOverScene extends Phaser.Scene {
       .text(600, 100, `GAME OVER!\ngood job ${this.alias}!`, {
         fontSize: "24px",
         fontFamily: "retroFont",
-        align: "center"
+        align: "center",
       })
       .setOrigin(0.5, 0.5);
     this.add
@@ -236,6 +236,7 @@ export default class GameOverScene extends Phaser.Scene {
   update() {
     if (Phaser.Input.Keyboard.JustUp(this.enter)) {
       this.scorePosted = false;
+      //dispatch clear histogram
       this.scene.start("MenuScene");
     } else if (Phaser.Input.Keyboard.JustUp(this.shift)) {
       this.scene.start("DetailedScoreScene");

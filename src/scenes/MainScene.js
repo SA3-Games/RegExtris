@@ -30,7 +30,7 @@ export default class MainScene extends BaseScene {
 
     this.createTitle();
 
-    this.sound.add("chiptune").setLoop(true).play();
+    this.sound.add("chimes").setLoop(true).play();
 
     this.initializeGame();
   }
