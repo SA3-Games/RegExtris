@@ -38,8 +38,7 @@ export default class MainScene extends BaseScene {
       .setOrigin(0.5)
       .setDepth(12);
 
-    this.sound.add("heckincrows").setLoop(true).play();
-
+    this.createMusic();
     this.initializeGame();
   }
 

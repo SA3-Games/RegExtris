@@ -9,8 +9,7 @@ export default class LearnMode extends BaseScene {
   create() {
     this.enter = this.input.keyboard.addKey("ENTER");
 
-    this.sound.add("heckincrows").setLoop(true).play();
-
+    this.createMusic();
     this.assignLocations([100, 70], [475, 100]);
     this.createGameBoard(...this.gameBoardLoc);
     this.createRegexBoard(...this.regexBankLoc);

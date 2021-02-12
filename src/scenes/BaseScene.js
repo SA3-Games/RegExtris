@@ -14,6 +14,9 @@ export default class BaseScene extends Phaser.Scene {
   }
   preload() {
     this.load.audio("heckincrows", "assets/audio/heckincrows.ogg");
+    this.load.audio("timer", "assets/audio/timer.wav");
+    this.load.audio("row", "assets/audio/rowDestroy.wav");
+
 
     this.load.spritesheet("square", "assets/spritesheets/WHITEtetrominos.png", {
       frameWidth: 28,
@@ -139,6 +142,10 @@ export default class BaseScene extends Phaser.Scene {
       frameRate: fps,
       repeat: 0,
     });
+  }
+
+  createMusic() {
+    this.sound.add("heckincrows", {volume: 0.2}).setLoop(true).play();
   }
 
   createTitle() {

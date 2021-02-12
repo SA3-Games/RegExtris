@@ -73,6 +73,7 @@ export default class Board {
         }
       }
     });
+    this.scene.sound.add("row").play();
     store.dispatch(addRegexChoice(re, total));
     return total;
   }
@@ -94,6 +95,7 @@ export default class Board {
           this.scene.board.gridSize / 2 + //align with walls and ground
           this.scene.gameBoardLoc[1]; //keep square on board
       }
+      //this.scene.sound.add("row").play();
     });
   }
 }
