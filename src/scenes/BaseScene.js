@@ -1,12 +1,13 @@
 import "phaser";
 
+
 import Board from "../entity/Board";
 import Piece from "../entity/Piece";
 import Square from "../entity/Square";
-import config from "../config/config";
 import RegexOption from "../entity/RegexOption";
 import store from "../store";
 import { clearPlayerData } from "../store/playerRegex";
+
 
 export default class BaseScene extends Phaser.Scene {
   constructor(name) {

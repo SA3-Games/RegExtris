@@ -238,7 +238,7 @@ export default class Piece extends Phaser.GameObjects.Group {
       this.scene.squares.addMultiple(this.getChildren());
       //get full rows
       const fullRows = this.scene.board.checkRows();
-      const scores = [40, 60, 200, 900];
+      const scores = [40, 120, 240, 400];
       //this.tetris = false
       //this.regex = true
       const numFullRows = Object.keys(fullRows).length;
@@ -279,7 +279,7 @@ export default class Piece extends Phaser.GameObjects.Group {
             }
             const unmatched = numFullRows * 10 - squaresMatched;
             store.dispatch(addRatio(squaresMatched, unmatched));
-            this.regexScore += squaresMatched * 10;
+            this.regexScore += squaresMatched * 10 * (this.level + 1);
             this.timer.setVisible(false);
           },
           callbackScope: this.scene,
