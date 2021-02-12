@@ -4,6 +4,7 @@ export default class DetailedScoreScene extends Phaser.Scene {
   constructor() {
     super("DetailedScoreScene");
   }
+
   preload() {
     this.load.image("title", "assets/spritesheets/REGEXTRISbw2.png");
   }
@@ -14,9 +15,14 @@ export default class DetailedScoreScene extends Phaser.Scene {
     // Displays the title sprite
     this.title = this.add.sprite(600, 35, "title").setScale(0.2).setDepth(11);
 
+    //We get the redux state here and specifically get all the scores of the player as well as the ratios of the characters cleared for use in the graphs that follow
     this.reduxState = store.getState();
     this.scores = this.reduxState.score;
-    this.regexChoices = this.reduxState.regexChoices;
+    this.ratios = this.reduxState.ratios;
+
+    //Extract the characters cleared as well as the regex characters cleared from Ratios
+    this.unmatched = this.ratios.unmatched;
+    this.matched = this.ratios.matched;
 
     // create arrays to input into score history chart
     this.gameNum = [];
@@ -36,8 +42,8 @@ export default class DetailedScoreScene extends Phaser.Scene {
         datasets: [
           {
             label: "Tetris",
-            backgroundColor: "yellow",
-            borderColor: "yellow",
+            backgroundColor: "rgba(255, 216, 5, 1)",
+            borderColor: "rgba(255, 216, 5, 1)",
             data: this.onlyTetrisScores,
             fill: false,
           },
@@ -101,6 +107,79 @@ export default class DetailedScoreScene extends Phaser.Scene {
       .chart(300, 400, 200, 100, this.scoreHistory)
       .resize(500, 350);
 
+    this.labels = new Array(this.unmatched.length);
+    this.labels.fill(0);
+    //Stacked bar graph that shows you the ratio of the characters you cleared
+    this.charRatio = {
+      type: "bar",
+      data: {
+        labels: this.labels, //# of times you cleared a set of lines
+        datasets: [
+          {
+            label: "Tetris",
+            backgroundColor: "rgba(255, 216, 5, 1)",
+            borderColor: "rgba(255, 216, 5, 1)",
+            data: this.unmatched, //# of characters that were cleared which stayed white (umatched)
+          },
+          {
+            label: "Regex",
+            backgroundColor: "rgba(153, 0, 255, 1)",
+            borderColor: "rgba(153, 0, 255, 1)",
+            data: this.matched, //# of characters that were cleraed which turned purple
+          },
+        ],
+      },
+      options: {
+        legend: {
+          labels: {
+            fontColor: "white",
+          },
+        },
+        title: {
+          display: true,
+          text: "Character Clearance Ratio",
+          fontSize: 24,
+          fontColor: "white",
+        },
+        scales: {
+          xAxes: [
+            {
+              stacked: true,
+              ticks: {
+                display: false,
+                fontColor: "white",
+                fontSize: 10,
+              },
+              scaleLabel: {
+                display: true,
+                labelString: "Lines",
+                fontColor: "white",
+              },
+            },
+          ],
+          yAxes: [
+            {
+              stacked: true,
+              ticks: {
+                display: true,
+                beginAtZero: true,
+                fontColor: "white",
+                fontSize: 10,
+              },
+              scaleLabel: {
+                display: true,
+                labelString: "Characters Cleared",
+                fontColor: "white",
+              },
+            },
+          ],
+        },
+      },
+    };
+
+    //displays the stacked Bar graph called charRatio
+    this.rexUI.add.chart(850, 400, 200, 100, this.charRatio).resize(500, 350);
+
     // display option to go back to the game over scene
     this.add
       .text(600, 100, "Press SHIFT to go back!", {
@@ -116,11 +195,6 @@ export default class DetailedScoreScene extends Phaser.Scene {
         fontFamily: "retroFont",
       })
       .setOrigin(0.5, 0.5);
-
-    // Object.keys(this.regexChoices).forEach((re) => {
-    //   console.log("inside for each", re);
-    //   // clearedChars.innerHTML = this.regexChoices[re].totalCharacters;
-    // });
   }
 
   update() {

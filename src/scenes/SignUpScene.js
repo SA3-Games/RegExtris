@@ -10,11 +10,34 @@ export default class SignUpScene extends Phaser.Scene {
     this.error;
   }
 
-  escape() {
-    this.scene.start("LoadingScene");
+  enterSubmit(e) {
+    if ((e && e.keyCode == 13) || e == 0) {
+      this.postSubmissionAction();
+    }
   }
 
-  init() {}
+  enterMenu(e) {
+    if ((e && e.keyCode == 13) || e == 0) {
+      this.scene.start("LoadingScene");
+    }
+  }
+
+  postSubmissionAction() {
+    let inputAlias = document.getElementById("alias");
+    let inputPassword = document.getElementById("password");
+    let inputConfirmPassword = document.getElementById("confirm-password");
+    //  check if fields are not empty
+    if (inputAlias.value.length && inputPassword.value.length) {
+      // check if password and confirm passwords match
+      if (inputPassword.value === inputConfirmPassword.value) {
+        this.errorDiv.innerHTML = "";
+        store.dispatch(clearError());
+        store.dispatch(auth(inputAlias.value, inputPassword.value, "signup"));
+      } else {
+        this.errorDiv.innerHTML = "password does not match";
+      }
+    }
+  }
 
   preload() {
     this.load.html("signUpForm", "assets/dom/signUpForm.html");
@@ -22,8 +45,6 @@ export default class SignUpScene extends Phaser.Scene {
   }
 
   create() {
-    // this.escape = this.input.keyboard.addKey("ESCAPE");
-
     this.unsubscribe = store.subscribe(() => {
       this.player = store.getState().player;
       this.error = store.getState().error;
@@ -36,53 +57,26 @@ export default class SignUpScene extends Phaser.Scene {
 
     this.add.dom(600, 350).createFromCache("signUpForm");
 
-    this.signUpForm = document.getElementById("signup");
     this.errorDiv = document.getElementById("error");
-    document.getElementById("signUpBox").addEventListener("keyup", (e) => {
-      this.enterToSubmit(e);
+
+    //submit listeners:
+    document.getElementById("submit-signup").addEventListener("keyup", (e) => {
+      this.enterSubmit(e);
     });
 
-    this.postSubmissionAction = () => {
-      let inputAlias = document.getElementById("alias");
-      let inputPassword = document.getElementById("password");
-      let inputConfirmPassword = document.getElementById("confirmPassword");
+    document.getElementById("submit-signup").addEventListener("click", () => {
+      this.enterSubmit(0);
+    });
 
-      //  check if fields are not empty
-      if (inputAlias.value !== "" && inputPassword.value !== "") {
-        // check if password and confirm passwords match
-        if (inputPassword.value === inputConfirmPassword.value) {
-          this.errorDiv.innerHTML = "";
-          store.dispatch(clearError());
-          store.dispatch(auth(inputAlias.value, inputPassword.value, "signup"));
-        } else {
-          this.errorDiv.innerHTML = "password does not match";
-        }
-      }
-    };
+    //menu listeners:
+    document.getElementById("escape-signup").addEventListener("keyup", (e) => {
+      this.enterMenu(e);
+    });
 
-    //function runs if you pressed enter to submit
-    this.enterToSubmit = (e) => {
-      if (e.keyCode == 27) {
-        this.escape();
-      }
-      if ((e && e.keyCode == 13) || e == 0) {
-        this.postSubmissionAction();
-      }
-    };
-
-    //function runs if you clicked submit button
-    this.signUpForm.onsubmit = (event) => {
-      event.preventDefault();
-      this.postSubmissionAction();
-    };
+    document.getElementById("escape-signup").addEventListener("click", () => {
+      this.enterMenu(0);
+    });
 
     this.title = this.add.sprite(600, 35, "title").setScale(0.2).setDepth(11);
-  }
-
-  update() {
-    // const escJustPressed = Phaser.Input.Keyboard.JustDown(this.escape);
-    // if (escJustPressed) {
-    //   this.scene.start("LoggedOutMenu.js");
-    // }
   }
 }

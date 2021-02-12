@@ -266,8 +266,8 @@ export default class Piece extends Phaser.GameObjects.Group {
               );
               squaresMatched += regexRowTotal;
             }
-            const totalSquares = numFullRows * 10;
-            store.dispatch(addRatio(totalSquares, squaresMatched));
+            const unmatched = numFullRows * 10 - squaresMatched;
+            store.dispatch(addRatio(squaresMatched, unmatched));
             this.regexScore += squaresMatched * 10;
             this.timer.setVisible(false);
           },

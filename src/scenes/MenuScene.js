@@ -39,12 +39,21 @@ export default class MenuScene extends Phaser.Scene {
     //   }
     // });
 
+    //welcome message
+    this.add.text(600, 90, `welcome, ${this.player.alias}!`, {
+      fontFamily: "retroFont",
+      fontSize: 20,
+      color: "#7a8bf4"
+    }).setOrigin(0.5);
+
     // PLAY button
     const PLAYButton = this.add.image(600, 200, 'play').setScale(0.2);
 
     PLAYButton.on('selected', () => {
       //this is where you'd connect the button with PLAYing the game
+
       this.scene.start('MainTutorial');
+
     });
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       PLAYButton.off('selected');

@@ -22,7 +22,6 @@ export const fetchPlayersScores = (playerId) => {
   return async (dispatch) => {
     try {
       const { data } = await axios.get(`/api/scores/${playerId}`);
-      console.log("data in fetch player scores thunk", data);
       dispatch(getPlayersScores(data));
     } catch (error) {
       modifyError(error);
