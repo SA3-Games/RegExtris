@@ -5,6 +5,8 @@ import Piece from "../entity/Piece";
 import Square from "../entity/Square";
 import config from "../config/config";
 import RegexOption from "../entity/RegexOption";
+import store from "../store";
+import { clearPlayerData } from "../store/playerRegex";
 
 export default class BaseScene extends Phaser.Scene {
   constructor(name) {
@@ -148,11 +150,13 @@ export default class BaseScene extends Phaser.Scene {
     this.pieceCount = 0;
     this.cursors = this.input.keyboard.createCursorKeys();
     this.cursors.shift = this.input.keyboard.addKey("SHIFT");
+    this.cursors.esc = this.input.keyboard.addKey("ESC");
     this.gameOver = false;
     this.regexScore = 0;
     this.score = 0;
     this.destroyedRows = 0;
     this.level = 0;
+    this.regexLocked = false;
     //groups for pieces
     this.pieces = this.physics.add.group({ classType: Piece });
     //group for landed squares
@@ -165,19 +169,30 @@ export default class BaseScene extends Phaser.Scene {
     );
   }
 
+  returnToMenu() {
+    if (this.cursors.esc.isDown) {
+      if ((this.mode = "normal")) {
+        store.dispatch(clearPlayerData());
+      }
+      this.scene.start("MenuScene");
+    }
+  }
+
   checkRegexChoice() {
     if (Phaser.Input.Keyboard.JustUp(this.cursors.shift)) {
-      if (this.regexFairy.y === this.regexBankLoc[1] + 380) {
-        this.regexFairy.y = this.regexBankLoc[1] + 140;
-      } else {
-        this.regexFairy.y += 60;
+      if (!this.regexLocked) {
+        if (this.regexFairy.y === this.regexBankLoc[1] + 380) {
+          this.regexFairy.y = this.regexBankLoc[1] + 140;
+        } else {
+          this.regexFairy.y += 60;
+        }
+        this.regexOptions.setTint(0xffffff);
+        const currentRegex = this.regexOptions
+          .getChildren()
+          .filter((option) => option.y === this.regexFairy.y);
+        this.regexChoice = currentRegex[0];
+        this.regexChoice.setTint(0x7a8bf4);
       }
-      this.regexOptions.setTint(0xffffff);
-      const currentRegex = this.regexOptions
-        .getChildren()
-        .filter((option) => option.y === this.regexFairy.y);
-      this.regexChoice = currentRegex[0];
-      this.regexChoice.setTint(0x7a8bf4);
     }
   }
 }

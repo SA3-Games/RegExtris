@@ -1,9 +1,10 @@
-import axios from "axios";
-import { modifyError } from "./errorStore";
+import axios from 'axios';
+import { modifyError } from './errorStore';
 
 // action types
-const GET_HIST_DATA = "GET_HIST_DATA";
-const TOGGLE_DATA = "TOGGLE_DATA";
+const GET_HIST_DATA = 'GET_HIST_DATA';
+const TOGGLE_DATA = 'TOGGLE_DATA';
+const CLEAR_PLAYER_DATA = 'CLEAR_PLAYER_DATA';
 
 // action creators
 const getHistData = (histData) => ({
@@ -19,7 +20,7 @@ export const toggleSwitch = () => ({
 export const fetchHistData = () => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get("/api/histogram");
+      const { data } = await axios.get('/api/histogram');
       dispatch(getHistData(data));
     } catch (error) {
       modifyError(error);
@@ -36,6 +37,8 @@ export default function scores(state = initialState, action) {
       return { ...state, histData: action.histData };
     case TOGGLE_DATA:
       return { ...state, toggle: !state.toggle };
+    case CLEAR_PLAYER_DATA:
+      return initialState;
     default:
       return state;
   }

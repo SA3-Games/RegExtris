@@ -29,6 +29,14 @@ export default class MainScene extends BaseScene {
     this.createTimer(975, 590);
 
     this.createTitle();
+    this.add
+      .text(600, 80, 'press esc to return to menu', {
+        fontFamily: 'retroFont',
+        fontSize: 20,
+        color: '#7a8bf4',
+      })
+      .setOrigin(0.5)
+      .setDepth(12);
 
     this.sound.add("chimes").setLoop(true).play();
 
@@ -43,5 +51,6 @@ export default class MainScene extends BaseScene {
     this.scoreDisplay.setText(
       `Tetris Score:\n\n${this.score}\n\n\nRegEx Score:\n\n${this.regexScore}`
     );
+    this.returnToMenu();
   }
 }
