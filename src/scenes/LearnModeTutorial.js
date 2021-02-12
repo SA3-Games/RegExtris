@@ -1,25 +1,29 @@
 import 'phaser';
 
 const tutorialText = [
-  'Use right arrow key\n\nto progess the tutorial.\n\nUse left arrow key\n\nto view a previous step',
-  'Over here we have Tetris! Use the arrow Keys to control:\nUP: rotate\nDOWN: fall faster\nRIGHT/LEFT: move sideways',
-  'Each square has a character that represents its own single character string.',
-  'When you get a full line in Tetris, the characters will be compared to your RegEx choice on the right.',
-  'Your regex choice is made here and can be switched at any time with SHIFT.',
-  'Learn Mode provides a helpful list of regex hints here',
-  'In normal mode, you receive a Tetris score and a RegEx score, but Learn Mode is just for getting comfortable with the gameplay.',
-  'Also, there are no levels, so fall speed never increases and a game over just restarts the game.',
-  'When full lines are made, the lines are highlighted and Tetris pauses to give you time to finalize your RegEx choice.',
-  'A 3-second timer will appear here. When it runs out, your choice is finalized and applied',
-  'All blocks that match your RegEx choice will turn lilac before the lines disappear and Tetris resumes.',
-  'The RegEx you used will be replaced with a different one, so choose wisely! Don’t waste a broad expression on a single line.',
-  'Take as long as you need to familiarize yourself with the RegEx hints; they will be there for reference as you practice.',
+  'Use right arrow key\nto progess the tutorial.\nUse left arrow key\nto view a previous step',
+  'Over here we have Tetris!\nUse the arrow Keys to control:\nUP: rotate\nDOWN: fall faster\nRIGHT/LEFT: move sideways',
+  'Each square has a character\nthat represents its own\nsingle character string.',
+  'When you get a full line,\nthe characters will be compared to\nyour RegEx choice on the right.',
+  'Your regex choice is made here.\nYou can be switch at\nany time with SHIFT.',
+  'Learn Mode provides a helpful\nlist of regex hints here!',
+  'In normal mode, you receive\na Tetris score and a RegEx score,\nbut Learn Mode is just for getting\ncomfortable with the gameplay.',
+  'Also, there are no levels,\nso fall speed never increases\nand a game over just restarts the game.',
+  'When full lines are made,\nthe lines are highlighted and\nTetris pauses to give you time\nto finalize your RegEx choice.',
+  'A 3-second timer will appear here.\nWhen it runs out,\nyour choice is finalized and applied',
+  'All blocks that match your\nRegEx choice will turn lilac\nbefore the lines disappear\nand Tetris resumes.',
+  'The RegEx you used will be\nreplaced with a different one,\nso choose wisely!\nDon’t waste a broad expression\non a single line.',
+  'Take as long as you\nneed to familiarize yourself\nwith the RegEx hints;\nthey will be there for reference\nwhen you start Learn Mode.',
+  'Press ENTER when you are\nready to start!',
 ];
 
 export default class LearnModeTutorial extends Phaser.Scene {
   constructor() {
     super('LearnModeTutorial');
     this.stage = 1;
+    this.tetrisPosition = [252, 500];
+    this.regexPosition = [605, 170];
+    this.timerPosition = [605, 500];
   }
   preload() {
     this.load.image('LMT1', 'assets/sprites/LearnModeTutorial1.png');
@@ -38,40 +42,68 @@ export default class LearnModeTutorial extends Phaser.Scene {
     this.add
       .text(600, 90, 'press enter to start learn mode', {
         fontFamily: 'retroFont',
-        fontSize: 20,
+        fontSize: 16,
         color: '#7a8bf4',
       })
       .setOrigin(0.5);
     this.tutorialTextDisplay = this.add
-      .text(150, 300, tutorialText[0], {
+      .text(600, 350, tutorialText[0], {
         fontFamily: 'retroFont',
         fontSize: 16,
-        color: '#7a8bf4',
+        color: '#000000',
+        backgroundColor: '#7a8bf4',
+        align: 'center',
+        stroke: '#7a8bf4',
+        strokeThickness: 10,
       })
       .setOrigin(0.5);
   }
 
   update() {
     if (Phaser.Input.Keyboard.JustUp(this.left)) {
-      if (this.stage === 8) {
+      if (this.stage === 9) {
         this.gameView.setTexture('LMT1');
       }
       if (this.stage === 11) {
         this.gameView.setTexture('LMT2');
       }
-      if (this.stage > 0) {
-        this.tutorialTextDisplay.setText(tutorialText[this.stage]);
+      if (this.stage === 9 || this.stage === 5 || this.stage === 12) {
+        this.tutorialTextDisplay.setPosition(...this.tetrisPosition);
+      }
+      if (this.stage === 7 || this.stage === 13) {
+        this.tutorialTextDisplay.setPosition(...this.regexPosition);
+      }
+      if (this.stage === 11) {
+        this.tutorialTextDisplay.setPosition(...this.timerPosition);
+      }
+      if (this.stage === 2) {
+        this.tutorialTextDisplay.setPosition(600, 350);
+      }
+      if (this.stage > 1) {
+        this.tutorialTextDisplay.setText(tutorialText[this.stage - 2]);
         this.stage -= 1;
       }
     }
     if (Phaser.Input.Keyboard.JustUp(this.right)) {
-      if (this.stage === 7) {
+      if (this.stage === 8) {
         this.gameView.setTexture('LMT2');
       }
       if (this.stage === 10) {
         this.gameView.setTexture('LMT3');
       }
-      if (this.stage < 13) {
+      if (this.stage === 1 || this.stage === 6 || this.stage === 10) {
+        this.tutorialTextDisplay.setPosition(...this.tetrisPosition);
+      }
+      if (this.stage === 4 || this.stage === 11) {
+        this.tutorialTextDisplay.setPosition(...this.regexPosition);
+      }
+      if (this.stage === 9) {
+        this.tutorialTextDisplay.setPosition(...this.timerPosition);
+      }
+      if (this.stage === 13) {
+        this.tutorialTextDisplay.setPosition(600, 350);
+      }
+      if (this.stage < 14) {
         this.tutorialTextDisplay.setText(tutorialText[this.stage]);
         this.stage += 1;
       }
