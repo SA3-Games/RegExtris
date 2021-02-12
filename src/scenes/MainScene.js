@@ -1,10 +1,10 @@
-import 'phaser';
-import BaseScene from './BaseScene';
+import "phaser";
+import BaseScene from "./BaseScene";
 
 export default class MainScene extends BaseScene {
   constructor() {
-    super('MainScene');
-    this.mode = 'normal';
+    super("MainScene");
+    this.mode = "normal";
   }
 
   create() {
@@ -29,6 +29,8 @@ export default class MainScene extends BaseScene {
     this.createTimer(975, 590);
 
     this.createTitle();
+
+    this.sound.add("chiptune").setLoop(true).play();
 
     this.initializeGame();
   }
