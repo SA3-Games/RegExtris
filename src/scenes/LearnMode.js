@@ -26,7 +26,7 @@ export default class LearnMode extends BaseScene {
     this.createTimer(600, 590);
     this.createTitle();
     this.add
-      .text(600, 80, 'press enter to return to menu', {
+      .text(600, 80, 'press esc to return to menu', {
         fontFamily: 'retroFont',
         fontSize: 20,
         color: '#7a8bf4',
