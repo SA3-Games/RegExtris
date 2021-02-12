@@ -60,6 +60,31 @@ export default class LearnModeTutorial extends Phaser.Scene {
   }
 
   update() {
+    if (Phaser.Input.Keyboard.JustUp(this.right)) {
+      if (this.stage === 8) {
+        this.gameView.setTexture('LMT2');
+      }
+      if (this.stage === 10) {
+        this.gameView.setTexture('LMT3');
+      }
+      if (this.stage === 1 || this.stage === 6 || this.stage === 10) {
+        this.tutorialTextDisplay.setPosition(...this.tetrisPosition);
+      }
+      if (this.stage === 4 || this.stage === 11) {
+        this.tutorialTextDisplay.setPosition(...this.regexPosition);
+      }
+      if (this.stage === 9) {
+        this.tutorialTextDisplay.setPosition(...this.timerPosition);
+      }
+      if (this.stage === 13) {
+        this.tutorialTextDisplay.setPosition(600, 300);
+      }
+      if (this.stage < 14) {
+        this.tutorialTextDisplay.setText(tutorialText[this.stage]);
+        this.stage += 1;
+      }
+    }
+
     if (Phaser.Input.Keyboard.JustUp(this.left)) {
       if (this.stage === 9) {
         this.gameView.setTexture('LMT1');
