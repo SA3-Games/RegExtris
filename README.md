@@ -1,19 +1,20 @@
-![](header.png)
 
-> A Tetris homage that tests the player's RegEx skills!
+<h1 align="center">
+  <img src="https://github.com/SA3-Games/RegExtris/blob/master/public/assets/spritesheets/REGEXTRISbw2.png" alt="RegExtris" width="800">
+</h1>
+
+
+<h3 align="center">A Tetris homage that tests your RegEx skills!</h3>
 
 [![NPM Version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url] 
 
 RegExtris takes the classic game of tetris and makes it into a learning and practicing environment for regular expressions. Learning to use regular expressions can be a daunting task and often programmers tend to leave it in the "I'll just google it when I need it" but having a basic understanding of the power of regex expressions can take that google search to a much complex place. If you're comfortable with regex already, you can dive in and play or if you need a bit more guidance then you can use the learn mode to get your bearings first.
-
-![](screenshot.png)
-
+<h3 align="center"><img src="https://github.com/SA3-Games/RegExtris/blob/master/public/assets/sprites/MainTutorial3.png" alt="RegExtris" width="300">               <img src="https://github.com/SA3-Games/RegExtris/blob/master/public/assets/sprites/LearnModeTutorial2.png" alt="RegExtris" width="300"></h3>
 
 ## Follow this link to our app!
 
 https://regextris.herokuapp.com/
-
 
 ## Installation
 
