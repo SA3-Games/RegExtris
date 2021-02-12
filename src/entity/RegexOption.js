@@ -3,14 +3,15 @@ import 'phaser';
 const regexGroups = [
   [/[adfw]/, /[ADFW]/, /\d/, /[^adfw]/],
   [/[^ADFW]/, /\D/, /[^\w\d\s]/, /\s/],
-  [/[a-f]/, /a*/, /[a*]/, /\w/],
+  [/[a-f]/, /[A-F-]/, /[a*]/, /\w/],
   [/\W/, /[D-W]/, /\S/, /[^adAD]/],
   [/[^FWfw]/, /[FWfw]/, /[?#$+]/, /[/]/],
 ];
 
 export default class RegexOption extends Phaser.GameObjects.Text {
   constructor(scene, x, y, idx) {
-    const re = regexGroups[idx][0];
+    const randIdx = Math.floor(Math.random() * 4);
+    const re = regexGroups[idx][randIdx];
     super(scene, x, y, `${re}`, { fontSize: '25px' });
 
     this.scene = scene;
