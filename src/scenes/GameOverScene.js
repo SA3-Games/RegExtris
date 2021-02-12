@@ -1,6 +1,7 @@
 import store from "../store";
 import { postScore } from "../store/score";
 import { toggleSwitch } from "../store/histogram";
+import { clearPlayerData } from "../store/playerRegex";
 
 export default class GameOverScene extends Phaser.Scene {
   constructor() {
@@ -204,7 +205,7 @@ export default class GameOverScene extends Phaser.Scene {
       .text(600, 100, `good job ${this.alias}!`, {
         fontSize: "24px",
         fontFamily: "retroFont",
-        align: "center"
+        align: "center",
       })
       .setOrigin(0.5, 0.5);
     this.add
@@ -238,6 +239,7 @@ export default class GameOverScene extends Phaser.Scene {
   update() {
     if (Phaser.Input.Keyboard.JustUp(this.enter)) {
       this.scorePosted = false;
+      store.dispatch(clearPlayerData());
       this.scene.start("MenuScene");
     } else if (Phaser.Input.Keyboard.JustUp(this.shift)) {
       this.scene.start("DetailedScoreScene");

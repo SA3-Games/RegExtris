@@ -252,7 +252,18 @@ export default class Piece extends Phaser.GameObjects.Group {
         //if there are full rows, set timeout to delay line destruction
         //**plug-in RegEx gameplay HERE**
         this.scene.timer.setVisible(true);
+        //create timer visual
         this.scene.timer.anims.play('countDown');
+        //create timer sounds:
+        this.scene.sound.add("timer").play();
+        this.scene.time.addEvent({
+          delay: 1000,
+          callback: function () {
+            this.sound.add("timer").play();
+          },
+          callbackScope: this.scene,
+          repeat: 1
+        })
         this.scene.time.addEvent({
           delay: 3000,
           callback: function () {
