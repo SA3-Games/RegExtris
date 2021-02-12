@@ -37,7 +37,7 @@ export default class GameOverScene extends Phaser.Scene {
 
     //toggling the state so that it refreshes when you come back from extra charts scene
     store.dispatch(toggleSwitch());
-
+    this.alias = store.getState().player.alias;
     this.unsubscribe = store.subscribe(() => {
       this.reduxState = store.getState();
 
@@ -199,9 +199,10 @@ export default class GameOverScene extends Phaser.Scene {
     };
     //Display the The Game over Text
     this.add
-      .text(600, 100, `GAME OVER!`, {
+      .text(600, 100, `GAME OVER!\ngood job ${this.alias}!`, {
         fontSize: "24px",
         fontFamily: "retroFont",
+        align: "center"
       })
       .setOrigin(0.5, 0.5);
     this.add
