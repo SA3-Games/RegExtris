@@ -1,6 +1,6 @@
 // action type
 const ADD_REGEX_CHOICE = 'ADD_REGEX_CHOICES';
-const CLEAR_REGEX_CHOICES = 'CLEAR_REGEX_CHOICES';
+const CLEAR_PLAYER_DATA = 'CLEAR_PLAYER_DATA';
 
 // action creator
 export const addRegexChoice = (re, totalCharacters) => ({
@@ -9,8 +9,8 @@ export const addRegexChoice = (re, totalCharacters) => ({
   totalCharacters,
 });
 
-export const clearRegexChoices = () => ({
-  type: CLEAR_REGEX_CHOICES,
+export const clearPlayerData = () => ({
+  type: CLEAR_PLAYER_DATA,
 });
 
 // initial state
@@ -38,7 +38,7 @@ export default function regexChoices(state = initialState, action) {
       }
       return newState;
     }
-    case CLEAR_REGEX_CHOICES:
+    case CLEAR_PLAYER_DATA:
       return initialState;
     default:
       return state;

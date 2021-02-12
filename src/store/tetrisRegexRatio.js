@@ -1,16 +1,12 @@
 // action type
 const ADD_RATIO = 'ADD_RATIO';
-const CLEAR_RATIOS = 'CLEAR_RATIOS';
+const CLEAR_PLAYER_DATA = 'CLEAR_PLAYER_DATA';
 
 // action creator
 export const addRatio = (matched, unmatched) => ({
   type: ADD_RATIO,
   matched,
   unmatched,
-});
-
-export const clearRatio = () => ({
-  type: CLEAR_RATIOS,
 });
 
 // initial state
@@ -24,7 +20,7 @@ export default function tetrisRegexRatio(state = initialState, action) {
       newState.matched = [...state.matched, action.matched];
       return newState;
     }
-    case CLEAR_RATIOS:
+    case CLEAR_PLAYER_DATA:
       return initialState;
     default:
       return state;
