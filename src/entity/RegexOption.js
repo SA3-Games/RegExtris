@@ -19,7 +19,7 @@ export default class RegexOption extends Phaser.GameObjects.Text {
     this.scene.add.existing(this);
     this.re = re;
     this.regexGroup = regexGroups[idx];
-    this.currentIdx = 0;
+    this.currentIdx = randIdx;
   }
 
   changeRegex() {
