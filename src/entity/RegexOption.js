@@ -1,11 +1,11 @@
 import 'phaser';
 
 const regexGroups = [
-  [/[adfw]/, /[ADFW]/, /\d/, /[^adfw]/],
-  [/[^ADFW]/, /\D/, /[^\w\d\s]/, /\s/],
-  [/[a-f]/, /[A-F-]/, /[a*]/, /\w/],
+  [/[a-w]/, /[A-W]/, /\d/, /[^a-w]/],
+  [/[^A-W]/, /\D/, /[^\w\d\s]/, /\s/],
+  [/[a-wA-W]/, /[-awAW]/, /[a*]/, /\w/],
   [/\W/, /[D-W]/, /\S/, /[^adAD]/],
-  [/[^FWfw]/, /[FWfw]/, /[?#$+]/, /[/]/],
+  [/[^FWfw]/, /[FWfw-]/, /[*?#]/, /[/$-]/],
 ];
 
 export default class RegexOption extends Phaser.GameObjects.Text {
