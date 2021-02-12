@@ -174,6 +174,7 @@ export default class BaseScene extends Phaser.Scene {
       if ((this.mode = "normal")) {
         store.dispatch(clearPlayerData());
       }
+      this.sound.get("heckincrows").destroy();
       this.scene.start("MenuScene");
     }
   }

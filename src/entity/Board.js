@@ -1,7 +1,5 @@
 import "phaser";
-import config from "../config/config";
 import store from "../store";
-import { postScore } from "../store/score";
 import { addRegexChoice } from "../store/playerRegex";
 
 export default class Board {
@@ -36,11 +34,13 @@ export default class Board {
         //if an error happens, the row does not exist in the matrix
         //the piece has landed above the board
         this.scene.gameOver = true;
+
         // save scores to database
         if (this.scene.mode === "learn") {
           this.scene.scene.restart();
         } else {
-            this.scene.scene.start("GameOverScene", {
+          this.scene.sound.get("heckincrows").destroy();
+          this.scene.scene.start("GameOverScene", {
             tetrisScore: this.scene.score,
             regExScore: this.scene.regexScore,
           });
