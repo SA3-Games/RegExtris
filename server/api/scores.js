@@ -17,7 +17,6 @@ router.get("/", async (req, res, next) => {
 // save the current game score to the database
 router.post("/:playerId", async (req, res, next) => {
   try {
-    console.log("inside /api/scores", req.params.playerId);
     await Score.create({
       playerId: req.params.playerId,
       tetrisScore: req.body.tetrisScore,

@@ -42,8 +42,8 @@ export default class DetailedScoreScene extends Phaser.Scene {
         datasets: [
           {
             label: "Tetris",
-            backgroundColor: "rgba(255, 216, 5, 1)",
-            borderColor: "rgba(255, 216, 5, 1)",
+            backgroundColor: "rgba(229, 170, 49, 1)",
+            borderColor: "rgba(229, 170, 49, 1)",
             data: this.onlyTetrisScores,
             fill: false,
           },
@@ -67,6 +67,7 @@ export default class DetailedScoreScene extends Phaser.Scene {
           text: "Player Score History",
           fontSize: 24,
           fontColor: "white",
+          fontFamily: "Courier"
         },
         scales: {
           xAxes: [
@@ -116,16 +117,16 @@ export default class DetailedScoreScene extends Phaser.Scene {
         labels: this.labels, //# of times you cleared a set of lines
         datasets: [
           {
-            label: "Tetris",
-            backgroundColor: "rgba(255, 216, 5, 1)",
-            borderColor: "rgba(255, 216, 5, 1)",
-            data: this.unmatched, //# of characters that were cleared which stayed white (umatched)
-          },
-          {
-            label: "Regex",
+            label: "Matched",
             backgroundColor: "rgba(153, 0, 255, 1)",
             borderColor: "rgba(153, 0, 255, 1)",
             data: this.matched, //# of characters that were cleraed which turned purple
+          },
+          {
+            label: "Total",
+            backgroundColor: "rgba(255, 255, 255, 1)",
+            borderColor: "rgba(255, 255, 255, 1)",
+            data: this.unmatched, //# of characters that were cleared which stayed white (umatched)
           },
         ],
       },
@@ -137,9 +138,10 @@ export default class DetailedScoreScene extends Phaser.Scene {
         },
         title: {
           display: true,
-          text: "Character Clearance Ratio",
+          text: "RegEx Matching Breakdown",
           fontSize: 24,
           fontColor: "white",
+          fontFamily: "Courier"
         },
         scales: {
           xAxes: [
@@ -182,15 +184,7 @@ export default class DetailedScoreScene extends Phaser.Scene {
 
     // display option to go back to the game over scene
     this.add
-      .text(600, 100, "Press SHIFT to go back!", {
-        fontSize: "24px",
-        fontFamily: "retroFont",
-      })
-      .setOrigin(0.5, 0.5);
-
-    // display option to go back to the Menu scene
-    this.add
-      .text(600, 150, "Press Enter to go back to the Menu!", {
+      .text(600, 130, "Press SHIFT to go back!", {
         fontSize: "24px",
         fontFamily: "retroFont",
       })
@@ -198,9 +192,7 @@ export default class DetailedScoreScene extends Phaser.Scene {
   }
 
   update() {
-    if (Phaser.Input.Keyboard.JustUp(this.enter)) {
-      this.scene.start("MenuScene");
-    } else if (Phaser.Input.Keyboard.JustUp(this.shift)) {
+    if (Phaser.Input.Keyboard.JustUp(this.shift)) {
       this.scene.start("GameOverScene");
     }
   }
