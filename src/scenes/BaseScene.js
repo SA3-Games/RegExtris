@@ -147,7 +147,6 @@ export default class BaseScene extends Phaser.Scene {
   createMusic() {
     this.song = this.sound.add("heckincrows", {volume: 0.2}).setLoop(true);
     this.song.play();
-    console.log(this);
   }
 
   createTitle() {

@@ -33,7 +33,7 @@ export default class Board {
       } catch (err) {
         //if an error happens, the row does not exist in the matrix
         //the piece has landed above the board
-        // save scores to database
+        //learn mode does not trigger game over: 
         if (this.scene.mode === "learn") {
           this.scene.squares.getChildren().forEach(square => {
             square.setActive(false);
@@ -43,6 +43,7 @@ export default class Board {
         } else {
           this.scene.gameOver = true;
           this.scene.song.stop();
+          // save scores to database
           this.scene.scene.start("GameOverScene", {
             tetrisScore: this.scene.score,
             regExScore: this.scene.regexScore,
