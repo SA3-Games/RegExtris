@@ -18,7 +18,6 @@ export default class BaseScene extends Phaser.Scene {
     this.load.audio("timer", "assets/audio/timer.wav");
     this.load.audio("row", "assets/audio/rowDestroy.wav");
 
-
     this.load.spritesheet("square", "assets/spritesheets/WHITEtetrominos.png", {
       frameWidth: 28,
       frameHeight: 28,
@@ -146,7 +145,8 @@ export default class BaseScene extends Phaser.Scene {
   }
 
   createMusic() {
-    this.sound.add("heckincrows", {volume: 0.2}).setLoop(true).play();
+    this.song = this.sound.add("heckincrows", {volume: 0.2}).setLoop(true);
+    this.song.play();
   }
 
   createTitle() {
@@ -182,7 +182,7 @@ export default class BaseScene extends Phaser.Scene {
       if ((this.mode = "normal")) {
         store.dispatch(clearPlayerData());
       }
-      this.sound.get("heckincrows").destroy();
+      this.song.stop();
       this.scene.start("MenuScene");
     }
   }
