@@ -255,11 +255,11 @@ export default class Piece extends Phaser.GameObjects.Group {
         //create timer visual
         this.scene.timer.anims.play('countDown');
         //create timer sounds:
-        this.scene.sound.add("timer").play();
+        this.scene.sound.add("timer", {volume: 0.2}).play();
         this.scene.time.addEvent({
           delay: 1000,
           callback: function () {
-            this.sound.add("timer").play();
+            this.sound.add("timer", {volume: 0.2}).play();
           },
           callbackScope: this.scene,
           repeat: 1
@@ -281,6 +281,7 @@ export default class Piece extends Phaser.GameObjects.Group {
             store.dispatch(addRatio(squaresMatched, unmatched));
             this.regexScore += squaresMatched * 10 * (this.level + 1);
             this.timer.setVisible(false);
+            this.sound.add("row", {volume: 0.2}).play();
           },
           callbackScope: this.scene,
         });
