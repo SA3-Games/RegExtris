@@ -78,5 +78,13 @@ export default class SignUpScene extends Phaser.Scene {
     });
 
     this.title = this.add.sprite(600, 35, "title").setScale(0.2).setDepth(11);
+
+    this.add
+      .text(600, 100, `use tab and shift-tab to navigate form`, {
+        fontSize: "24px",
+        fontFamily: "retroFont",
+        align: "center",
+      })
+      .setOrigin(0.5, 0.5);
   }
 }

@@ -21,14 +21,14 @@ export default class LoginScene extends Phaser.Scene {
   }
 
   postSubmissionAction() {
-      let inputAlias = document.getElementById("alias");
-      let inputPassword = document.getElementById("password");
-      //  check if fields are not empty
-      if (inputAlias.value.length && inputPassword.value.length) {
-        // check if password and confirm passwords match
-        this.errorDiv.innerHTML = "";
-        store.dispatch(auth(inputAlias.value, inputPassword.value, "login"));
-      }
+    let inputAlias = document.getElementById("alias");
+    let inputPassword = document.getElementById("password");
+    //  check if fields are not empty
+    if (inputAlias.value.length && inputPassword.value.length) {
+      // check if password and confirm passwords match
+      this.errorDiv.innerHTML = "";
+      store.dispatch(auth(inputAlias.value, inputPassword.value, "login"));
+    }
   }
 
   init() {}
@@ -71,5 +71,14 @@ export default class LoginScene extends Phaser.Scene {
 
     //title display
     this.title = this.add.sprite(600, 35, "title").setScale(0.2).setDepth(11);
+
+    //Instruction
+    this.add
+      .text(600, 100, `use tab and shift-tab to navigate form`, {
+        fontSize: "24px",
+        fontFamily: "retroFont",
+        align: "center",
+      })
+      .setOrigin(0.5, 0.5);
   }
 }
