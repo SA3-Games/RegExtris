@@ -1,11 +1,11 @@
-import axios from "axios";
-import { modifyError } from "./errorStore";
-import store from "./index";
-import { fetchHistData } from "./histogram";
+import axios from 'axios';
+import { modifyError } from './errorStore';
+import store from './index';
+import { fetchHistData } from './histogram';
 
 // action types
-const GET_PLAYER_SCORES = "GET_PLAYER_SCORES";
-const SAVE_SCORE = "SAVE_SCORE";
+const GET_PLAYER_SCORES = 'GET_PLAYER_SCORES';
+const SAVE_SCORE = 'SAVE_SCORE';
 
 // action creators
 const getPlayersScores = (scores) => ({

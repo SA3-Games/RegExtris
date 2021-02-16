@@ -1,19 +1,19 @@
-import store from "../store";
+import store from '../store';
 
 export default class DetailedScoreScene extends Phaser.Scene {
   constructor() {
-    super("DetailedScoreScene");
+    super('DetailedScoreScene');
   }
 
   preload() {
-    this.load.image("title", "assets/spritesheets/REGEXTRISbw2.png");
+    this.load.image('title', 'assets/spritesheets/REGEXTRISbw2.png');
   }
   create() {
-    this.enter = this.input.keyboard.addKey("ENTER");
-    this.shift = this.input.keyboard.addKey("SHIFT");
+    this.enter = this.input.keyboard.addKey('ENTER');
+    this.shift = this.input.keyboard.addKey('SHIFT');
 
     // Displays the title sprite
-    this.title = this.add.sprite(600, 35, "title").setScale(0.2).setDepth(11);
+    this.title = this.add.sprite(600, 35, 'title').setScale(0.2).setDepth(11);
 
     //We get the redux state here and specifically get all the scores of the player as well as the ratios of the characters cleared for use in the graphs that follow
     this.reduxState = store.getState();
@@ -36,22 +36,22 @@ export default class DetailedScoreScene extends Phaser.Scene {
 
     //line graph that shows Your scores through the time you've played it on the current account
     this.scoreHistory = {
-      type: "line",
+      type: 'line',
       data: {
         labels: this.gameNum,
         datasets: [
           {
-            label: "Tetris",
-            backgroundColor: "rgba(229, 170, 49, 1)",
-            borderColor: "rgba(229, 170, 49, 1)",
+            label: 'Tetris',
+            backgroundColor: 'rgba(229, 170, 49, 1)',
+            borderColor: 'rgba(229, 170, 49, 1)',
             data: this.onlyTetrisScores,
             fill: false,
           },
           {
-            label: "Regex",
+            label: 'Regex',
             fill: false,
-            backgroundColor: "rgba(153, 0, 255, 1)",
-            borderColor: "rgba(153, 0, 255, 1)",
+            backgroundColor: 'rgba(153, 0, 255, 1)',
+            borderColor: 'rgba(153, 0, 255, 1)',
             data: this.onlyRegexScores,
           },
         ],
@@ -59,28 +59,28 @@ export default class DetailedScoreScene extends Phaser.Scene {
       options: {
         legend: {
           labels: {
-            fontColor: "white",
+            fontColor: 'white',
           },
         },
         title: {
           display: true,
-          text: "Player Score History",
+          text: 'Player Score History',
           fontSize: 24,
-          fontColor: "white",
-          fontFamily: "Courier"
+          fontColor: 'white',
+          fontFamily: 'Courier',
         },
         scales: {
           xAxes: [
             {
               ticks: {
                 display: false,
-                fontColor: "white",
+                fontColor: 'white',
                 fontSize: 10,
               },
               scaleLabel: {
                 display: true,
-                labelString: "Games Played",
-                fontColor: "white",
+                labelString: 'Games Played',
+                fontColor: 'white',
               },
             },
           ],
@@ -89,13 +89,13 @@ export default class DetailedScoreScene extends Phaser.Scene {
               ticks: {
                 display: true,
                 beginAtZero: true,
-                fontColor: "white",
+                fontColor: 'white',
                 fontSize: 10,
               },
               scaleLabel: {
                 display: true,
-                labelString: "Scores",
-                fontColor: "white",
+                labelString: 'Scores',
+                fontColor: 'white',
               },
             },
           ],
@@ -112,20 +112,20 @@ export default class DetailedScoreScene extends Phaser.Scene {
     this.labels.fill(0);
     //Stacked bar graph that shows you the ratio of the characters you cleared
     this.charRatio = {
-      type: "bar",
+      type: 'bar',
       data: {
         labels: this.labels, //# of times you cleared a set of lines
         datasets: [
           {
-            label: "Matched",
-            backgroundColor: "rgba(153, 0, 255, 1)",
-            borderColor: "rgba(153, 0, 255, 1)",
+            label: 'Matched',
+            backgroundColor: 'rgba(153, 0, 255, 1)',
+            borderColor: 'rgba(153, 0, 255, 1)',
             data: this.matched, //# of characters that were cleraed which turned purple
           },
           {
-            label: "Total",
-            backgroundColor: "rgba(255, 255, 255, 1)",
-            borderColor: "rgba(255, 255, 255, 1)",
+            label: 'Total',
+            backgroundColor: 'rgba(255, 255, 255, 1)',
+            borderColor: 'rgba(255, 255, 255, 1)',
             data: this.unmatched, //# of characters that were cleared which stayed white (umatched)
           },
         ],
@@ -133,15 +133,15 @@ export default class DetailedScoreScene extends Phaser.Scene {
       options: {
         legend: {
           labels: {
-            fontColor: "white",
+            fontColor: 'white',
           },
         },
         title: {
           display: true,
-          text: "RegEx Matching Breakdown",
+          text: 'RegEx Matching Breakdown',
           fontSize: 24,
-          fontColor: "white",
-          fontFamily: "Courier"
+          fontColor: 'white',
+          fontFamily: 'Courier',
         },
         scales: {
           xAxes: [
@@ -149,13 +149,13 @@ export default class DetailedScoreScene extends Phaser.Scene {
               stacked: true,
               ticks: {
                 display: false,
-                fontColor: "white",
+                fontColor: 'white',
                 fontSize: 10,
               },
               scaleLabel: {
                 display: true,
-                labelString: "Lines",
-                fontColor: "white",
+                labelString: 'Lines',
+                fontColor: 'white',
               },
             },
           ],
@@ -165,13 +165,13 @@ export default class DetailedScoreScene extends Phaser.Scene {
               ticks: {
                 display: true,
                 beginAtZero: true,
-                fontColor: "white",
+                fontColor: 'white',
                 fontSize: 10,
               },
               scaleLabel: {
                 display: true,
-                labelString: "Characters Cleared",
-                fontColor: "white",
+                labelString: 'Characters Cleared',
+                fontColor: 'white',
               },
             },
           ],
@@ -184,16 +184,16 @@ export default class DetailedScoreScene extends Phaser.Scene {
 
     // display option to go back to the game over scene
     this.add
-      .text(600, 130, "Press SHIFT to go back!", {
-        fontSize: "24px",
-        fontFamily: "retroFont",
+      .text(600, 130, 'Press SHIFT to go back!', {
+        fontSize: '24px',
+        fontFamily: 'retroFont',
       })
       .setOrigin(0.5, 0.5);
   }
 
   update() {
     if (Phaser.Input.Keyboard.JustUp(this.shift)) {
-      this.scene.start("GameOverScene");
+      this.scene.start('GameOverScene');
     }
   }
 }

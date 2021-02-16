@@ -1,12 +1,12 @@
-import axios from "axios";
-import { setError, clearError } from "./errorStore";
-import { fetchPlayersScores } from "./score";
+import axios from 'axios';
+import { setError, clearError } from './errorStore';
+import { fetchPlayersScores } from './score';
 
 /**
  * ACTION TYPES
  */
-const GET_PLAYER = "GET_PLAYER";
-const REMOVE_PLAYER = "REMOVE_PLAYER";
+const GET_PLAYER = 'GET_PLAYER';
+const REMOVE_PLAYER = 'REMOVE_PLAYER';
 
 /**
  * INITIAL STATE
@@ -29,7 +29,7 @@ export const removePlayer = () => ({
  */
 export const me = () => async (dispatch) => {
   try {
-    const { data } = await axios.get("/auth/me");
+    const { data } = await axios.get('/auth/me');
     dispatch(getPlayer(data || { id: null }));
     if (data.id) dispatch(fetchPlayersScores(data.id));
   } catch (error) {
@@ -49,7 +49,7 @@ export const auth = (alias, password, method) => async (dispatch) => {
 
 export const logout = () => async (dispatch) => {
   try {
-    await axios.post("/auth/logout");
+    await axios.post('/auth/logout');
     dispatch(removePlayer());
   } catch (error) {
     dispatch(modifyError(error));

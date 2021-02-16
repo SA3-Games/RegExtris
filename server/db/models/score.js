@@ -1,7 +1,7 @@
-const Sequelize = require("sequelize");
-const db = require("../db");
+const Sequelize = require('sequelize');
+const db = require('../db');
 
-const Score = db.define("score", {
+const Score = db.define('score', {
   tetrisScore: {
     type: Sequelize.INTEGER,
     defaultValue: 0,
@@ -20,7 +20,7 @@ const Score = db.define("score", {
  */
 Score.makeHistogram = async function () {
   const scores = await this.findAll({
-    attributes: ["tetrisScore", "regExScore"],
+    attributes: ['tetrisScore', 'regExScore'],
   });
   let regexArr = [];
   let tetrisArr = [];
@@ -53,7 +53,6 @@ function calculate(scoreArr, numBins) {
     bins.push(i * binSize);
   }
   scoreArr.forEach((score) => {
-    console.log("score", score);
     let indexFreq = Math.floor(score / binSize);
     if (score % binSize === 0 || score > binSize * 12) {
       indexFreq -= 1;

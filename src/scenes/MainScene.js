@@ -1,13 +1,13 @@
-import "phaser";
-import BaseScene from "./BaseScene";
+import 'phaser';
+import BaseScene from './BaseScene';
 
 export default class MainScene extends BaseScene {
   constructor() {
-    super("MainScene");
-    this.mode = "normal";
+    super('MainScene');
   }
 
   create() {
+    this.mode = 'normal';
     //pixel location for top left corner of game and regex boards
     this.assignLocations([450, 70], [850, 100]);
 
@@ -30,10 +30,10 @@ export default class MainScene extends BaseScene {
 
     this.createTitle();
     this.add
-      .text(600, 80, "press esc to return to menu", {
-        fontFamily: "retroFont",
+      .text(600, 80, 'press esc to return to menu', {
+        fontFamily: 'retroFont',
         fontSize: 20,
-        color: "#7a8bf4",
+        color: '#7a8bf4',
       })
       .setOrigin(0.5)
       .setDepth(12);

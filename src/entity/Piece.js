@@ -255,15 +255,15 @@ export default class Piece extends Phaser.GameObjects.Group {
         //create timer visual
         this.scene.timer.anims.play('countDown');
         //create timer sounds:
-        this.scene.sound.add("timer", {volume: 0.2}).play();
+        this.scene.sound.add('timer', { volume: 0.2 }).play();
         this.scene.time.addEvent({
           delay: 1000,
           callback: function () {
-            this.sound.add("timer", {volume: 0.2}).play();
+            this.sound.add('timer', { volume: 0.2 }).play();
           },
           callbackScope: this.scene,
-          repeat: 1
-        })
+          repeat: 1,
+        });
         this.scene.time.addEvent({
           delay: 3000,
           callback: function () {
@@ -281,7 +281,7 @@ export default class Piece extends Phaser.GameObjects.Group {
             store.dispatch(addRatio(squaresMatched, unmatched));
             this.regexScore += squaresMatched * 10 * (this.level + 1);
             this.timer.setVisible(false);
-            this.sound.add("row", {volume: 0.2}).play();
+            this.sound.add('row', { volume: 0.2 }).play();
           },
           callbackScope: this.scene,
         });
@@ -289,10 +289,6 @@ export default class Piece extends Phaser.GameObjects.Group {
           delay: 4000,
           //scope for callback is MainScene **Careful with changes**
           callback: function () {
-            if (numFullRows === 4) {
-              //replace with Tetris SFX in scene
-              console.log('TETRIS');
-            }
             //remove all full lines
             for (let i = 0; i < numFullRows; i++) {
               const rowIndex = Object.keys(fullRows)[i];

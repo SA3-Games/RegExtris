@@ -1,9 +1,9 @@
-const Sequelize = require("sequelize");
-const db = require("../db");
-const crypto = require("crypto");
+const Sequelize = require('sequelize');
+const db = require('../db');
+const crypto = require('crypto');
 
 const Player = db.define(
-  "player",
+  'player',
   {
     alias: {
       type: Sequelize.STRING,
@@ -13,7 +13,7 @@ const Player = db.define(
     password: {
       type: Sequelize.STRING,
       get() {
-        return () => this.getDataValue("password");
+        return () => this.getDataValue('password');
       },
     },
     salt: {
@@ -21,7 +21,7 @@ const Player = db.define(
       // Making `.salt` act like a function hides it when serializing to JSON.
       // This is a hack to get around Sequelize's lack of a "private" option.
       get() {
-        return () => this.getDataValue("salt");
+        return () => this.getDataValue('salt');
       },
     },
   },
@@ -41,22 +41,22 @@ Player.prototype.correctPassword = function (candidatePwd) {
  * classMethods
  */
 Player.generateSalt = function () {
-  return crypto.randomBytes(16).toString("base64");
+  return crypto.randomBytes(16).toString('base64');
 };
 
 Player.encryptPassword = function (plainText, salt) {
   return crypto
-    .createHash("RSA-SHA256")
+    .createHash('RSA-SHA256')
     .update(plainText)
     .update(salt)
-    .digest("hex");
+    .digest('hex');
 };
 
 /**
  * hooks
  */
 const setSaltAndPassword = (player) => {
-  if (player.changed("password")) {
+  if (player.changed('password')) {
     player.salt = Player.generateSalt();
     player.password = Player.encryptPassword(player.password(), player.salt());
   }

@@ -1,6 +1,6 @@
-const db = require("./db");
+const db = require('./db');
 
-const { Player, Session, Score } = require("./models");
+const { Player, Session, Score } = require('./models');
 
 module.exports = {
   db,

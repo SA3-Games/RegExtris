@@ -1,6 +1,6 @@
-import "phaser";
-import store from "../store";
-import { addRegexChoice } from "../store/playerRegex";
+import 'phaser';
+import store from '../store';
+import { addRegexChoice } from '../store/playerRegex';
 
 export default class Board {
   constructor(scene) {
@@ -33,9 +33,9 @@ export default class Board {
       } catch (err) {
         //if an error happens, the row does not exist in the matrix
         //the piece has landed above the board
-        //learn mode does not trigger game over: 
-        if (this.scene.mode === "learn") {
-          this.scene.squares.getChildren().forEach(square => {
+        //learn mode does not trigger game over:
+        if (this.scene.mode === 'learn') {
+          this.scene.squares.getChildren().forEach((square) => {
             square.setActive(false);
             square.setVisible(false);
             square.loc = null;
@@ -44,7 +44,7 @@ export default class Board {
           this.scene.gameOver = true;
           this.scene.song.stop();
           // save scores to database
-          this.scene.scene.start("GameOverScene", {
+          this.scene.scene.start('GameOverScene', {
             tetrisScore: this.scene.score,
             regExScore: this.scene.regexScore,
           });
