@@ -20,7 +20,6 @@ const tutorialText = [
 export default class LearnModeTutorial extends Phaser.Scene {
   constructor() {
     super('MainTutorial');
-    this.stage = 1;
   }
   preload() {
     this.load.image('MT1', 'assets/sprites/MainTutorial1.png');
@@ -34,6 +33,7 @@ export default class LearnModeTutorial extends Phaser.Scene {
   }
 
   create() {
+    this.stage = 1;
     this.enter = this.input.keyboard.addKey('ENTER');
     this.left = this.input.keyboard.addKey('LEFT');
     this.right = this.input.keyboard.addKey('RIGHT');

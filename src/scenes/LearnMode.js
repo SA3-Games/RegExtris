@@ -1,13 +1,13 @@
-import BaseScene from "./BaseScene";
+import BaseScene from './BaseScene';
 
 export default class LearnMode extends BaseScene {
   constructor() {
     super();
-    this.mode = "learn";
   }
 
   create() {
-    this.enter = this.input.keyboard.addKey("ENTER");
+    this.mode = 'learn';
+    this.enter = this.input.keyboard.addKey('ENTER');
 
     this.createMusic();
     this.assignLocations([100, 70], [475, 100]);
@@ -27,10 +27,10 @@ export default class LearnMode extends BaseScene {
     this.createTimer(600, 590);
     this.createTitle();
     this.add
-      .text(600, 80, "press esc to return to menu", {
-        fontFamily: "retroFont",
+      .text(600, 80, 'press esc to return to menu', {
+        fontFamily: 'retroFont',
         fontSize: 20,
-        color: "#7a8bf4",
+        color: '#7a8bf4',
       })
       .setOrigin(0.5)
       .setDepth(12);

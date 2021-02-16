@@ -20,7 +20,6 @@ const tutorialText = [
 export default class LearnModeTutorial extends Phaser.Scene {
   constructor() {
     super('LearnModeTutorial');
-    this.stage = 1;
     this.tetrisPosition = [252, 500];
     this.regexPosition = [605, 170];
     this.timerPosition = [605, 500];
@@ -32,6 +31,7 @@ export default class LearnModeTutorial extends Phaser.Scene {
   }
 
   create() {
+    this.stage = 1;
     this.enter = this.input.keyboard.addKey('ENTER');
     this.left = this.input.keyboard.addKey('LEFT');
     this.right = this.input.keyboard.addKey('RIGHT');
