@@ -1,19 +1,19 @@
-const router = require("express").Router();
-const { Player } = require("./db");
+const router = require('express').Router();
+const { Player } = require('./db');
 module.exports = router;
 
-router.post("/login", async (req, res, next) => {
+router.post('/login', async (req, res, next) => {
   try {
     const player = await Player.findOne({
       where: {
         alias: req.body.alias.toLowerCase(),
       },
-      attribues: ["id", "alias"],
+      attribues: ['id', 'alias'],
     });
     if (!player) {
-      res.status(401).send("No such player found");
+      res.status(401).send('No such player found');
     } else if (!player.correctPassword(req.body.password)) {
-      res.status(401).send("Wrong password for this player");
+      res.status(401).send('Wrong password for this player');
     } else {
       req.login(player, (err) => (err ? next(err) : res.json(player)));
     }
@@ -22,28 +22,27 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-router.post("/signup", async (req, res, next) => {
+router.post('/signup', async (req, res, next) => {
   try {
     const { alias, password } = req.body;
     const player = await Player.create({ alias, password });
     req.login(player, (err) => (err ? next(err) : res.json(player)));
   } catch (err) {
-    if (err.name === "SequelizeUniqueConstraintError") {
-      console.log("not unique error in auth");
-      res.status(401).send("This alias already exists");
+    if (err.name === 'SequelizeUniqueConstraintError') {
+      res.status(401).send('This alias already exists');
     } else {
       next(err);
     }
   }
 });
 
-router.post("/logout", (req, res) => {
+router.post('/logout', (req, res) => {
   req.logout();
   req.session.destroy();
-  res.redirect("/");
+  res.redirect('/');
 });
 
-router.get("/me", (req, res) => {
+router.get('/me', (req, res) => {
   res.json(req.user);
 });
 

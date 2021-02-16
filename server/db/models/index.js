@@ -1,5 +1,5 @@
-const Player = require("./player");
-const Score = require("./score");
+const Player = require('./player');
+const Score = require('./score');
 
 Player.hasMany(Score);
 Score.belongsTo(Player);

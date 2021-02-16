@@ -95,7 +95,6 @@ export default class LearnModeTutorial extends Phaser.Scene {
       if (this.stage < 14) {
         this.tutorialTextDisplay.setText(tutorialText[this.stage]);
         this.stage += 1;
-        console.log(this.stage);
       }
     }
     if (Phaser.Input.Keyboard.JustUp(this.left)) {
@@ -131,7 +130,6 @@ export default class LearnModeTutorial extends Phaser.Scene {
       if (this.stage > 1) {
         this.tutorialTextDisplay.setText(tutorialText[this.stage - 2]);
         this.stage -= 1;
-        console.log(this.stage);
       }
     }
     if (this.enter.isDown) {

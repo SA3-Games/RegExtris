@@ -1,10 +1,9 @@
-import store from "../store";
-import { auth } from "../store/singlePlayer";
+import store from '../store';
+import { auth } from '../store/singlePlayer';
 
 export default class LoginScene extends Phaser.Scene {
   constructor() {
-    super("LoginScene");
-    this.player;
+    super('LoginScene');
     this.error = {};
   }
 
@@ -16,25 +15,24 @@ export default class LoginScene extends Phaser.Scene {
 
   enterMenu(e) {
     if ((e && e.keyCode == 13) || e == 0) {
-      this.scene.start("LoadingScene");
+      this.scene.start('LoadingScene');
     }
   }
 
   postSubmissionAction() {
-    let inputAlias = document.getElementById("alias");
-    let inputPassword = document.getElementById("password");
+    let inputAlias = document.getElementById('alias');
+    let inputPassword = document.getElementById('password');
     //  check if fields are not empty
     if (inputAlias.value.length && inputPassword.value.length) {
       // check if password and confirm passwords match
-      this.errorDiv.innerHTML = "";
-      store.dispatch(auth(inputAlias.value, inputPassword.value, "login"));
+      this.errorDiv.innerHTML = '';
+      store.dispatch(auth(inputAlias.value, inputPassword.value, 'login'));
     }
   }
 
-  init() {}
   preload() {
-    this.load.html("loginForm", "assets/dom/loginForm.html");
-    this.load.image("title", "assets/spritesheets/REGEXTRISbw2.png");
+    this.load.html('loginForm', 'assets/dom/loginForm.html');
+    this.load.image('title', 'assets/spritesheets/REGEXTRISbw2.png');
   }
   create() {
     this.unsubscribe = store.subscribe(() => {
@@ -43,41 +41,41 @@ export default class LoginScene extends Phaser.Scene {
       this.errorDiv.innerHTML = this.error.message;
       if (this.player.id && !this.error.message.length) {
         this.unsubscribe();
-        this.scene.start("MenuScene");
+        this.scene.start('MenuScene');
       }
     });
 
-    this.add.dom(600, 350).createFromCache("loginForm");
+    this.add.dom(600, 350).createFromCache('loginForm');
 
-    this.errorDiv = document.getElementById("error");
+    this.errorDiv = document.getElementById('error');
 
     //submit listeners:
-    document.getElementById("submit-login").addEventListener("keyup", (e) => {
+    document.getElementById('submit-login').addEventListener('keyup', (e) => {
       this.enterSubmit(e);
     });
 
-    document.getElementById("submit-login").addEventListener("click", () => {
+    document.getElementById('submit-login').addEventListener('click', () => {
       this.enterSubmit(0);
     });
 
     //menu listeners:
-    document.getElementById("escape-login").addEventListener("keyup", (e) => {
+    document.getElementById('escape-login').addEventListener('keyup', (e) => {
       this.enterMenu(e);
     });
 
-    document.getElementById("escape-login").addEventListener("click", () => {
+    document.getElementById('escape-login').addEventListener('click', () => {
       this.enterMenu(0);
     });
 
     //title display
-    this.title = this.add.sprite(600, 35, "title").setScale(0.2).setDepth(11);
+    this.title = this.add.sprite(600, 35, 'title').setScale(0.2).setDepth(11);
 
     //Instruction
     this.add
       .text(600, 100, `use tab and shift-tab to navigate form`, {
-        fontSize: "24px",
-        fontFamily: "retroFont",
-        align: "center",
+        fontSize: '24px',
+        fontFamily: 'retroFont',
+        align: 'center',
       })
       .setOrigin(0.5, 0.5);
   }

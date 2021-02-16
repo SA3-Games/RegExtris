@@ -1,12 +1,12 @@
-const router = require("express").Router();
-const { Score } = require("../db");
+const router = require('express').Router();
+const { Score } = require('../db');
 module.exports = router;
 
 // fetch all scores in the database
-router.get("/", async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const scores = await Score.findAll({
-      attributes: ["tetrisScore", "regExScore"],
+      attributes: ['tetrisScore', 'regExScore'],
     });
     res.json(scores);
   } catch (error) {
@@ -15,7 +15,7 @@ router.get("/", async (req, res, next) => {
 });
 
 // save the current game score to the database
-router.post("/:playerId", async (req, res, next) => {
+router.post('/:playerId', async (req, res, next) => {
   try {
     await Score.create({
       playerId: req.params.playerId,
@@ -29,11 +29,11 @@ router.post("/:playerId", async (req, res, next) => {
 });
 
 // fetch a player's score history by the player's id
-router.get("/:playerId", async (req, res, next) => {
+router.get('/:playerId', async (req, res, next) => {
   try {
     const scores = await Score.findAll({
       where: { playerId: req.params.playerId },
-      attributes: ["tetrisScore", "regExScore"],
+      attributes: ['tetrisScore', 'regExScore'],
     });
     res.send(scores);
   } catch (error) {

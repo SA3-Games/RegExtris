@@ -1,12 +1,12 @@
-const router = require("express").Router();
-const { Player } = require("../db");
+const router = require('express').Router();
+const { Player } = require('../db');
 module.exports = router;
 
 // get all players
-router.get("/", async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const users = await Player.findAll({
-      attributes: ["id", "alias"],
+      attributes: ['id', 'alias'],
     });
     res.json(users);
   } catch (err) {
@@ -15,7 +15,7 @@ router.get("/", async (req, res, next) => {
 });
 
 // get specific player
-router.get("/:id", async (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
   try {
     const user = await Player.findByPk(req.params.id);
     res.send(user);

@@ -30,21 +30,14 @@ export default class MenuScene extends Phaser.Scene {
     store.dispatch(me());
     this.player = store.getState().player;
 
-    // this.unsubscribe = store.subscribe(() => {
-    //   this.player = store.getState().player;
-    //   if (!this.player.id) {
-    //     console.log("there should be no more player and scene should restart");
-    //     this.loggingOut = false;
-    //     this.scene.restart("MenuScene");
-    //   }
-    // });
-
     //welcome message
-    this.add.text(600, 90, `welcome, ${this.player.alias}!`, {
-      fontFamily: "retroFont",
-      fontSize: 20,
-      color: "#7a8bf4"
-    }).setOrigin(0.5);
+    this.add
+      .text(600, 90, `welcome, ${this.player.alias}!`, {
+        fontFamily: 'retroFont',
+        fontSize: 20,
+        color: '#7a8bf4',
+      })
+      .setOrigin(0.5);
 
     // PLAY button
     const PLAYButton = this.add.image(600, 200, 'play').setScale(0.2);
@@ -53,7 +46,6 @@ export default class MenuScene extends Phaser.Scene {
       //this is where you'd connect the button with PLAYing the game
 
       this.scene.start('MainTutorial');
-
     });
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       PLAYButton.off('selected');
